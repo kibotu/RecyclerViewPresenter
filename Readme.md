@@ -13,7 +13,7 @@ Convenience library to handle different view types with different presenters in 
 	}
 		
 	dependencies {
-        compile 'com.github.kibotu:android-utils:1.0.0'
+        compile 'com.github.kibotu:RecyclerViewPresenter:-SNAPSHOT'
     }
     
 ### How to use
