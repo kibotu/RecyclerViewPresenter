@@ -18,19 +18,29 @@ Convenience library to handle different view types with different presenters in 
     
 ### How to use
 
-1. Add the PresenterAdapter to your RecyclerView
+1. [Add the PresenterAdapter to your RecyclerView](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L36-L38)
 
         PresenterAdapter<String> adapter = new PresenterAdapter<>();
         list.setAdapter(adapter);
         
-2. Add Presenter to the adapter, e.g.:
+2. [Add Presenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L42-L47) to the adapter, e.g.:
 
         adapter.add(myModelObject, PhotoPresenter.class);
         adapter.add(myModelObject, LabelPresenter.class);
         
-3. Create a presenter 
+3. Create a presenter, e.g. [PhotoPresenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/PhotoPresenter.java) or [LabelPresenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/LabelPresenter.java)
 
         public class MyModelPresenter extends Presenter<MyModel, PhotoPresenter.ViewHolder> 
+        
+4. Add click listener [to adapter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L40) and [to presenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/PhotoPresenter.java#L50-L55)
+
+        // adapter
+        adapter.setOnItemClickListener((item, rowView, position) -> toast(format("{0}. {1}", position, item)));
+        
+        // in bind method of presenter
+        if (presenterAdapter.getOnItemClickListener() != null)
+                    presenterAdapter.getOnItemClickListener().onItemClick(item, v, position);
+        
        
 ###License
 <pre>
