@@ -23,7 +23,7 @@ Convenience library to handle different view types with different presenters in 
         PresenterAdapter<String> adapter = new PresenterAdapter<>();
         list.setAdapter(adapter);
         
-2. [Add Presenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L42-L47) to the adapter, e.g.:
+2. [Add a model with a Presenter as representation] (https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L42-L47) to the adapter, e.g.:
 
         adapter.add(myModelObject, PhotoPresenter.class);
         adapter.add(myModelObject, LabelPresenter.class);
