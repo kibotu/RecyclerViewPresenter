@@ -1,9 +1,14 @@
 buildscript {
+
+    ext.com_android_support_version = '23.4.0'
+
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
     }
 }
 
