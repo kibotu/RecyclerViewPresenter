@@ -30,7 +30,7 @@ Convenience library to handle different view types with different presenters in 
         
 3. Create a presenter 
 
-        public class MyPhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder> 
+        public class MyModelPresenter extends Presenter<MyModel, PhotoPresenter.ViewHolder> 
        
 ###License
 <pre>
