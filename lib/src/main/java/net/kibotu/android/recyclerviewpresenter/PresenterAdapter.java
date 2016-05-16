@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     protected View.OnKeyListener onKeyListener;
 
     @NonNull
-    protected List<Presenter<T, ?>> binderType;
+    protected List<Presenter<T, ? extends RecyclerView.ViewHolder>> binderType;
     public RecyclerView recyclerView;
 
     public PresenterAdapter() {
@@ -94,20 +93,16 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @SuppressWarnings("unchecked")
     protected void addIfNotExists(@NonNull final Class clazz) {
-        for (final Presenter<T, ?> binderType : this.binderType)
+        for (final Presenter<T, ? extends RecyclerView.ViewHolder> binderType : this.binderType)
             if (ClassExtensions.equals(binderType.getClass(), clazz))
                 return;
 
         final Constructor<T> constructor = (Constructor<T>) clazz.getConstructors()[0];
-        Presenter<T, ?> instance = null;
+        Presenter<T, ? extends RecyclerView.ViewHolder> instance = null;
         try {
-            instance = (Presenter<T, ?>) constructor.newInstance(this);
+            instance = (Presenter<T, ? extends RecyclerView.ViewHolder>) constructor.newInstance(this);
             binderType.add(instance);
-        } catch (final IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (final InstantiationException e) {
-            e.printStackTrace();
-        } catch (final InvocationTargetException e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
 
@@ -131,7 +126,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
         return binderType.get(viewType);
     }
 
-    private Presenter getPosition(final int position) {
+    private Presenter /*<T, ? extends RecyclerView.ViewHolder>*/ getPosition(final int position) {
         return binderType.get(getItemViewType(position));
     }
 
@@ -143,6 +138,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     public void clear() {
         binderType.clear();
         data.clear();
+        removeAllViews();
         notifyDataSetChanged();
     }
 
