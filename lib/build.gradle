@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'android-apt'
+apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 23
@@ -23,4 +25,28 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$com_android_support_version"
     compile 'com.jakewharton:butterknife:8.0.1'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError  false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
