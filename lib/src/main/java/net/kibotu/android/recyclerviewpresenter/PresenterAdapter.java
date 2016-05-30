@@ -20,7 +20,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * Actual data containing {@link T} and it's {@link Presenter} type.
      */
     @NonNull
-    protected final ArrayList<Pair<T, Class<? extends Presenter>>> data;
+    protected final ArrayList<Pair<T, Class>> data;
 
     /**
      * Reference to the {@link OnItemClickListener}.
@@ -160,7 +160,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param t
      * @param clazz
      */
-    public void add(@NonNull final T t, @NonNull final Class<? extends Presenter> clazz) {
+    public void add(@NonNull final T t, @NonNull final Class clazz) {
         data.add(new Pair<>(t, clazz));
         addIfNotExists(clazz);
     }
