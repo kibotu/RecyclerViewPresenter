@@ -52,21 +52,26 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView recyclerView;
 
     /**
+     * Indicator for when endless scrolling event should be thrown.
+     */
+    protected int endlessThreshold = 1;
+
+    /**
+     * Indicator of whether the endless scroll threshold has been reached.
+     */
+    protected boolean reachedThreshold;
+
+    /**
+     * Listener for when we have reached the end.
+     */
+    protected OnEndlessListener onEndlessListener;
+
+    /**
      * Constructs the Adapter.
      */
     public PresenterAdapter() {
         this.data = new ArrayList<>();
         this.binderType = new ArrayList<>();
-    }
-
-    /**
-     * Adds a {@link Presenter} to the adapter.
-     *
-     * @param binder Concrete implementation of {@link Presenter}.
-     * @param <VH>   {@link RecyclerView.ViewHolder}
-     */
-    protected <VH extends RecyclerView.ViewHolder> void addBinder(@NonNull final Presenter<T, VH> binder) {
-        binderType.add(binder);
     }
 
     /**
@@ -147,8 +152,18 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
         if (viewHolder instanceof BaseViewHolder)
             ((BaseViewHolder) viewHolder).onBindViewHolder();
         getPresenterAt(position).bindViewHolder(viewHolder, get(position), position);
+
+        if (onEndlessListener != null && !reachedThreshold && position >= getItemCount() - getEndlessThreshold()) {
+            reachedThreshold = true;
+            onEndlessListener.onReachThreshold(this);
+        }
     }
 
+    /**
+     * Same as {@link #add(Object, Class)} except it adds at a specific index.
+     *
+     * @param index Adapter position.
+     */
     public void add(final int index, @NonNull final T t, @NonNull final Class clazz) {
         data.add(index, new Pair<>(t, clazz));
         addIfNotExists(clazz);
@@ -157,14 +172,19 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Adds {@link T} at the end of the adapter list and linking a concrete Presenter
      *
-     * @param t
-     * @param clazz
+     * @param t     {@link T} as model.
+     * @param clazz Concrete {@link Presenter} type.
      */
     public void add(@NonNull final T t, @NonNull final Class clazz) {
         data.add(new Pair<>(t, clazz));
         addIfNotExists(clazz);
     }
 
+    /**
+     * Allocates a concrete {@link Presenter} and adds it to the list once.
+     *
+     * @param clazz Concrete {@link Presenter} representing the view type.
+     */
     @SuppressWarnings("unchecked")
     protected void addIfNotExists(@NonNull final Class clazz) {
         for (final Presenter<T, ? extends RecyclerView.ViewHolder> binderType : this.binderType)
@@ -195,11 +215,15 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     /**
+     * {@inheritDoc}
+     * <p>
      * Returns position of concrete {@link Presenter} at adapter position.
+     * </p>
      *
      * @param position Adapter position.
      * @return {@link Presenter} position. Returns <code>-1</code> if there is none to be found.
      */
+    @Override
     public int getItemViewType(final int position) {
         for (int i = 0; i < binderType.size(); ++i)
             if (ClassExtensions.equals(data.get(position).second, binderType.get(i).getClass()))
@@ -209,8 +233,10 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     /**
-     * @param viewType
-     * @return
+     * Returns a concrete {@link Presenter} based on view type.
+     *
+     * @param viewType {@link #getItemViewType(int)}
+     * @return Concrete {@link Presenter}.
      */
     protected Presenter<T, ? extends RecyclerView.ViewHolder> getDataBinder(final int viewType) {
         return binderType.get(viewType);
@@ -285,5 +311,41 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
         super.onViewDetachedFromWindow(viewHolder);
         if (viewHolder instanceof BaseViewHolder)
             ((BaseViewHolder) viewHolder).onViewDetachedFromWindow();
+    }
+
+    /**
+     * Indicator for when for the endless scroll event should be fired.
+     *
+     * @return {@link #endlessThreshold}
+     */
+    public int getEndlessThreshold() {
+        return endlessThreshold;
+    }
+
+    /**
+     * Sets the threshold when the endless scroll event should be fired.
+     *
+     * @param endlessThreshold {@link #endlessThreshold}
+     */
+    public void setEndlessThreshold(int endlessThreshold) {
+        this.endlessThreshold = endlessThreshold;
+    }
+
+    /**
+     * Gets event listener for endless scroll event.
+     *
+     * @return {@link #onEndlessListener}
+     */
+    public OnEndlessListener getOnEndlessListener() {
+        return onEndlessListener;
+    }
+
+    /**
+     * Sets event listener for endless scroll event.
+     *
+     * @return {@link #onEndlessListener}
+     */
+    public void setOnEndlessListener(OnEndlessListener onEndlessListener) {
+        this.onEndlessListener = onEndlessListener;
     }
 }
