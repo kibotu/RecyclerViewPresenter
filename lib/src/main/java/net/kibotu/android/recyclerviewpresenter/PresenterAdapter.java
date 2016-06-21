@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -347,5 +348,46 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public void setOnEndlessListener(OnEndlessListener onEndlessListener) {
         this.onEndlessListener = onEndlessListener;
+    }
+
+    /**
+     * Retrieves {@link T} by using a {@link Comparator<T>}
+     *
+     * @param item       {@link T}
+     * @param comparator Filter criteria.
+     * @return First {@link T}
+     */
+    public T getItemByComparator(@Nullable final T item, @NonNull final Comparator<T> comparator) {
+        for (int i = 0; i < getItemCount(); ++i)
+            if (comparator.compare(get(i), item) == 0)
+                return get(i);
+        return null;
+    }
+
+    /**
+     * Returns  if adapter contains {@link T}
+     *
+     * @param item {@link T}
+     * @return <code>true</code> if contained
+     */
+    public boolean contains(@Nullable final T item) {
+        for (int i = 0; i < getItemCount(); ++i)
+            if (get(i).equals(item))
+                return true;
+        return false;
+    }
+
+    /**
+     * Updates a model {@link T} at adapter position.
+     *
+     * @param position Adapter position.
+     * @param item     {@link T}
+     */
+    public void update(final int position, @Nullable final T item) {
+        if (item == null)
+            return;
+
+        data.set(position, new Pair<>(item, data.get(position).second));
+        notifyItemChanged(position);
     }
 }
