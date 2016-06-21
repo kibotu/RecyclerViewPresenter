@@ -355,7 +355,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      *
      * @param item       {@link T}
      * @param comparator Filter criteria.
-     * @return First {@link T}
+     * @return First {@link T}.
      */
     public T getItemByComparator(@Nullable final T item, @NonNull final Comparator<T> comparator) {
         for (int i = 0; i < getItemCount(); ++i)
@@ -368,13 +368,53 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * Returns  if adapter contains {@link T}
      *
      * @param item {@link T}
-     * @return <code>true</code> if contained
+     * @return <code>true</code> if contained.
      */
     public boolean contains(@Nullable final T item) {
         for (int i = 0; i < getItemCount(); ++i)
             if (get(i).equals(item))
                 return true;
         return false;
+    }
+
+    /**
+     * Returns  if adapter contains {@link T}
+     *
+     * @param item {@link T}
+     * @return <code>true</code> if contained.
+     */
+    public boolean contains(@Nullable final T item, @NonNull final Comparator<T> comparator) {
+        for (int i = 0; i < getItemCount(); ++i)
+            if (comparator.compare(get(i), item) == 0)
+                return true;
+        return false;
+    }
+
+    /**
+     * Returns adapter position of {@link T}.
+     *
+     * @param item {@link T}
+     * @return <code>-1</code> if not contained.
+     */
+    public int position(@Nullable final T item) {
+        for (int i = 0; i < getItemCount(); ++i)
+            if (get(i).equals(item))
+                return i;
+        return -1;
+    }
+
+    /**
+     * Returns adapter position of {@link T}.
+     *
+     * @param item       {@link T}
+     * @param comparator Filter criteria.
+     * @return <code>-1</code> if not contained.
+     */
+    public int position(@Nullable final T item, @NonNull final Comparator<T> comparator) {
+        for (int i = 0; i < getItemCount(); ++i)
+            if (comparator.compare(get(i), item) == 0)
+                return i;
+        return -1;
     }
 
     /**
