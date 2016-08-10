@@ -430,4 +430,14 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
         data.set(position, new Pair<>(item, data.get(position).second));
         notifyItemChanged(position);
     }
+
+    /**
+     * Remove an item at adapter position.
+     *
+     * @param position Adapter position.
+     */
+    public void remove(final int position) {
+        data.remove(position);
+        notifyItemRemoved(position);
+    }
 }
