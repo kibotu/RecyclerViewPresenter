@@ -60,7 +60,7 @@ install: true
 
 script:
   - ./gradlew -v
-  - ./gradlew clean build --stacktrace
+  - ./gradlew clean assemble --stacktrace
 
 after_failure: true
 
