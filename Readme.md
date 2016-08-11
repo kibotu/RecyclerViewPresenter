@@ -13,7 +13,11 @@ Convenience library to handle different view types with different presenters in 
 	}
 		
 	dependencies {
+	
         compile 'com.github.kibotu:RecyclerViewPresenter:-SNAPSHOT'
+        
+        // optional
+        compile 'jp.wasabeef:recyclerview-animators:2.2.3'
     }
     
 ### How to use
