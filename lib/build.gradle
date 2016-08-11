@@ -25,6 +25,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.jakewharton:butterknife:8.2.1'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
+
+    provided 'jp.wasabeef:recyclerview-animators:2.2.3'
 }
 
 // build a jar with source files

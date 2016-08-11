@@ -146,12 +146,12 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * {@inheritDoc}
      * <p>
-     * <p>We take Also calls {@link BaseViewHolder#onBindViewHolder()}.</p>
+     * <p>We take Also calls {@link IBaseViewHolder#onBindViewHolder()}.</p>
      */
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, final int position) {
-        if (viewHolder instanceof BaseViewHolder)
-            ((BaseViewHolder) viewHolder).onBindViewHolder();
+        if (viewHolder instanceof IBaseViewHolder)
+            ((IBaseViewHolder) viewHolder).onBindViewHolder();
         getPresenterAt(position).bindViewHolder(viewHolder, get(position), position);
 
         if (onEndlessListener != null && !reachedThreshold && position >= getItemCount() - getEndlessThreshold()) {
@@ -305,13 +305,13 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
 
     /**
      * {@inheritDoc}
-     * <p>Also calls {@link BaseViewHolder#onBindViewHolder()}.</p>
+     * <p>Also calls {@link IBaseViewHolder#onBindViewHolder()}.</p>
      */
     @Override
     public void onViewDetachedFromWindow(RecyclerView.ViewHolder viewHolder) {
         super.onViewDetachedFromWindow(viewHolder);
-        if (viewHolder instanceof BaseViewHolder)
-            ((BaseViewHolder) viewHolder).onViewDetachedFromWindow();
+        if (viewHolder instanceof IBaseViewHolder)
+            ((IBaseViewHolder) viewHolder).onViewDetachedFromWindow();
     }
 
     /**

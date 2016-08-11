@@ -3,18 +3,20 @@ package net.kibotu.android.recyclerviewpresenter;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import jp.wasabeef.recyclerview.animators.holder.AnimateViewHolder;
 
 /**
- * Created by Jan Rabe on 17/09/15.
+ * Created by jan.rabe on 11/08/16.
  */
-public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseViewHolder {
+
+public class AnimateBaseViewHolder extends AnimateViewHolder implements IBaseViewHolder {
 
     protected Unbinder unbinder;
 
@@ -23,7 +25,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseView
      *
      * @param itemView
      */
-    public BaseViewHolder(@NonNull final View itemView) {
+    public AnimateBaseViewHolder(@NonNull final View itemView) {
         super(itemView);
         onBindViewHolder();
     }
@@ -31,7 +33,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseView
     /**
      * Inflates the layout and binds it to the ViewHolder using {@link ButterKnife}.
      */
-    public BaseViewHolder(@LayoutRes final int layout, @NonNull final ViewGroup parent) {
+    public AnimateBaseViewHolder(@LayoutRes final int layout, @NonNull final ViewGroup parent) {
         this(LayoutInflater.from(parent.getContext()).inflate(layout, parent, false));
     }
 
@@ -55,5 +57,15 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseView
             unbinder.unbind();
             unbinder = null;
         }
+    }
+
+    @Override
+    public void animateAddImpl(ViewPropertyAnimatorListener listener) {
+
+    }
+
+    @Override
+    public void animateRemoveImpl(ViewPropertyAnimatorListener listener) {
+
     }
 }

@@ -8,8 +8,8 @@ public interface OnItemClickListener<T> {
     /**
      * Invokes click listener.
      *
-     * @param item Model of the adapter.
-     * @param rowView View that has been clicked.
+     * @param item     Model of the adapter.
+     * @param rowView  View that has been clicked.
      * @param position Adapter position of the clicked element.
      */
     void onItemClick(@NonNull final T item, @NonNull final View rowView, final int position);
