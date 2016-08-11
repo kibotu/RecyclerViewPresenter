@@ -1,39 +1,59 @@
 language: android
 jdk: oraclejdk8
 
-env:
-  matrix:
-    - ANDROID_TARGET=android-24  ANDROID_ABI=armeabi-v7a
+# BugFix for 'git rev-list --full-history --all' showing too low commit count
 git:
   depth: 10000
+
+env:
+  global:
+
+    - SLAVE_AAPT_TIMEOUT=30
+    - TERM=dumb
+    - GRADLE_OPTS="-XX:MaxPermSize=2024m -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError -Xmx3048m  -Dfile.encoding=UTF-8"
+
+# https://guides.codepath.com/android/Setting-up-Travis-CI
+# Disable container-based builds, which currently only have a maximum of 4GB of memory,
+# whereas standard versions have a max of 7.5GB of memory (according to this doc)
+
+sudo: required
 
 matrix:
   fast_finish: true
 
 android:
   components:
-    - platform-tools
-    - tools
 
-    # The BuildTools version used by your project
-    - build-tools-24.0.1
-
-    # The SDK version used to compile your project
-    - android-24
-
-    # Additional components
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-    - addon-google_apis-google-24
+      - tools
+      - build-tools-24.0.1
+      - android-24
+      - platform-tools
+      - extra-android-support
+      - extra-android-m2repository
+      - extra-google-google_play_services
+      - extra-google-m2repository
+      - addon-google_apis-google-24
 
   licenses:
     - android-sdk-license-.+
 
 before_install:
+
+  # retrolambda
+  - export JAVA7_HOME=/usr/lib/jvm/java-7-oracle
+  - export JAVA8_HOME=/usr/lib/jvm/java-8-oracle
+  - export JAVA_HOME=$JAVA8_HOME
+
+  # updating submodules
   - git submodule update --init --recursive
+
+  # executable gradle wrapper
   - chmod u+x gradlew
+
+  # list installed android sdk
   - android list sdk --no-ui --all --extended
+
+  # list installed android targets
   - android list targets
 
 install: true

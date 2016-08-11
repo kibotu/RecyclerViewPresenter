@@ -21,16 +21,16 @@ android {
         }
     }
 
+    dexOptions {
+        incremental true
+        preDexLibraries = false
+        jumboMode = false
+        javaMaxHeapSize "4g"
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    dexOptions {
-        preDexLibraries = false
-        jumboMode = false
-        javaMaxHeapSize "2g"
-        maxProcessCount 4
     }
 
     lintOptions {
