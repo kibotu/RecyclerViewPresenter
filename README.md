@@ -37,7 +37,7 @@ Convenience library to handle different view types with different presenters in 
 
         public class MyModelPresenter extends Presenter<MyModel, PhotoPresenter.ViewHolder> 
         
-4. Add click listener [to adapter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L40) and [to presenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/PhotoPresenter.java#L50-L55)
+4. Add click listener [to adapter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L40) and [to presenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/PhotoPresenter.java#L54-L59)
 
         // adapter
         adapter.setOnItemClickListener((item, rowView, position) -> toast(format("{0}. {1}", position, item)));
@@ -47,17 +47,15 @@ Convenience library to handle different view types with different presenters in 
                     presenterAdapter.getOnItemClickListener().onItemClick(item, v, position);
 
 
-### Updating item
+### [Updating item](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L52)
 
     adapter.update(0, myModelObject);
 
-### Sorting        
-       
+### [Sorting](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L47-L50)     
    
     PresenterAdapter.sort(adapter);
        
 Sort if model doesn't implement Comparable
-
    
     adapter.sortBy((o1, o2) -> o1.compareTo(o2));
        
