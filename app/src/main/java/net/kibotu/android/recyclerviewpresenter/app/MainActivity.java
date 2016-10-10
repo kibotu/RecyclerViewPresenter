@@ -44,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
             adapter.add(createRandomImageUrl(), LabelPresenter.class);
         }
 
+        // sorting
+        // PresenterAdapter.sort(adapter);
+        // sort if model doesn't implement Comparable
+        // adapter.sortBy((o1, o2) -> o1.compareTo(o2));
+
+        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png");
+
         adapter.notifyDataSetChanged();
     }
 

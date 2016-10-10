@@ -14,7 +14,7 @@ import butterknife.BindView;
 /**
  * Created by Nyaruhodo on 15.05.2016.
  */
-public class LabelPresenter extends Presenter<String, LabelPresenter.ViewHolder> {
+class LabelPresenter extends Presenter<String, LabelPresenter.ViewHolder> {
 
     public LabelPresenter(@NonNull PresenterAdapter<String> presenterAdapter) {
         super(presenterAdapter);
@@ -47,7 +47,7 @@ public class LabelPresenter extends Presenter<String, LabelPresenter.ViewHolder>
         @BindView(R.id.label)
         TextView label;
 
-        public ViewHolder(@LayoutRes int layout, @NonNull ViewGroup parent) {
+        ViewHolder(@LayoutRes int layout, @NonNull ViewGroup parent) {
             super(layout, parent);
         }
     }

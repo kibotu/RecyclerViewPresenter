@@ -45,7 +45,21 @@ Convenience library to handle different view types with different presenters in 
         // in bind method of presenter
         if (presenterAdapter.getOnItemClickListener() != null)
                     presenterAdapter.getOnItemClickListener().onItemClick(item, v, position);
-        
+
+
+### Updating item
+
+    adapter.update(0, myModelObject);
+
+### Sorting        
+       
+   
+    PresenterAdapter.sort(adapter);
+       
+Sort if model doesn't implement Comparable
+
+   
+    adapter.sortBy((o1, o2) -> o1.compareTo(o2));
        
 ###License
 <pre>

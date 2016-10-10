@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import net.kibotu.android.recyclerviewpresenter.BaseViewHolder;
 import net.kibotu.android.recyclerviewpresenter.Presenter;
@@ -17,7 +18,7 @@ import butterknife.BindView;
  * Created by Nyaruhodo on 15.05.2016.
  */
 
-public class PhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder> {
+class PhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder> {
 
     public PhotoPresenter(@NonNull PresenterAdapter<String> presenterAdapter) {
         super(presenterAdapter);
@@ -45,7 +46,10 @@ public class PhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder>
     @Override
     public void bindViewHolder(@NonNull ViewHolder viewHolder, @NonNull String item, int position) {
 
-        Glide.with(viewHolder.itemView.getContext()).load(item).into(viewHolder.photo);
+        Glide.with(viewHolder.itemView.getContext())
+                .load(item)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(viewHolder.photo);
 
         viewHolder.itemView.setOnClickListener(v -> {
 
@@ -61,7 +65,7 @@ public class PhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder>
         @BindView(R.id.photo)
         ImageView photo;
 
-        public ViewHolder(@LayoutRes int layout, @NonNull ViewGroup parent) {
+        ViewHolder(@LayoutRes int layout, @NonNull ViewGroup parent) {
             super(layout, parent); // does butterknife binding
         }
     }
