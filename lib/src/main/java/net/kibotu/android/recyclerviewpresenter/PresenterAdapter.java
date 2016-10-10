@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -261,6 +262,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
         return data.size();
     }
 
+
     /**
      * Clears the adapter and also removes cached views.
      * This is necessary otherwise different layouts will explode if you try to bind them to the wrong {@link RecyclerView.ViewHolder}.
@@ -439,5 +441,24 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     public void remove(final int position) {
         data.remove(position);
         notifyItemRemoved(position);
+    }
+
+    /**
+     * Sorting data.
+     *
+     * @param comparator - Criteria for sorting.
+     */
+    public void sortBy(Comparator<T> comparator) {
+        Collections.sort(data, (left, right) -> comparator.compare(left.first, right.first));
+    }
+
+    /**
+     * Default {@link Collections#sort(List)} sorting.
+     *
+     * @param adapter - Adapter where {@link T} requires to be implementing {@link Comparable}
+     * @param <T>     - Model.
+     */
+    public static <T extends Comparable> void sort(PresenterAdapter<T> adapter) {
+        Collections.sort(adapter.data, (o1, o2) -> o1.first.compareTo(o2.first));
     }
 }
