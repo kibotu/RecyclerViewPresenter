@@ -12,7 +12,3 @@
 
 # as per official recommendation: https://github.com/evant/gradle-retrolambda#proguard
 -dontwarn java.lang.invoke.*
-
-# project
--keep class br.com.zbra.androidlinq.** { *; }
--keep interface br.com.zbra.androidlinq.** { *; }
