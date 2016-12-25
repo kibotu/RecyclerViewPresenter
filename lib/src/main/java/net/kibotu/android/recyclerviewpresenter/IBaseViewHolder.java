@@ -1,7 +1,7 @@
 package net.kibotu.android.recyclerviewpresenter;
 
 /**
- * Created by jan.rabe on 11/08/16.
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
 
 public interface IBaseViewHolder {

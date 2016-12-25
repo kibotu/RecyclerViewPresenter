@@ -4,6 +4,10 @@ import java.util.Random;
 
 import static java.text.MessageFormat.format;
 
+/**
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
+ */
+
 class FakeDataGenerator {
 
     static String createRandomImageUrl() {

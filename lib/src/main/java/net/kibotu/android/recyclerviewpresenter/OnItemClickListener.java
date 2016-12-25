@@ -2,6 +2,9 @@ package net.kibotu.android.recyclerviewpresenter;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+/**
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
+ */
 
 public interface OnItemClickListener<T> {
 

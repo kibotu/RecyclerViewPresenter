@@ -13,7 +13,7 @@ import butterknife.Unbinder;
 import jp.wasabeef.recyclerview.animators.holder.AnimateViewHolder;
 
 /**
- * Created by jan.rabe on 11/08/16.
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
 
 public class AnimateBaseViewHolder extends AnimateViewHolder implements IBaseViewHolder {

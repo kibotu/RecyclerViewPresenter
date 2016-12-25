@@ -19,6 +19,10 @@ import static android.text.TextUtils.isEmpty;
 import static java.text.MessageFormat.format;
 import static net.kibotu.android.recyclerviewpresenter.app.FakeDataGenerator.createRandomImageUrl;
 
+/**
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     @NonNull
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         // sort if model doesn't implement Comparable
         // adapter.sortBy((o1, o2) -> o1.compareTo(o2));
 
-        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png");
+//        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png");
 
         adapter.notifyDataSetChanged();
     }

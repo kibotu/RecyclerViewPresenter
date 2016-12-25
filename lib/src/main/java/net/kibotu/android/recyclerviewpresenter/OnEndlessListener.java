@@ -3,7 +3,7 @@ package net.kibotu.android.recyclerviewpresenter;
 import android.support.annotation.NonNull;
 
 /**
- * Created by jan.rabe on 31/05/16.
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
 
 public interface OnEndlessListener {

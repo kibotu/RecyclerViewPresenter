@@ -3,8 +3,9 @@ package net.kibotu.android.recyclerviewpresenter;
 import android.support.annotation.NonNull;
 
 /**
- * Created by Nyaruhodo on 15.05.2016.
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
+
 class ClassExtensions {
 
     /**

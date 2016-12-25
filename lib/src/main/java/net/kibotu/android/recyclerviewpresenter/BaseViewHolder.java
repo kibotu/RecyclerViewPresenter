@@ -12,8 +12,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by Jan Rabe on 17/09/15.
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
+
 public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseViewHolder {
 
     protected Unbinder unbinder;

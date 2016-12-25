@@ -7,8 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 /**
- * Created by Jan Rabe on 09/09/15.
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
+
 public abstract class Presenter<T, VH extends RecyclerView.ViewHolder> {
 
     /**

@@ -14,8 +14,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by Jan Rabe on 09/09/15.
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
+
 public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**

@@ -15,10 +15,10 @@ import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 import butterknife.BindView;
 
 /**
- * Created by Nyaruhodo on 15.05.2016.
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
 
-class PhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder> {
+public class PhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder> {
 
     public PhotoPresenter(@NonNull PresenterAdapter<String> presenterAdapter) {
         super(presenterAdapter);

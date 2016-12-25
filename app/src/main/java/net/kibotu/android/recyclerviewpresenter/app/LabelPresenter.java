@@ -12,9 +12,10 @@ import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 import butterknife.BindView;
 
 /**
- * Created by Nyaruhodo on 15.05.2016.
+ * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
-class LabelPresenter extends Presenter<String, LabelPresenter.ViewHolder> {
+
+public class LabelPresenter extends Presenter<String, LabelPresenter.ViewHolder> {
 
     public LabelPresenter(@NonNull PresenterAdapter<String> presenterAdapter) {
         super(presenterAdapter);
