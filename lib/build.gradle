@@ -1,93 +1,83 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'android-apt'
-apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
+// apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 25
+
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        android {
+            lintOptions {
+                abortOnError false
+            }
+        }
     }
 
     buildTypes {
-
-        debug {
-            debuggable true
-            minifyEnabled false
-            shrinkResources = false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
         release {
-            debuggable false
-            minifyEnabled true
-            shrinkResources = true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    dexOptions {
-        preDexLibraries = false
-        jumboMode = false
-        javaMaxHeapSize "4g"
+    // region kotlin
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
     }
+
+    // endregion
+
+    // region java compiler flags
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-        ignoreWarnings true
-        disable 'InvalidPackage'
-    }
+    // endregion
 }
 
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.android.support:recyclerview-v7:27.0.2'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    provided 'jp.wasabeef:recyclerview-animators:2.2.3'
+    provided 'jp.wasabeef:recyclerview-animators:2.2.7'
 }
-
-// region retrolambda
-
-retrolambda {
-    jvmArgs '-noverify'
-    defaultMethods false
-    incremental true
-}
-
-// endregion
 
 // region dexcount
 
-dexcount {
-    format = "list"
-    includeClasses = false
-    includeFieldCount = true
-    includeTotalMethodCount = false
-    orderByMethodCount = false
-    verbose = true
-    maxTreeDepth = Integer.MAX_VALUE
-    teamCityIntegration = false
-    enableForInstantRun = false
-    teamCitySlug = null
-}
+//dexcount {
+//    format = "list"
+//    includeClasses = false
+//    includeFieldCount = true
+//    includeTotalMethodCount = false
+//    orderByMethodCount = false
+//    verbose = true
+//    maxTreeDepth = Integer.MAX_VALUE
+//    teamCityIntegration = false
+//    enableForInstantRun = false
+//    teamCitySlug = null
+//}
 
 // endregion
 
 // region javadoc
 
-//apply from: 'https://gist.githubusercontent.com/kibotu/994c9cc65fe623b76b76fedfac74b34b/raw/65ee52482ba65050e015f4b00d8d2fc9172a10e8/javadoc.gradle'
+apply from: 'https://gist.githubusercontent.com/kibotu/994c9cc65fe623b76b76fedfac74b34b/raw/65ee52482ba65050e015f4b00d8d2fc9172a10e8/javadoc.gradle'
 
 // endregion

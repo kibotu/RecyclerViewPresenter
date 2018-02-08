@@ -48,7 +48,6 @@ public class PhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder>
 
         Glide.with(viewHolder.itemView.getContext())
                 .load(item)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(viewHolder.photo);
 
         viewHolder.itemView.setOnClickListener(v -> {
