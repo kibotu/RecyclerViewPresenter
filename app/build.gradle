@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
 
@@ -28,18 +29,35 @@ android {
         }
     }
 
+    // region lint options
+
     lintOptions {
-        abortOnError false
+        disable 'InvalidPackage'
+        abortOnError false        // true by default
+        checkAllWarnings false
+        checkReleaseBuilds false
+        ignoreWarnings true       // false by default
+        quiet true                // false by default
     }
+
+    // endregion
 }
 
 dependencies {
-    compile project(':lib')
-    compile 'com.android.support:appcompat-v7:27.0.2'
-    compile 'com.android.support:cardview-v7:27.0.2'
-    compile 'com.github.bumptech.glide:glide:4.5.0'
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation project(':lib')
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:cardview-v7:27.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    compile 'jp.wasabeef:recyclerview-animators:2.2.7'
+    implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
 }
+
+// region override support library version
+
+configurations.all {
+    resolutionStrategy.force 'com.android.support:recyclerview-v7:27.1.0'
+}
+
+// endregion

@@ -4,6 +4,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,13 @@ import butterknife.Unbinder;
 
 public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseViewHolder {
 
+    private static final String TAG = BaseViewHolder.class.getSimpleName();
+
+    public String uuid = String.valueOf(UIDGenerator.newUID());
+
     protected Unbinder unbinder;
+
+    public boolean debug = false;
 
     /**
      * Creates a new ViewHolder and calls {@link #onBindViewHolder()} in order to bind the view using {@link ButterKnife}.
@@ -26,6 +33,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseView
      */
     public BaseViewHolder(@NonNull final View itemView) {
         super(itemView);
+        if (debug)
+            Log.v(TAG, "[create] " + uuid);
         onBindViewHolder();
     }
 
@@ -41,6 +50,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseView
      */
     @Override
     public void onBindViewHolder() {
+        if (debug)
+            Log.v(TAG, "[onBindViewHolder] " + uuid);
         if (unbinder == null)
             unbinder = ButterKnife.bind(this, itemView);
     }
@@ -52,6 +63,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseView
     @CallSuper
     @Override
     public void onViewDetachedFromWindow() {
+        if (debug)
+            Log.v(TAG, "[onViewDetachedFromWindow] " + uuid);
         if (unbinder != null) {
             unbinder.unbind();
             unbinder = null;

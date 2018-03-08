@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'kotlin-kapt'
 // apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
@@ -48,15 +49,29 @@ android {
     }
 
     // endregion
+
+
+    // region lint options
+
+    lintOptions {
+        disable 'InvalidPackage'
+        abortOnError false        // true by default
+        checkAllWarnings false
+        checkReleaseBuilds false
+        ignoreWarnings true       // false by default
+        quiet true                // false by default
+    }
+
+    // endregion
 }
 
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:27.0.2'
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    provided 'jp.wasabeef:recyclerview-animators:2.2.7'
+    compileOnly 'jp.wasabeef:recyclerview-animators:2.3.0'
 }
 
 // region dexcount
