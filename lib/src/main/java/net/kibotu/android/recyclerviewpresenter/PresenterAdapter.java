@@ -294,7 +294,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * {@inheritDoc}
      */
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
     }
 
@@ -302,7 +302,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * {@inheritDoc}
      */
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
     }
 
@@ -311,7 +311,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * <p>Also calls {@link IBaseViewHolder#onBindViewHolder()}.</p>
      */
     @Override
-    public void onViewDetachedFromWindow(RecyclerView.ViewHolder viewHolder) {
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder viewHolder) {
         super.onViewDetachedFromWindow(viewHolder);
         if (viewHolder instanceof IBaseViewHolder)
             ((IBaseViewHolder) viewHolder).onViewDetachedFromWindow();
@@ -427,11 +427,22 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param item     {@link T}
      */
     public void update(final int position, @Nullable final T item) {
+        update(position, item);
+    }
+
+    /**
+     * Updates a model {@link T} at adapter position.
+     *
+     * @param position Adapter position.
+     * @param item     {@link T}
+     */
+    public void update(final int position, @Nullable final T item, boolean notify) {
         if (item == null)
             return;
 
         data.set(position, new Pair<>(item, data.get(position).second));
-        notifyItemChanged(position);
+        if (notify)
+            notifyItemChanged(position);
     }
 
     /**
@@ -440,8 +451,18 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param position Adapter position.
      */
     public void remove(final int position) {
+        remove(position, true);
+    }
+
+    /**
+     * Remove an item at adapter position.
+     *
+     * @param position Adapter position.
+     */
+    public void remove(final int position, boolean notify) {
         data.remove(position);
-        notifyItemRemoved(position);
+        if (notify)
+            notifyItemRemoved(position);
     }
 
     /**
@@ -461,5 +482,10 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public static <T extends Comparable> void sort(PresenterAdapter<T> adapter) {
         Collections.sort(adapter.data, (o1, o2) -> o1.first.compareTo(o2.first));
+    }
+
+    @NonNull
+    public ArrayList<Pair<T, Class>> getData() {
+        return data;
     }
 }
