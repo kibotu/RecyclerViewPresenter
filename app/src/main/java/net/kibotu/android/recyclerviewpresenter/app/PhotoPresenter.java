@@ -1,7 +1,5 @@
 package net.kibotu.android.recyclerviewpresenter.app;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -12,6 +10,8 @@ import net.kibotu.android.recyclerviewpresenter.BaseViewHolder;
 import net.kibotu.android.recyclerviewpresenter.Presenter;
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 
 /**

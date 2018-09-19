@@ -1,6 +1,6 @@
 package net.kibotu.android.recyclerviewpresenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.

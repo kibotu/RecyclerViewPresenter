@@ -67,11 +67,12 @@ android {
 
 
 dependencies {
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
     implementation 'com.jakewharton:butterknife:8.8.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    compileOnly 'jp.wasabeef:recyclerview-animators:2.3.0'
+    implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
 }
 
 // region dexcount
