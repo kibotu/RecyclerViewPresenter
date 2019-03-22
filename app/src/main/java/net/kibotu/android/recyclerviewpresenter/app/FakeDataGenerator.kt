@@ -15,8 +15,8 @@ internal object FakeDataGenerator {
         val landscape = random.nextBoolean()
         val endpoint = random.nextBoolean()
 
-        val width = MathExtensions.random(400, 300)
-        val height = MathExtensions.random(300, 200)
+        val width = MathExtensions.random(300, 400)
+        val height = MathExtensions.random(200, 300)
 
         return format(
             if (endpoint)
