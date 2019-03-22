@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-// apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
 
@@ -16,13 +16,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        android {
-            lintOptions {
-                abortOnError false
-            }
-        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildTypes {
@@ -32,15 +27,6 @@ android {
         }
     }
 
-    // region kotlin
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
-    }
-
-    // endregion
-
     // region java compiler flags
 
     compileOptions {
@@ -49,7 +35,6 @@ android {
     }
 
     // endregion
-
 
     // region lint options
 
@@ -63,37 +48,43 @@ android {
     }
 
     // endregion
+
+    // region dex options
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+        maxProcessCount 8
+    }
+
+    // endregion
+
+    // region adb options
+
+    adbOptions {
+        timeOutInMs 10 * 60 * 1000 // 10 minutes
+    }
+
+    // endregion
 }
 
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation libs.kotlinJdk8
+    implementation libs.constraintLayout
+    implementation libs.supportRecyclerview
+    implementation libs.recyclerviewAnimators
 
-    implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
+    implementation libs.butterknifeX
+    kapt libs.butterknifeCompilerX
 }
 
-// region dexcount
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
 
-//dexcount {
-//    format = "list"
-//    includeClasses = false
-//    includeFieldCount = true
-//    includeTotalMethodCount = false
-//    orderByMethodCount = false
-//    verbose = true
-//    maxTreeDepth = Integer.MAX_VALUE
-//    teamCityIntegration = false
-//    enableForInstantRun = false
-//    teamCitySlug = null
-//}
+    resolutionStrategy.force libs.kotlinJdk8
+    resolutionStrategy.force libs.constraintLayout
+    resolutionStrategy.force libs.supportRecyclerview
+    resolutionStrategy.force libs.recyclerviewAnimators
+}
 
-// endregion
-
-// region javadoc
-
-apply from: 'https://gist.githubusercontent.com/kibotu/994c9cc65fe623b76b76fedfac74b34b/raw/65ee52482ba65050e015f4b00d8d2fc9172a10e8/javadoc.gradle'
-
-// endregion
+apply from: "${project.rootDir}/Android-Dependencies/javadoc.gradle"

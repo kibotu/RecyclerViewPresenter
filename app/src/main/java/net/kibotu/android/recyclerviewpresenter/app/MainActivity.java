@@ -1,11 +1,9 @@
 package net.kibotu.android.recyclerviewpresenter.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Toast;
-
-import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,10 +12,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 
 import static android.text.TextUtils.isEmpty;
+import static com.exozet.android.core.misc.FakeDataGenerator.createRandomImageUrl;
 import static java.text.MessageFormat.format;
-import static net.kibotu.android.recyclerviewpresenter.app.FakeDataGenerator.createRandomImageUrl;
 
 /**
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
@@ -35,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        runPagination();
+
         unbinder = ButterKnife.bind(this);
 
         PresenterAdapter<String> adapter = new PresenterAdapter<>();
@@ -56,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
 //        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png");
 
         adapter.notifyDataSetChanged();
+    }
+
+    private void runPagination() {
+        startActivity(new Intent(this, PaginationActivity.class));
     }
 
     @Override
