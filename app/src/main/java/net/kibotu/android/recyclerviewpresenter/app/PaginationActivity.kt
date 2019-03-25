@@ -19,9 +19,12 @@ import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.android.synthetic.main.activity_pagination.*
 import kotlinx.android.synthetic.main.photo_presenter_item.view.*
-import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
+import net.kibotu.android.recyclerviewpresenter.v2.RecyclerViewHolder
 
 
+/**
+ * https://guides.codepath.com/android/Paging-Library-Guide
+ */
 class PaginationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,22 +44,22 @@ class PaginationActivity : AppCompatActivity() {
 
         // http://androidkt.com/paging-library-datasource/
         val pageKeyedDataSourceFactory = SimplePageKeyedDataSource.Factory()
-        val pagedKeyedDataSource = LivePagedListBuilder<Int, ViewModel<String>>(pageKeyedDataSourceFactory, config).build()
-        val pagedKeyedDataSourceFactory = SimplePositionalDataSource.Factory()
-        val positionalDataSource = LivePagedListBuilder<Int, ViewModel<String>>(pagedKeyedDataSourceFactory, config).build()
+        val pageKeyedDataSource = LivePagedListBuilder<Int, ViewModel<String>>(pageKeyedDataSourceFactory, config).build()
+        val positionalDataSourceFactory = SimplePositionalDataSource.Factory()
+        val positionalDataSource = LivePagedListBuilder<Int, ViewModel<String>>(positionalDataSourceFactory, config).build()
         val itemKeyedDataSourceFactory = SimpleItemKeyedDataSource.Factory()
         val itemKeyedDataSource = LivePagedListBuilder<String, ViewModel<String>>(itemKeyedDataSourceFactory, config).build()
 
-        itemKeyedDataSource.observe(this) {
+        positionalDataSource.observe(this) {
             logv("positionalDataSource data: ${it.size}")
             adapter.submitList(it)
             swipe_refresh.isRefreshing = false
         }
 
         swipe_refresh.setOnRefreshListener {
-//            pageKeyedDataSourceFactory.dataSource.invalidate()
-//            pagedKeyedDataSourceFactory.dataSource.invalidate()
-            itemKeyedDataSourceFactory.dataSource.invalidate()
+            pageKeyedDataSourceFactory.dataSource.value?.invalidate()
+//            positionalDataSourceFactory.dataSource.invalidate()
+//            itemKeyedDataSourceFactory.dataSource.invalidate()
         }
     }
 

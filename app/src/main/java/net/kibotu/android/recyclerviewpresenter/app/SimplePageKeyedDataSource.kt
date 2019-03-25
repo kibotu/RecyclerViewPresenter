@@ -1,6 +1,7 @@
 package net.kibotu.android.recyclerviewpresenter.app
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.exozet.android.core.extensions.TAG
@@ -39,11 +40,12 @@ class SimplePageKeyedDataSource : PageKeyedDataSource<Int, ViewModel<String>>() 
 
     class Factory : DataSource.Factory<Int, ViewModel<String>>() {
 
-        lateinit var dataSource: SimplePageKeyedDataSource
+        val dataSource by lazy { MutableLiveData<SimplePageKeyedDataSource>() }
 
         override fun create(): SimplePageKeyedDataSource {
-            dataSource = SimplePageKeyedDataSource()
-            return dataSource
+            val source = SimplePageKeyedDataSource()
+            dataSource.postValue(source)
+            return source
         }
     }
 }

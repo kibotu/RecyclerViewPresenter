@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import net.kibotu.android.recyclerviewpresenter.v2.IBaseViewHolder;
+import net.kibotu.android.recyclerviewpresenter.v2.UIDGenerator;
 
 /**
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
@@ -20,7 +22,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements IBaseView
 
     private static final String TAG = BaseViewHolder.class.getSimpleName();
 
-    public String uuid = String.valueOf(UIDGenerator.newUID());
+    public String uuid = String.valueOf(UIDGenerator.INSTANCE.newUID());
 
     protected Unbinder unbinder;
 

@@ -1,6 +1,5 @@
-package net.kibotu.android.recyclerviewpresenter
+package net.kibotu.android.recyclerviewpresenter.v2
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,24 +10,17 @@ class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), IB
 
     constructor(@LayoutRes layout: Int, parent: ViewGroup) : this(LayoutInflater.from(parent.context).inflate(layout, parent, false))
 
-    private val TAG = BaseViewHolder::class.java.simpleName
-
     var uuid = UIDGenerator.newUID().toString()
 
-    var debug = true
-
     init {
-        if (debug)
-            Log.v(TAG, "[create] $uuid")
+        log("[create] $uuid")
     }
 
     override fun onBindViewHolder() {
-        if (debug)
-            Log.v(TAG, "[onBindViewHolder] $uuid")
+        log("[onBindViewHolder] $uuid")
     }
 
     override fun onViewDetachedFromWindow() {
-        if (debug)
-            Log.v(TAG, "[onViewDetachedFromWindow] $uuid")
+        log("[onViewDetachedFromWindow] $uuid")
     }
 }

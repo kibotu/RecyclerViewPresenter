@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
+import net.kibotu.android.recyclerviewpresenter.v2.IBaseViewHolder;
 
 /**
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
@@ -64,11 +65,6 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * Indicator of whether the endless scroll threshold has been reached.
      */
     protected boolean reachedThreshold;
-
-    /**
-     * Listener for when we have reached the end.
-     */
-    protected OnEndlessListener onEndlessListener;
 
     /**
      * Constructs the Adapter.
@@ -156,11 +152,6 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
         if (viewHolder instanceof IBaseViewHolder)
             ((IBaseViewHolder) viewHolder).onBindViewHolder();
         getPresenterAt(position).bindViewHolder(viewHolder, get(position), position);
-
-        if (onEndlessListener != null && !reachedThreshold && position >= getItemCount() - getEndlessThreshold()) {
-            reachedThreshold = true;
-            onEndlessListener.onReachThreshold(this);
-        }
     }
 
     /**
@@ -316,42 +307,6 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
         super.onViewDetachedFromWindow(viewHolder);
         if (viewHolder instanceof IBaseViewHolder)
             ((IBaseViewHolder) viewHolder).onViewDetachedFromWindow();
-    }
-
-    /**
-     * Indicator for when for the endless scroll event should be fired.
-     *
-     * @return {@link #endlessThreshold}
-     */
-    public int getEndlessThreshold() {
-        return endlessThreshold;
-    }
-
-    /**
-     * Sets the threshold when the endless scroll event should be fired.
-     *
-     * @param endlessThreshold {@link #endlessThreshold}
-     */
-    public void setEndlessThreshold(int endlessThreshold) {
-        this.endlessThreshold = endlessThreshold;
-    }
-
-    /**
-     * Gets event listener for endless scroll event.
-     *
-     * @return {@link #onEndlessListener}
-     */
-    public OnEndlessListener getOnEndlessListener() {
-        return onEndlessListener;
-    }
-
-    /**
-     * Sets event listener for endless scroll event.
-     *
-     * @return {@link #onEndlessListener}
-     */
-    public void setOnEndlessListener(OnEndlessListener onEndlessListener) {
-        this.onEndlessListener = onEndlessListener;
     }
 
     /**
