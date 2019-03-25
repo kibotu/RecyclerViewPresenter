@@ -5,9 +5,9 @@ import android.widget.ImageView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import butterknife.BindView;
-import net.kibotu.android.recyclerviewpresenter.BaseViewHolder;
-import net.kibotu.android.recyclerviewpresenter.Presenter;
-import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
+import net.kibotu.android.recyclerviewpresenter.v1.BaseViewHolder;
+import net.kibotu.android.recyclerviewpresenter.v1.Presenter;
+import net.kibotu.android.recyclerviewpresenter.v1.PresenterAdapter;
 
 /**
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.

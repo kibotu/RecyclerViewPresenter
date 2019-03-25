@@ -1,19 +1,18 @@
-package net.kibotu.android.recyclerviewpresenter;
+package net.kibotu.android.recyclerviewpresenter.v1;
 
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.recyclerview.widget.RecyclerView;
+import net.kibotu.android.recyclerviewpresenter.v2.IBaseViewHolder;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
-import androidx.recyclerview.widget.RecyclerView;
-import net.kibotu.android.recyclerviewpresenter.v2.IBaseViewHolder;
 
 /**
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
@@ -183,7 +182,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     @SuppressWarnings("unchecked")
     protected void addIfNotExists(@NonNull final Class clazz) {
         for (final Presenter<T, ? extends RecyclerView.ViewHolder> binderType : this.binderType)
-            if (ClassExtensions.equals(binderType.getClass(), clazz))
+            if (equalsTo(binderType.getClass(), clazz))
                 return;
 
         final Constructor<T> constructor = (Constructor<T>) clazz.getConstructors()[0];
@@ -221,7 +220,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(final int position) {
         for (int i = 0; i < binderType.size(); ++i)
-            if (ClassExtensions.equals(data.get(position).second, binderType.get(i).getClass()))
+            if (equalsTo(data.get(position).second, binderType.get(i).getClass()))
                 return i;
 
         return -1;
@@ -443,5 +442,15 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     public ArrayList<Pair<T, Class>> getData() {
         return data;
+    }
+
+
+    /**
+     * Compares two classes by canonical name.
+     *
+     * @return <code>True</code> if they're equal.
+     */
+    public static boolean equalsTo(@NonNull final Class first, @NonNull final Class second) {
+        return first.getCanonicalName().equals(second.getCanonicalName());
     }
 }

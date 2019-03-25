@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter;
+package net.kibotu.android.recyclerviewpresenter.v1;
 
 /**
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
+import net.kibotu.android.recyclerviewpresenter.v1.PresenterAdapter;
 
 import static android.text.TextUtils.isEmpty;
 import static java.text.MessageFormat.format;
@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        runPagination();
+//        runPagination();
+        runAdapterV2();
 
         unbinder = ButterKnife.bind(this);
 
@@ -61,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void runPagination() {
         startActivity(new Intent(this, PaginationActivity.class));
+    }
+
+    private void runAdapterV2() {
+        startActivity(new Intent(this, MainActivity2.class));
+        finish();
     }
 
     @Override
