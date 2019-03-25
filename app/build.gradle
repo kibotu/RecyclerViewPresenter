@@ -82,6 +82,7 @@ dependencies {
     implementation libs.lifecycleLivedataKtx
 
     implementation libs.exozetCore
+    implementation libs.logger
 }
 
 // region override support library version

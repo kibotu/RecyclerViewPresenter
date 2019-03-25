@@ -3,10 +3,9 @@ package net.kibotu.android.recyclerviewpresenter.app
 import android.util.Log
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
+import com.exozet.android.core.extensions.TAG
 
 class SimplePageKeyedDataSource : PageKeyedDataSource<Int, ViewModel<String>>() {
-
-    private val TAG = SimplePageKeyedDataSource::class.java.simpleName
 
     private val data = mutableListOf<ViewModel<String>>()
 
@@ -14,20 +13,22 @@ class SimplePageKeyedDataSource : PageKeyedDataSource<Int, ViewModel<String>>() 
         Log.v(TAG, "[loadInitial] requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}")
 
         (0 until params.requestedLoadSize).map {
-            val uri = FakeDataGenerator.createRandomImageUrl()
-            data.add(ViewModel(uri))
+            data.add(ViewModel(FakeDataGenerator.createRandomImageUrl()))
         }
 
         callback.onResult(data, null, 2)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, ViewModel<String>>) {
-        Log.v(TAG, "[loadAfter] key=${params.key} requestedLoadSize=${params.requestedLoadSize}")
+        Log.v(TAG, "[loadAfter] key=${params.key} requestedLoadSize=${params.requestedLoadSize} data=${data.size}")
 
-        (0 until params.requestedLoadSize).map {
-            val uri = FakeDataGenerator.createRandomImageUrl()
-            data.add(ViewModel(uri))
+        val list = (0 until params.requestedLoadSize).map {
+            ViewModel(FakeDataGenerator.createRandomImageUrl())
         }
+
+        Log.v(TAG, "[loadRange] list=${list.size} data=${data.size}")
+
+        data.addAll(list)
 
         callback.onResult(data, params.key + 1)
     }
