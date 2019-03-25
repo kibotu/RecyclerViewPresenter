@@ -10,10 +10,11 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.activity_pagination.*
 import kotlinx.android.synthetic.main.photo_presenter_item.view.*
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
+
 
 class PaginationActivity : AppCompatActivity() {
 
@@ -28,37 +29,43 @@ class PaginationActivity : AppCompatActivity() {
 
         val config = PagedList.Config.Builder()
             .setPageSize(5)
+            .setPrefetchDistance(1)
             .setEnablePlaceholders(false)
             .build()
 
-        val liveData = LivePagedListBuilder<Int, String>(SimpleDataSource.Factory(), config).build()
+        val liveData = LivePagedListBuilder<Int, SimpleDataSource.ViewModel<String>>(SimpleDataSource.Factory(), config).build()
 
         liveData.observe(this) {
             adapter.submitList(it)
         }
     }
 
-    class FakePageListAdapter : PagedListAdapter<String, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+    class FakePageListAdapter : PagedListAdapter<SimpleDataSource.ViewModel<String>, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = RecyclerViewHolder(R.layout.photo_presenter_item, parent)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+            RecyclerViewHolder(R.layout.photo_presenter_item, parent)
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             with(holder.itemView) {
-                Glide.with(this).load(getItem(position)).into(photo)
+
+                GlideApp.with(this.context.applicationContext)
+                    .load(getItem(position)!!.t)
+                    .thumbnail(0.5f)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .into(photo)
             }
         }
     }
 
     companion object {
 
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<String>() {
-
-            override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-                return oldItem == newItem
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SimpleDataSource.ViewModel<String>>() {
+            override fun areItemsTheSame(oldItem: SimpleDataSource.ViewModel<String>, newItem: SimpleDataSource.ViewModel<String>): Boolean {
+                return oldItem.uuid == newItem.uuid
             }
 
-            override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
-                return oldItem == newItem
+            override fun areContentsTheSame(oldItem: SimpleDataSource.ViewModel<String>, newItem: SimpleDataSource.ViewModel<String>): Boolean {
+                return oldItem.uuid == newItem.uuid
             }
         }
     }

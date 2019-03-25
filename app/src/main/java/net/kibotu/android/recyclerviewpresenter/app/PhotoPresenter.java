@@ -2,17 +2,13 @@ package net.kibotu.android.recyclerviewpresenter.app;
 
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import net.kibotu.android.recyclerviewpresenter.BaseViewHolder;
-import net.kibotu.android.recyclerviewpresenter.Presenter;
-import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import butterknife.BindView;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import net.kibotu.android.recyclerviewpresenter.BaseViewHolder;
+import net.kibotu.android.recyclerviewpresenter.Presenter;
+import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 
 /**
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
@@ -46,8 +42,11 @@ public class PhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder>
     @Override
     public void bindViewHolder(@NonNull ViewHolder viewHolder, @NonNull String item, int position) {
 
-        Glide.with(viewHolder.itemView.getContext())
+
+        GlideApp.with(viewHolder.itemView.getContext().getApplicationContext())
                 .load(item)
+                .thumbnail(0.5f)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(viewHolder.photo);
 
         viewHolder.itemView.setOnClickListener(v -> {
