@@ -38,6 +38,12 @@ class SimplePageKeyedDataSource : PageKeyedDataSource<Int, ViewModel<String>>() 
     }
 
     class Factory : DataSource.Factory<Int, ViewModel<String>>() {
-        override fun create() = SimplePageKeyedDataSource()
+
+        lateinit var dataSource: SimplePageKeyedDataSource
+
+        override fun create(): SimplePageKeyedDataSource {
+            dataSource = SimplePageKeyedDataSource()
+            return dataSource
+        }
     }
 }

@@ -40,6 +40,12 @@ class SimplePositionalDataSource : PositionalDataSource<ViewModel<String>>() {
     }
 
     class Factory : DataSource.Factory<Int, ViewModel<String>>() {
-        override fun create() = SimplePositionalDataSource()
+
+        lateinit var dataSource: SimplePositionalDataSource
+
+        override fun create(): SimplePositionalDataSource {
+            dataSource = SimplePositionalDataSource()
+            return dataSource
+        }
     }
 }

@@ -40,12 +40,23 @@ class PaginationActivity : AppCompatActivity() {
             .build()
 
         // http://androidkt.com/paging-library-datasource/
-        val pagedKeyedDataSource = LivePagedListBuilder<Int, ViewModel<String>>(SimplePageKeyedDataSource.Factory(), config).build()
-        val positionalDataSource = LivePagedListBuilder<Int, ViewModel<String>>(SimplePositionalDataSource.Factory(), config).build()
+        val pageKeyedDataSourceFactory = SimplePageKeyedDataSource.Factory()
+        val pagedKeyedDataSource = LivePagedListBuilder<Int, ViewModel<String>>(pageKeyedDataSourceFactory, config).build()
+        val pagedKeyedDataSourceFactory = SimplePositionalDataSource.Factory()
+        val positionalDataSource = LivePagedListBuilder<Int, ViewModel<String>>(pagedKeyedDataSourceFactory, config).build()
+        val itemKeyedDataSourceFactory = SimpleItemKeyedDataSource.Factory()
+        val itemKeyedDataSource = LivePagedListBuilder<String, ViewModel<String>>(itemKeyedDataSourceFactory, config).build()
 
-        pagedKeyedDataSource.observe(this) {
+        itemKeyedDataSource.observe(this) {
             logv("positionalDataSource data: ${it.size}")
             adapter.submitList(it)
+            swipe_refresh.isRefreshing = false
+        }
+
+        swipe_refresh.setOnRefreshListener {
+//            pageKeyedDataSourceFactory.dataSource.invalidate()
+//            pagedKeyedDataSourceFactory.dataSource.invalidate()
+            itemKeyedDataSourceFactory.dataSource.invalidate()
         }
     }
 
@@ -64,13 +75,12 @@ class PaginationActivity : AppCompatActivity() {
                 photo.minimumWidth = width
                 photo.minimumHeight = height
 
-//                label.text = position.toString()
-
                 GlideApp.with(this.context.applicationContext)
                     .load(uri)
                     .transition(withCrossFade())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(photo)
+                    .clearOnDetach()
             }
         }
     }
