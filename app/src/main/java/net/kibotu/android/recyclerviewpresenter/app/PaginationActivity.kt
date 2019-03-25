@@ -10,6 +10,8 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.exozet.android.core.extensions.logv
 import kotlinx.android.synthetic.main.activity_pagination.*
 import kotlinx.android.synthetic.main.photo_presenter_item.view.*
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
@@ -23,7 +25,7 @@ class PaginationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pagination)
 
         val adapter = FakePageListAdapter()
-        list.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        list.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         list.adapter = adapter
 
         val config = PagedList.Config.Builder()
@@ -36,7 +38,8 @@ class PaginationActivity : AppCompatActivity() {
         val pagedKeyedDataSource = LivePagedListBuilder<Int, ViewModel<String>>(SimplePageKeyedDataSource.Factory(), config).build()
         val positionalDataSource = LivePagedListBuilder<Int, ViewModel<String>>(SimplePositionalDataSource.Factory(), config).build()
 
-        positionalDataSource.observe(this) {
+        pagedKeyedDataSource.observe(this) {
+            logv("positionalDataSource data: ${it.size}")
             adapter.submitList(it)
         }
     }
@@ -49,8 +52,13 @@ class PaginationActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             with(holder.itemView) {
 
+                logv("onBindViewHolder position=$position uri=${getItem(position)!!.t}")
+
+//                label.text = position.toString()
+
                 GlideApp.with(this.context.applicationContext)
                     .load(getItem(position)!!.t)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(photo)
             }
         }
@@ -60,11 +68,11 @@ class PaginationActivity : AppCompatActivity() {
 
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ViewModel<String>>() {
             override fun areItemsTheSame(oldItem: ViewModel<String>, newItem: ViewModel<String>): Boolean {
-                return oldItem == newItem
+                return oldItem.uuid == newItem.uuid
             }
 
             override fun areContentsTheSame(oldItem: ViewModel<String>, newItem: ViewModel<String>): Boolean {
-                return oldItem.uuid == newItem.uuid
+                return oldItem == newItem
             }
         }
     }
