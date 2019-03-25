@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import net.kibotu.android.recyclerviewpresenter.v1.PresenterAdapter;
+import kotlin.Unit;
+import net.kibotu.android.recyclerviewpresenter.v2.PresenterAdapter;
+import net.kibotu.android.recyclerviewpresenter.v2.RecyclerViewModel;
+
+import java.util.UUID;
 
 import static android.text.TextUtils.isEmpty;
 import static java.text.MessageFormat.format;
@@ -39,15 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         unbinder = ButterKnife.bind(this);
 
-        PresenterAdapter<String> adapter = new PresenterAdapter<>();
-        list.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        PresenterAdapter<RecyclerViewModel<String>> adapter = new PresenterAdapter<>();
+        list.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         list.setAdapter(adapter);
 
-        adapter.setOnItemClickListener((item, rowView, position) -> toast(format("{0}. {1}", position, item)));
+        adapter.setOnItemClick((item, rowView, position) -> {
+            toast(format("{0}. {1}", position, item));
+            return Unit.INSTANCE;
+        });
 
-        for (int i = 0; i < 100; ++i) {
-            adapter.add(FakeDataGenerator.INSTANCE.createRandomImageUrl(), PhotoPresenter.class);
-            adapter.add(FakeDataGenerator.INSTANCE.createRandomImageUrl(), LabelPresenter.class);
+        for (int i = 0; i < 1000; ++i) {
+            RecyclerViewModel<String> viewModel = new RecyclerViewModel<>(FakeDataGenerator.INSTANCE.createRandomImageUrl(), UUID.randomUUID().toString(), null);
+            adapter.add(viewModel, PhotoPresenterV2.class, 0);
+            adapter.add(viewModel, LabelPresenterV2.class, 0);
         }
 
         // sorting

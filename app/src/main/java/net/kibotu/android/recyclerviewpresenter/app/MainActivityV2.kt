@@ -26,8 +26,9 @@ class MainActivity2 : AppCompatActivity() {
             toast("$position. ${item.model}")
         }
 
-        for (i in 0 until 100) {
-            adapter.add(RecyclerViewModel(createRandomImageUrl()), ImagePresenter::class.java)
+        for (i in 0 until 1000) {
+            adapter.add(RecyclerViewModel(createRandomImageUrl()), PhotoPresenterV2::class.java)
+            adapter.add(RecyclerViewModel(createRandomImageUrl()), LabelPresenterV2::class.java)
         }
 
         // sorting
