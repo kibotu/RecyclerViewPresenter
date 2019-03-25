@@ -3,13 +3,12 @@ package net.kibotu.android.recyclerviewpresenter.app
 import android.util.Log
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
-import java.util.*
 
-class SimpleDataSource : PageKeyedDataSource<Int, SimpleDataSource.ViewModel<String>>() {
+class SimplePageKeyedDataSource : PageKeyedDataSource<Int, ViewModel<String>>() {
 
-    private val TAG = SimpleDataSource::class.java.simpleName
+    private val TAG = SimplePageKeyedDataSource::class.java.simpleName
 
-    private val data = mutableListOf<SimpleDataSource.ViewModel<String>>()
+    private val data = mutableListOf<ViewModel<String>>()
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, ViewModel<String>>) {
         Log.v(TAG, "[loadInitial] requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}")
@@ -19,7 +18,7 @@ class SimpleDataSource : PageKeyedDataSource<Int, SimpleDataSource.ViewModel<Str
             data.add(ViewModel(uri))
         }
 
-        callback.onResult(data, 0, 2)
+        callback.onResult(data, null, 2)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, ViewModel<String>>) {
@@ -37,9 +36,7 @@ class SimpleDataSource : PageKeyedDataSource<Int, SimpleDataSource.ViewModel<Str
         Log.v(TAG, "[loadBefore] key=${params.key} requestedLoadSize=${params.requestedLoadSize}")
     }
 
-    class Factory : DataSource.Factory<Int, SimpleDataSource.ViewModel<String>>() {
-        override fun create() = SimpleDataSource()
+    class Factory : DataSource.Factory<Int, ViewModel<String>>() {
+        override fun create() = SimplePageKeyedDataSource()
     }
-
-    data class ViewModel<T>(val t: T, val uuid: String = UUID.randomUUID().toString())
 }

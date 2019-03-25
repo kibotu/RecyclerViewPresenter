@@ -5,7 +5,6 @@ import android.widget.ImageView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import butterknife.BindView;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import net.kibotu.android.recyclerviewpresenter.BaseViewHolder;
 import net.kibotu.android.recyclerviewpresenter.Presenter;
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
@@ -45,8 +44,6 @@ public class PhotoPresenter extends Presenter<String, PhotoPresenter.ViewHolder>
 
         GlideApp.with(viewHolder.itemView.getContext().getApplicationContext())
                 .load(item)
-                .thumbnail(0.5f)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(viewHolder.photo);
 
         viewHolder.itemView.setOnClickListener(v -> {

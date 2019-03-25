@@ -10,7 +10,6 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.activity_pagination.*
 import kotlinx.android.synthetic.main.photo_presenter_item.view.*
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
@@ -28,19 +27,21 @@ class PaginationActivity : AppCompatActivity() {
         list.adapter = adapter
 
         val config = PagedList.Config.Builder()
-            .setPageSize(5)
-            .setPrefetchDistance(1)
+            .setPageSize(30)
+            .setPrefetchDistance(3)
             .setEnablePlaceholders(false)
             .build()
 
-        val liveData = LivePagedListBuilder<Int, SimpleDataSource.ViewModel<String>>(SimpleDataSource.Factory(), config).build()
+        // http://androidkt.com/paging-library-datasource/
+        val pagedKeyedDataSource = LivePagedListBuilder<Int, ViewModel<String>>(SimplePageKeyedDataSource.Factory(), config).build()
+        val positionalDataSource = LivePagedListBuilder<Int, ViewModel<String>>(SimplePositionalDataSource.Factory(), config).build()
 
-        liveData.observe(this) {
+        positionalDataSource.observe(this) {
             adapter.submitList(it)
         }
     }
 
-    class FakePageListAdapter : PagedListAdapter<SimpleDataSource.ViewModel<String>, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+    class FakePageListAdapter : PagedListAdapter<ViewModel<String>, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             RecyclerViewHolder(R.layout.photo_presenter_item, parent)
@@ -50,8 +51,6 @@ class PaginationActivity : AppCompatActivity() {
 
                 GlideApp.with(this.context.applicationContext)
                     .load(getItem(position)!!.t)
-                    .thumbnail(0.5f)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into(photo)
             }
         }
@@ -59,12 +58,12 @@ class PaginationActivity : AppCompatActivity() {
 
     companion object {
 
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SimpleDataSource.ViewModel<String>>() {
-            override fun areItemsTheSame(oldItem: SimpleDataSource.ViewModel<String>, newItem: SimpleDataSource.ViewModel<String>): Boolean {
-                return oldItem.uuid == newItem.uuid
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ViewModel<String>>() {
+            override fun areItemsTheSame(oldItem: ViewModel<String>, newItem: ViewModel<String>): Boolean {
+                return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: SimpleDataSource.ViewModel<String>, newItem: SimpleDataSource.ViewModel<String>): Boolean {
+            override fun areContentsTheSame(oldItem: ViewModel<String>, newItem: ViewModel<String>): Boolean {
                 return oldItem.uuid == newItem.uuid
             }
         }

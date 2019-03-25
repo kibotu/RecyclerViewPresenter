@@ -15,7 +15,6 @@ import butterknife.Unbinder;
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 
 import static android.text.TextUtils.isEmpty;
-import static com.exozet.android.core.misc.FakeDataGenerator.createRandomImageUrl;
 import static java.text.MessageFormat.format;
 
 /**
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        runPagination();
+        runPagination();
 
         unbinder = ButterKnife.bind(this);
 
@@ -46,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnItemClickListener((item, rowView, position) -> toast(format("{0}. {1}", position, item)));
 
         for (int i = 0; i < 100; ++i) {
-            adapter.add(createRandomImageUrl(), PhotoPresenter.class);
-            adapter.add(createRandomImageUrl(), LabelPresenter.class);
+            adapter.add(FakeDataGenerator.INSTANCE.createRandomImageUrl(), PhotoPresenter.class);
+            adapter.add(FakeDataGenerator.INSTANCE.createRandomImageUrl(), LabelPresenter.class);
         }
 
         // sorting
