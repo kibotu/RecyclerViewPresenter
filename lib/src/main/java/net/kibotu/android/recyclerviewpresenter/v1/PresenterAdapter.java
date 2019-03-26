@@ -285,6 +285,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * {@inheritDoc}
      */
+    @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
     }
@@ -382,7 +383,7 @@ public class PresenterAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param item     {@link T}
      */
     public void update(final int position, @Nullable final T item) {
-        update(position, item);
+        update(position, item, false);
     }
 
     /**

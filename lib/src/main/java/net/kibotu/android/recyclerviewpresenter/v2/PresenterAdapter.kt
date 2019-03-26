@@ -3,9 +3,12 @@ package net.kibotu.android.recyclerviewpresenter.v2
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import net.kibotu.android.recyclerviewpresenter.IPresenterAdapter
+import net.kibotu.android.recyclerviewpresenter.v1.PresenterAdapter
 import java.lang.reflect.Constructor
+import java.util.*
 
-open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IPresenterAdapter<T> {
 
     /**
      * Actual data containing {@link T} and it's {@link Presenter} type.
@@ -17,6 +20,11 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
      */
     protected var binderType: ArrayList<Presenter<T>> = arrayListOf()
 
+    /**
+     * Factory for [RecyclerView.ViewHolder]
+     */
+    var viewHolderFactory: ((parent: ViewGroup, layout: Int) -> RecyclerView.ViewHolder) = { parent, layout -> RecyclerViewHolder(parent, layout) }
+
     // region Listener
 
     /**
@@ -26,7 +34,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
      * @param view  View that has been clicked.
      * @param position Adapter position of the clicked element.
      */
-    var onItemClick: ((item: T, view: View, position: Int) -> Unit)? = null
+    protected var onItemClick: ((item: T, view: View, position: Int) -> Unit)? = null
 
     /**
      * Callback for [RecyclerView.ViewHolder.itemView.setOnClickListener].
@@ -46,7 +54,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
      * @param view     View that has been clicked.
      * @param hasFocus `True` if it is focused.
      */
-    var onFocusChange: ((item: T, view: View, hasFocus: Boolean, position: Int) -> Unit)? = null
+    protected var onFocusChange: ((item: T, view: View, hasFocus: Boolean, position: Int) -> Unit)? = null
 
     /**
      * Callback for [RecyclerView.ViewHolder.itemView.setOnFocusChangeListener].
@@ -76,7 +84,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
     /**
      * {@inheritDoc}
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = RecyclerViewHolder(getDataBinder(viewType).layout, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = viewHolderFactory(parent, getDataBinder(viewType).layout)
 
     /**
      * {@inheritDoc}
@@ -132,7 +140,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
      * @param position Adapter position.
      * @return [Presenter] position. Returns `-1` if there is none to be found.
      */
-    override fun getItemViewType(position: Int) = binderType.indices.firstOrNull { data[position].second.classnameEqualTo(binderType[it].javaClass) }
+    override fun getItemViewType(position: Int) = binderType.indices.firstOrNull { equalsTo(data[position].second, binderType[it]::class.java) }
         ?: -1
 
     /**
@@ -153,25 +161,15 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
 
     // endregion
 
-    /**
-     * Same as {@link #add(Object, Class)} except it adds at a specific index.
-     *
-     * @param position Adapter position.
-     */
-    fun <P : Presenter<T>> add(t: T, clazz: Class<P>, position: Int = 0) {
-        data.add(position, Pair(t, clazz))
-        addIfNotExists(clazz)
-    }
 
     /**
      * Allocates a concrete [Presenter] and adds it to the list once.
      *
      * @param clazz Concrete [Presenter] representing the view type.
      */
-    protected fun addIfNotExists(clazz: Class<out Presenter<T>>) {
-        for (binderType in this.binderType)
-            if (binderType::class.java.classnameEqualTo(clazz))
-                return
+    protected fun <P : Presenter<T>> addIfNotExists(clazz: Class<P>) {
+        if (binderType.any { equalsTo(it::class.java, clazz) })
+            return
 
         val constructor = clazz.constructors[0] as Constructor<*>
         var instance: Presenter<T>? = null
@@ -189,21 +187,136 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
     }
 
     /**
-     * Returns [T] at adapter position.
-     *
-     * @param position Adapter position.
-     * @return [T]
+     * {@inheritDoc}
      */
-    operator fun get(position: Int): T = data[position].first
+    override fun <P : Presenter<T>> add(position: Int, item: T, clazz: Class<P>) {
+        data.add(position, Pair(item, clazz))
+        addIfNotExists(clazz)
+    }
 
-    companion object {
+    /**
+     * {@inheritDoc}
+     */
+    override fun <P : Presenter<T>> prepend(item: T, clazz: Class<P>) = add(0, item, clazz)
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun <P : Presenter<T>> append(item: T, clazz: Class<P>) = add(itemCount, item, clazz)
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun clear() {
+        binderType.clear()
+        data.clear()
+        removeAllViews()
+        notifyDataSetChanged()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun removeAllViews() {
+        recyclerView?.removeAllViews()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun contains(item: T) = (0 until itemCount).any { get(it) == item }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun contains(item: T, comparator: (first: T, second: T) -> Boolean) = (0 until itemCount).any { comparator(get(it), item) }
+
+    /**
+     * {@inheritDoc}
+     */
+    override operator fun get(position: Int): T = data[position].first
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun get(item: T, comparator: (first: T, second: T) -> Boolean): T? {
+        for (it in 0 until itemCount) {
+            val t = get(it)
+            if (comparator(t, item))
+                return t
+        }
+        return null
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun position(item: T): Int = (0 until itemCount).firstOrNull { get(it) == item }
+        ?: -1
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun position(item: T, comparator: (first: T, second: T) -> Boolean): Int = (0 until itemCount).firstOrNull { comparator(get(it), item) }
+        ?: -1
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun update(position: Int, item: T) = update(position, item, false)
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun update(position: Int, item: T, notify: Boolean) {
+        data[position] = Pair(item, data[position].second)
+        if (notify)
+            notifyItemChanged(position)
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun remove(position: Int) = remove(position, false)
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun remove(position: Int, notify: Boolean) {
+        data.removeAt(position)
+        if (notify)
+            notifyItemRemoved(position)
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun sortBy2(comparator: Comparator<T>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+  override  fun sortBy(comparator: Comparator<T>) {
+
+//        data.sortWith{ Comparator { o1: T, o2: T ->  comparator.compare(o1) } }
+//
+//        Collections.sort(data, { left, right -> comparator.compare(left.first, right.first) })
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun <T : Comparable<*>> sort(adapter: PresenterAdapter<T>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    internal companion object {
 
         /**
          * Compares two classes by canonical name.
          *
          * @return `True` if they're equal.
          */
-        internal fun Class<*>.classnameEqualTo(other: Class<*>): Boolean = this::class.java.canonicalName == other::class.java.canonicalName
+        internal fun equalsTo(first: Class<*>, second: Class<*>): Boolean = first.canonicalName == second.canonicalName
     }
-
 }

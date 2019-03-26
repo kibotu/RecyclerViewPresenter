@@ -5,6 +5,7 @@ import android.text.TextUtils.isEmpty
 import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kibotu.android.recyclerviewpresenter.app.FakeDataGenerator.createRandomImageUrl
@@ -19,16 +20,24 @@ class MainActivity2 : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val adapter = PresenterAdapter<RecyclerViewModel<String>>()
-        list.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        list.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         list.adapter = adapter
 
         adapter.onItemClick { item, view, position ->
             toast("$position. ${item.model}")
         }
 
-        for (i in 0 until 1000) {
-            adapter.add(RecyclerViewModel(createRandomImageUrl()), PhotoPresenterV2::class.java)
-            adapter.add(RecyclerViewModel(createRandomImageUrl()), LabelPresenterV2::class.java)
+        adapter.onFocusChange { item, view, hasFocus, position ->  }
+
+
+        for (i in 0 until 100) {
+            adapter.append(RecyclerViewModel(createRandomImageUrl()).apply {
+                onItemClickListener = { item, view, position ->
+
+
+                }
+            }, PhotoPresenterV2::class.java)
+            adapter.append(RecyclerViewModel(createRandomImageUrl()), LabelPresenterV2::class.java)
         }
 
         // sorting

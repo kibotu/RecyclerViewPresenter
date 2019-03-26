@@ -47,16 +47,19 @@ public class MainActivity extends AppCompatActivity {
         list.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         list.setAdapter(adapter);
 
-        adapter.setOnItemClick((item, rowView, position) -> {
+        adapter.onItemClick((item, rowView, position) -> {
             toast(format("{0}. {1}", position, item));
             return Unit.INSTANCE;
         });
 
-        for (int i = 0; i < 1000; ++i) {
+        for (int i = 0; i < 100; ++i) {
             RecyclerViewModel<String> viewModel = new RecyclerViewModel<>(FakeDataGenerator.INSTANCE.createRandomImageUrl(), UUID.randomUUID().toString(), null);
-            adapter.add(viewModel, PhotoPresenterV2.class, 0);
-            adapter.add(viewModel, LabelPresenterV2.class, 0);
+            adapter.append(viewModel, PhotoPresenterV2.class);
+            adapter.append(viewModel, LabelPresenterV2.class);
         }
+
+        adapter.contains(adapter.get(0));
+        adapter.contains(adapter.get(0), (o1, o2) -> o1.getModel().compareTo(o2.getModel()));
 
         // sorting
         // PresenterAdapter.sort(adapter);

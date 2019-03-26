@@ -81,7 +81,9 @@ dependencies {
     kapt libs.butterknifeCompilerX
     implementation libs.lifecycleLivedataKtx
 
-    implementation libs.exozetCore
+    implementation (libs.exozetCore) {
+        exclude module: 'RecyclerViewPresenter'
+    }
     implementation libs.logger
 }
 

@@ -66,7 +66,7 @@ class PaginationActivity : AppCompatActivity() {
     class FakePageListAdapter : PagedListAdapter<ViewModel<String>, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-            RecyclerViewHolder(R.layout.photo_presenter_item, parent)
+            RecyclerViewHolder(parent, R.layout.photo_presenter_item)
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             with(holder.itemView) {

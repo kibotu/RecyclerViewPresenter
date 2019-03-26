@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), IBaseViewHolder {
 
-    constructor(@LayoutRes layout: Int, parent: ViewGroup) : this(LayoutInflater.from(parent.context).inflate(layout, parent, false))
+    constructor(parent: ViewGroup, @LayoutRes layout: Int) : this(LayoutInflater.from(parent.context).inflate(layout, parent, false))
 
     var uuid = UIDGenerator.newUID().toString()
 
