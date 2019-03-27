@@ -181,7 +181,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
         }
 
         if (instance == null)
-            throw IllegalArgumentException(clazz.canonicalName + " has no constructor with parameter: " + javaClass.canonicalName)
+            throw IllegalArgumentException("${clazz.canonicalName} has no constructor with parameter: ${javaClass.canonicalName}")
     }
 
     /**

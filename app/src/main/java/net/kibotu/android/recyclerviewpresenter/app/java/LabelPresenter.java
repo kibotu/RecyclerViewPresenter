@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
 
-public class LabelPresenterJava extends Presenter<RecyclerViewModel<String>> {
+public class LabelPresenter extends Presenter<RecyclerViewModel<String>> {
 
     @Override
     public int getLayout() {

@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import net.kibotu.android.recyclerviewpresenter.Presenter;
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel;
-import net.kibotu.android.recyclerviewpresenter.app.GlideApp;
 import net.kibotu.android.recyclerviewpresenter.app.R;
+import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp;
 import org.jetbrains.annotations.NotNull;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;

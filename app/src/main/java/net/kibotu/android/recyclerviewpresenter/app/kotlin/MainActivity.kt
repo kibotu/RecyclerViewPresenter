@@ -27,8 +27,9 @@ class MainActivity : AppCompatActivity() {
             toast("$position. ${item.model}")
         }
 
-        adapter.onFocusChange { item, view, hasFocus, position -> }
+        adapter.onFocusChange { item, view, hasFocus, position ->
 
+        }
 
         for (i in 0 until 100) {
             adapter.append(RecyclerViewModel(createRandomImageUrl()), PhotoPresenter::class.java)

@@ -16,9 +16,7 @@ import kotlin.Unit;
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
-import net.kibotu.android.recyclerviewpresenter.app.kotlin.LabelPresenter;
 import net.kibotu.android.recyclerviewpresenter.app.kotlin.PaginationActivity;
-import net.kibotu.android.recyclerviewpresenter.app.kotlin.PhotoPresenter;
 import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator;
 
 import java.util.UUID;
@@ -44,8 +42,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        runPagination();
-        runAdapterV2();
 
+//        runJavaImplementation();
+        runKotlinImplementation();
+    }
+
+    private void runJavaImplementation() {
         unbinder = ButterKnife.bind(this);
 
         PresenterAdapter<RecyclerViewModel<String>> adapter = new PresenterAdapter<>();
@@ -72,15 +74,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, PaginationActivity.class));
     }
 
-    private void runAdapterV2() {
-        startActivity(new Intent(this, MainActivity.class));
+    private void runKotlinImplementation() {
+        startActivity(new Intent(this, net.kibotu.android.recyclerviewpresenter.app.kotlin.MainActivity.class));
         finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
+        if (unbinder != null)
+            unbinder.unbind();
     }
 
 

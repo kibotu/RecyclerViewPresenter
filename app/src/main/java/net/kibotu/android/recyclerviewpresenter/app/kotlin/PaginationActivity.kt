@@ -20,8 +20,9 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.android.synthetic.main.activity_pagination.*
 import kotlinx.android.synthetic.main.photo_presenter_item.view.*
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
-import net.kibotu.android.recyclerviewpresenter.app.GlideApp
+import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp
 import net.kibotu.android.recyclerviewpresenter.app.pagination.SimpleItemKeyedDataSource
 import net.kibotu.android.recyclerviewpresenter.app.pagination.SimplePageKeyedDataSource
 import net.kibotu.android.recyclerviewpresenter.app.pagination.SimplePositionalDataSource
@@ -49,11 +50,11 @@ class PaginationActivity : AppCompatActivity() {
 
         // http://androidkt.com/paging-library-datasource/
         val pageKeyedDataSourceFactory = SimplePageKeyedDataSource.Factory()
-        val pageKeyedDataSource = LivePagedListBuilder<Int, ViewModel<String>>(pageKeyedDataSourceFactory, config).build()
+        val pageKeyedDataSource = LivePagedListBuilder<Int, RecyclerViewModel<String>>(pageKeyedDataSourceFactory, config).build()
         val positionalDataSourceFactory = SimplePositionalDataSource.Factory()
-        val positionalDataSource = LivePagedListBuilder<Int, ViewModel<String>>(positionalDataSourceFactory, config).build()
+        val positionalDataSource = LivePagedListBuilder<Int, RecyclerViewModel<String>>(positionalDataSourceFactory, config).build()
         val itemKeyedDataSourceFactory = SimpleItemKeyedDataSource.Factory()
-        val itemKeyedDataSource = LivePagedListBuilder<String, ViewModel<String>>(itemKeyedDataSourceFactory, config).build()
+        val itemKeyedDataSource = LivePagedListBuilder<String, RecyclerViewModel<String>>(itemKeyedDataSourceFactory, config).build()
 
         positionalDataSource.observe(this) {
             logv("positionalDataSource data: ${it.size}")
@@ -68,7 +69,7 @@ class PaginationActivity : AppCompatActivity() {
         }
     }
 
-    class FakePageListAdapter : PagedListAdapter<ViewModel<String>, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+    class FakePageListAdapter : PagedListAdapter<RecyclerViewModel<String>, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             RecyclerViewHolder(parent, R.layout.photo_presenter_item)
@@ -76,7 +77,7 @@ class PaginationActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             with(holder.itemView) {
 
-                val uri = Uri.parse(getItem(position)!!.t)
+                val uri = Uri.parse(getItem(position)!!.model)
                 val width = uri.pathSegments.takeLast(2).first().toInt()
                 val height = uri.pathSegments.last().toInt()
 
@@ -95,11 +96,11 @@ class PaginationActivity : AppCompatActivity() {
 
     companion object {
 
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ViewModel<String>>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RecyclerViewModel<String>>() {
 
-            override fun areItemsTheSame(oldItem: ViewModel<String>, newItem: ViewModel<String>): Boolean = oldItem.uuid == newItem.uuid
+            override fun areItemsTheSame(oldItem: RecyclerViewModel<String>, newItem: RecyclerViewModel<String>): Boolean = oldItem.uuid == newItem.uuid
 
-            override fun areContentsTheSame(oldItem: ViewModel<String>, newItem: ViewModel<String>): Boolean = oldItem == newItem
+            override fun areContentsTheSame(oldItem: RecyclerViewModel<String>, newItem: RecyclerViewModel<String>): Boolean = oldItem == newItem
         }
 
         inline fun <VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.decorateWithAlphaScaleAdapter(): ScaleInAnimationAdapter {

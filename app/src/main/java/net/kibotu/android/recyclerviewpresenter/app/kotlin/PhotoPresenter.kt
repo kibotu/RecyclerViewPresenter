@@ -6,8 +6,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import kotlinx.android.synthetic.main.photo_presenter_item.view.*
 import net.kibotu.android.recyclerviewpresenter.Presenter
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
-import net.kibotu.android.recyclerviewpresenter.app.GlideApp
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp
 
 class PhotoPresenter : Presenter<RecyclerViewModel<String>>() {
 
