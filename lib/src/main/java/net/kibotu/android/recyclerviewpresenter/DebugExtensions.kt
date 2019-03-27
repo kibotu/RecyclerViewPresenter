@@ -1,9 +1,8 @@
 @file:JvmName("DebugExtensions")
 
-package net.kibotu.android.recyclerviewpresenter.v2
+package net.kibotu.android.recyclerviewpresenter
 
 import android.util.Log
-import java.lang.Exception
 
 internal val debug = false
 

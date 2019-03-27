@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.app;
+package net.kibotu.android.recyclerviewpresenter.app.java;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import kotlin.Unit;
-import net.kibotu.android.recyclerviewpresenter.v2.PresenterAdapter;
-import net.kibotu.android.recyclerviewpresenter.v2.RecyclerViewModel;
+import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
+import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel;
+import net.kibotu.android.recyclerviewpresenter.app.R;
+import net.kibotu.android.recyclerviewpresenter.app.kotlin.LabelPresenter;
+import net.kibotu.android.recyclerviewpresenter.app.kotlin.PaginationActivity;
+import net.kibotu.android.recyclerviewpresenter.app.kotlin.PhotoPresenter;
+import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator;
 
 import java.util.UUID;
 
@@ -54,17 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < 100; ++i) {
             RecyclerViewModel<String> viewModel = new RecyclerViewModel<>(FakeDataGenerator.INSTANCE.createRandomImageUrl(), UUID.randomUUID().toString(), null);
-            adapter.append(viewModel, PhotoPresenterV2.class);
-            adapter.append(viewModel, LabelPresenterV2.class);
+            adapter.append(viewModel, PhotoPresenter.class);
+            adapter.append(viewModel, LabelPresenter.class);
         }
-
-        adapter.contains(adapter.get(0));
-        adapter.contains(adapter.get(0), (o1, o2) -> o1.getModel().compareTo(o2.getModel()));
-
-        // sorting
-        // PresenterAdapter.sort(adapter);
-        // sort if model doesn't implement Comparable
-        // adapter.sortBy((o1, o2) -> o1.compareTo(o2));
 
 //        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png");
 
@@ -76,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void runAdapterV2() {
-        startActivity(new Intent(this, MainActivity2.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 

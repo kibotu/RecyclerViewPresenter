@@ -1,11 +1,12 @@
-package net.kibotu.android.recyclerviewpresenter.v2
+package net.kibotu.android.recyclerviewpresenter
 
 internal object UIDGenerator {
 
     val START_UID = 0
     val INVALID_UID = START_UID - 1
 
-    private val nextUID: SynchronizedValue<Int> = SynchronizedValue(INVALID_UID)
+    private val nextUID: SynchronizedValue<Int> =
+        SynchronizedValue(INVALID_UID)
 
     init {
         nextUID.set(0)

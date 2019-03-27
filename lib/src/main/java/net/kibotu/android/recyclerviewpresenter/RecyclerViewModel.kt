@@ -1,8 +1,8 @@
-package net.kibotu.android.recyclerviewpresenter.v2
+package net.kibotu.android.recyclerviewpresenter
 
 import android.view.View
 
-data class RecyclerViewModel<T>(
+data class RecyclerViewModel<T : Comparable<T>>(
     val model: T,
     val uuid: String = UIDGenerator.newUID().toString(),
     /**

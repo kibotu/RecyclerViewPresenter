@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.v2
+package net.kibotu.android.recyclerviewpresenter
 
 internal data class SynchronizedValue<T>(private var t: T) {
 

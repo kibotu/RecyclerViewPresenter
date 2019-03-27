@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.v2
+package net.kibotu.android.recyclerviewpresenter
 
 import android.view.LayoutInflater
 import android.view.View

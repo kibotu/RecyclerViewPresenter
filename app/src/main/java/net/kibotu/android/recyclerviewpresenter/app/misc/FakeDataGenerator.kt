@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.app
+package net.kibotu.android.recyclerviewpresenter.app.misc
 
 import com.exozet.android.core.utils.MathExtensions
 import java.text.MessageFormat.format

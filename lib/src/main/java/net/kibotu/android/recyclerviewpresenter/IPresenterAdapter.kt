@@ -1,9 +1,6 @@
 package net.kibotu.android.recyclerviewpresenter
 
 import androidx.recyclerview.widget.RecyclerView
-import net.kibotu.android.recyclerviewpresenter.v1.PresenterAdapter
-import net.kibotu.android.recyclerviewpresenter.v2.Presenter
-import java.util.*
 
 interface IPresenterAdapter<T> {
 
@@ -17,11 +14,21 @@ interface IPresenterAdapter<T> {
      */
     fun <P : Presenter<T>> add(position: Int, item: T, clazz: Class<P>)
 
+    /**
+     * Adds [item] with its [clazz] at the beginning of the list.
+     *
+     * @param item     [T] as model.
+     * @param clazz Concrete [Presenter] type.
+     */
     fun <P : Presenter<T>> prepend(item: T, clazz: Class<P>)
 
+    /**
+     * Adds [item] with its [clazz] at the end of the list.
+     *
+     * @param item     [T] as model.
+     * @param clazz Concrete [Presenter] type.
+     */
     fun <P : Presenter<T>> append(item: T, clazz: Class<P>)
-
-    fun <P : Presenter<T>> getPresenterAt(position: Int): P
 
     /**
      * Clears the adapter and also removes cached views.
@@ -29,10 +36,26 @@ interface IPresenterAdapter<T> {
      */
     fun clear()
 
+    /**
+     * Clears the adapter and also removes cached views.
+     * This is necessary otherwise different layouts will explode if you try to bind them to the wrong {@link RecyclerView.ViewHolder}.
+     */
     fun removeAllViews()
 
+    /**
+     * Returns  if adapter contains {@link T}
+     *
+     * @param item {@link T}
+     * @return <code>true</code> if contained.
+     */
     fun contains(item: T): Boolean
 
+    /**
+     * Returns  if adapter contains {@link T}
+     *
+     * @param item {@link T}
+     * @return <code>true</code> if contained.
+     */
     fun contains(item: T, comparator: (first: T, second: T) -> Boolean): Boolean
 
     /**
@@ -70,15 +93,33 @@ interface IPresenterAdapter<T> {
      */
     fun position(item: T, comparator: (first: T, second: T) -> Boolean): Int
 
+    /**
+     * Updates a model {@link T} at adapter position.
+     *
+     * @param position Adapter position.
+     * @param item     {@link T}
+     */
     fun update(position: Int, item: T)
 
+    /**
+     * Updates a model {@link T} at adapter position.
+     *
+     * @param position Adapter position.
+     * @param item     {@link T}
+     */
     fun update(position: Int, item: T, notify: Boolean = false)
 
+    /**
+     * Remove an item at adapter position.
+     *
+     * @param position Adapter position.
+     */
     fun remove(position: Int)
 
+    /**
+     * Remove an item at adapter position.
+     *
+     * @param position Adapter position.
+     */
     fun remove(position: Int, notify: Boolean = false)
-
-    fun sortBy(comparator: Comparator<T>)
-
-    fun <T : Comparable<*>> sort(adapter: PresenterAdapter<T>)
 }

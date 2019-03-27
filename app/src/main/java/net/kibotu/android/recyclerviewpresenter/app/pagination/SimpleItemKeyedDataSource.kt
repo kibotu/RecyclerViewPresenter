@@ -1,44 +1,46 @@
-package net.kibotu.android.recyclerviewpresenter.app
+package net.kibotu.android.recyclerviewpresenter.app.pagination
 
 import android.util.Log
 import androidx.paging.DataSource
 import androidx.paging.ItemKeyedDataSource
 import com.exozet.android.core.extensions.TAG
+import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
+import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator
 
-class SimpleItemKeyedDataSource : ItemKeyedDataSource<String, ViewModel<String>>() {
+class SimpleItemKeyedDataSource : ItemKeyedDataSource<String, RecyclerViewModel<String>>() {
 
-    private val data = mutableListOf<ViewModel<String>>()
+    private val data = mutableListOf<RecyclerViewModel<String>>()
 
-    override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<ViewModel<String>>) {
+    override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<RecyclerViewModel<String>>) {
         Log.v(
             TAG,
             "[loadInitial] requestedInitialKey=${params.requestedInitialKey} data=${data.size} requestedLoadSize=${params.requestedLoadSize} requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}"
         )
 
         (0 until params.requestedLoadSize).map {
-            data.add(ViewModel(FakeDataGenerator.createRandomImageUrl()))
+            data.add(RecyclerViewModel(FakeDataGenerator.createRandomImageUrl()))
         }
 
         callback.onResult(data)
     }
 
-    override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<ViewModel<String>>) {
+    override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<RecyclerViewModel<String>>) {
         Log.v(TAG, "[loadAfter] key=${params.key} requestedLoadSize=${params.requestedLoadSize} data=${data.size}")
 
         (0 until params.requestedLoadSize).map {
-            data.add(ViewModel(FakeDataGenerator.createRandomImageUrl()))
+            data.add(RecyclerViewModel(FakeDataGenerator.createRandomImageUrl()))
         }
 
         callback.onResult(data)
     }
 
-    override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<ViewModel<String>>) {
+    override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<RecyclerViewModel<String>>) {
         Log.v(TAG, "[loadBefore] key=${params.key} requestedLoadSize=${params.requestedLoadSize}")
     }
 
-    override fun getKey(item: ViewModel<String>): String = item.uuid
+    override fun getKey(item: RecyclerViewModel<String>): String = item.uuid
 
-    class Factory : DataSource.Factory<String, ViewModel<String>>() {
+    class Factory : DataSource.Factory<String, RecyclerViewModel<String>>() {
 
         lateinit var dataSource: SimpleItemKeyedDataSource
 

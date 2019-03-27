@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.app
+package net.kibotu.android.recyclerviewpresenter.app.kotlin
 
 import android.net.Uri
 import android.os.Bundle
@@ -19,7 +19,12 @@ import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.android.synthetic.main.activity_pagination.*
 import kotlinx.android.synthetic.main.photo_presenter_item.view.*
-import net.kibotu.android.recyclerviewpresenter.v2.RecyclerViewHolder
+import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
+import net.kibotu.android.recyclerviewpresenter.app.GlideApp
+import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.pagination.SimpleItemKeyedDataSource
+import net.kibotu.android.recyclerviewpresenter.app.pagination.SimplePageKeyedDataSource
+import net.kibotu.android.recyclerviewpresenter.app.pagination.SimplePositionalDataSource
 
 
 /**

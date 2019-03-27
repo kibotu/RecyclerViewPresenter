@@ -1,10 +1,8 @@
-package net.kibotu.android.recyclerviewpresenter.v2
+package net.kibotu.android.recyclerviewpresenter
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import net.kibotu.android.recyclerviewpresenter.IPresenterAdapter
-import net.kibotu.android.recyclerviewpresenter.v1.PresenterAdapter
 import java.lang.reflect.Constructor
 import java.util.*
 
@@ -19,11 +17,6 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
      * List of allocated concrete implementation and used [Presenter].
      */
     protected var binderType: ArrayList<Presenter<T>> = arrayListOf()
-
-    /**
-     * Factory for [RecyclerView.ViewHolder]
-     */
-    var viewHolderFactory: ((parent: ViewGroup, layout: Int) -> RecyclerView.ViewHolder) = { parent, layout -> RecyclerViewHolder(parent, layout) }
 
     // region Listener
 
@@ -84,7 +77,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
     /**
      * {@inheritDoc}
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = viewHolderFactory(parent, getDataBinder(viewType).layout)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = getDataBinder(viewType).onCreateViewHolder(parent)
 
     /**
      * {@inheritDoc}
@@ -140,7 +133,12 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
      * @param position Adapter position.
      * @return [Presenter] position. Returns `-1` if there is none to be found.
      */
-    override fun getItemViewType(position: Int) = binderType.indices.firstOrNull { equalsTo(data[position].second, binderType[it]::class.java) }
+    override fun getItemViewType(position: Int) = binderType.indices.firstOrNull {
+        equalsTo(
+            data[position].second,
+            binderType[it]::class.java
+        )
+    }
         ?: -1
 
     /**
@@ -286,28 +284,6 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
         data.removeAt(position)
         if (notify)
             notifyItemRemoved(position)
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    override fun sortBy2(comparator: Comparator<T>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-  override  fun sortBy(comparator: Comparator<T>) {
-
-//        data.sortWith{ Comparator { o1: T, o2: T ->  comparator.compare(o1) } }
-//
-//        Collections.sort(data, { left, right -> comparator.compare(left.first, right.first) })
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    override fun <T : Comparable<*>> sort(adapter: PresenterAdapter<T>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     internal companion object {

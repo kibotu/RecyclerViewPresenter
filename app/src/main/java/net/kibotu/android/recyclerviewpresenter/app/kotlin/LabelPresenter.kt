@@ -1,11 +1,12 @@
-package net.kibotu.android.recyclerviewpresenter.app
+package net.kibotu.android.recyclerviewpresenter.app.kotlin
 
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.label_presenter_item.view.*
-import net.kibotu.android.recyclerviewpresenter.v2.Presenter
-import net.kibotu.android.recyclerviewpresenter.v2.RecyclerViewModel
+import net.kibotu.android.recyclerviewpresenter.Presenter
+import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
+import net.kibotu.android.recyclerviewpresenter.app.R
 
-class LabelPresenterV2 : Presenter<RecyclerViewModel<String>>() {
+class LabelPresenter : Presenter<RecyclerViewModel<String>>() {
 
     override val layout: Int = R.layout.label_presenter_item
 

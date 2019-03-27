@@ -1,19 +1,19 @@
-package net.kibotu.android.recyclerviewpresenter.app
+package net.kibotu.android.recyclerviewpresenter.app.kotlin
 
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
 import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import net.kibotu.android.recyclerviewpresenter.app.FakeDataGenerator.createRandomImageUrl
-import net.kibotu.android.recyclerviewpresenter.v2.PresenterAdapter
-import net.kibotu.android.recyclerviewpresenter.v2.RecyclerViewModel
+import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
+import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
+import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator.createRandomImageUrl
 
 
-class MainActivity2 : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,23 +27,13 @@ class MainActivity2 : AppCompatActivity() {
             toast("$position. ${item.model}")
         }
 
-        adapter.onFocusChange { item, view, hasFocus, position ->  }
+        adapter.onFocusChange { item, view, hasFocus, position -> }
 
 
         for (i in 0 until 100) {
-            adapter.append(RecyclerViewModel(createRandomImageUrl()).apply {
-                onItemClickListener = { item, view, position ->
-
-
-                }
-            }, PhotoPresenterV2::class.java)
-            adapter.append(RecyclerViewModel(createRandomImageUrl()), LabelPresenterV2::class.java)
+            adapter.append(RecyclerViewModel(createRandomImageUrl()), PhotoPresenter::class.java)
+            adapter.append(RecyclerViewModel(createRandomImageUrl()), LabelPresenter::class.java)
         }
-
-        // sorting
-        // PresenterAdapter.sort(adapter);
-        // sort if model doesn't implement Comparable
-        // adapter.sortBy((o1, o2) -> o1.compareTo(o2));
 
         //        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png");
 
