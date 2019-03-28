@@ -2,7 +2,10 @@ package net.kibotu.android.recyclerviewpresenter
 
 import android.view.View
 
-data class RecyclerViewModel<T : Comparable<T>>(
+/**
+ * Created by [Jan Rabe](https://about.me/janrabe).
+ */
+data class RecyclerViewModel<T>(
     val model: T,
     val uuid: String = UIDGenerator.newUID().toString(),
     /**

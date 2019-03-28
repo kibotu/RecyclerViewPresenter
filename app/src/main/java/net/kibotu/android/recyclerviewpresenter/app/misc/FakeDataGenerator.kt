@@ -7,7 +7,6 @@ import java.util.*
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
  */
-
 internal object FakeDataGenerator {
 
     fun createRandomImageUrl(): String {

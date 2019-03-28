@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import java.lang.reflect.Constructor
 import java.util.*
 
+/**
+ * Created by [Jan Rabe](https://about.me/janrabe).
+ */
 open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IPresenterAdapter<T> {
 
     /**
@@ -138,8 +141,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
             data[position].second,
             binderType[it]::class.java
         )
-    }
-        ?: -1
+    } ?: -1
 
     /**
      * Returns a concrete [Presenter] based on view type.
@@ -159,6 +161,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
 
     // endregion
 
+    // region IPresenterAdapter
 
     /**
      * Allocates a concrete [Presenter] and adds it to the list once.
@@ -172,6 +175,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
         val constructor = clazz.constructors[0] as Constructor<*>
         var instance: Presenter<T>? = null
         try {
+            @Suppress("UNCHECKED_CAST")
             instance = constructor.newInstance() as Presenter<T>
             instance.adapter = this
             binderType.add(instance)
@@ -285,6 +289,8 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
         if (notify)
             notifyItemRemoved(position)
     }
+
+    // endregion
 
     internal companion object {
 

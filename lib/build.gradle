@@ -72,10 +72,6 @@ dependencies {
     implementation libs.kotlinJdk8
     implementation libs.constraintLayout
     implementation libs.supportRecyclerview
-    implementation libs.recyclerviewAnimators
-
-    implementation libs.butterknifeX
-    kapt libs.butterknifeCompilerX
 }
 
 configurations.all {

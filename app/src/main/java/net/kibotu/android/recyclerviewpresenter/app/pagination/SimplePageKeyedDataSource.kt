@@ -8,6 +8,9 @@ import com.exozet.android.core.extensions.TAG
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
 import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator
 
+/**
+ * Created by [Jan Rabe](https://about.me/janrabe).
+ */
 class SimplePageKeyedDataSource : PageKeyedDataSource<Int, RecyclerViewModel<String>>() {
 
     private val data = mutableListOf<RecyclerViewModel<String>>()

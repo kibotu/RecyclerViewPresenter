@@ -9,6 +9,9 @@ import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp
 
+/**
+ * Created by [Jan Rabe](https://about.me/janrabe).
+ */
 class PhotoPresenter : Presenter<RecyclerViewModel<String>>() {
 
     override val layout: Int = R.layout.photo_presenter_item

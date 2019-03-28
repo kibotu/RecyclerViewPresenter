@@ -27,8 +27,9 @@ import net.kibotu.android.recyclerviewpresenter.app.pagination.SimpleItemKeyedDa
 import net.kibotu.android.recyclerviewpresenter.app.pagination.SimplePageKeyedDataSource
 import net.kibotu.android.recyclerviewpresenter.app.pagination.SimplePositionalDataSource
 
-
 /**
+ * Created by [Jan Rabe](https://about.me/janrabe).
+ *
  * https://guides.codepath.com/android/Paging-Library-Guide
  */
 class PaginationActivity : AppCompatActivity() {

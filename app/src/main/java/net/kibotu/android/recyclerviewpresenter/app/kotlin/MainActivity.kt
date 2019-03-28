@@ -1,18 +1,18 @@
 package net.kibotu.android.recyclerviewpresenter.app.kotlin
 
 import android.os.Bundle
-import android.text.TextUtils.isEmpty
-import android.view.Gravity
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.exozet.android.core.extensions.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator.createRandomImageUrl
 
-
+/**
+ * Created by [Jan Rabe](https://about.me/janrabe).
+ */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,16 +39,5 @@ class MainActivity : AppCompatActivity() {
         //        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png");
 
         adapter.notifyDataSetChanged()
-    }
-
-    fun toast(message: String?) {
-        if (isEmpty(message))
-            return
-
-        runOnUiThread {
-            val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
-            toast.setGravity(Gravity.BOTTOM, 0, 100)
-            toast.show()
-        }
     }
 }

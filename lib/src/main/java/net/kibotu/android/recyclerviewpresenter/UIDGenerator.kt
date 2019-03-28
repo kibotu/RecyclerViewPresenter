@@ -1,23 +1,24 @@
 package net.kibotu.android.recyclerviewpresenter
 
+import java.util.concurrent.atomic.AtomicInteger
+
+/**
+ * Created by [Jan Rabe](https://about.me/janrabe).
+ */
 internal object UIDGenerator {
 
-    val START_UID = 0
-    val INVALID_UID = START_UID - 1
+    private const val START_UID = 0
 
-    private val nextUID: SynchronizedValue<Int> =
-        SynchronizedValue(INVALID_UID)
-
-    init {
-        nextUID.set(0)
-    }
+    /**
+     * https://winterbe.com/posts/2015/05/22/java8-concurrency-tutorial-atomic-concurrent-map-examples/
+     */
+    private val nextUID = AtomicInteger(START_UID)
 
     fun newUID(): Int {
         if (!isValid(nextUID.get())) {
             throw IllegalStateException("UID pool depleted")
         }
-        nextUID.set(nextUID.get().plus(1))
-        return nextUID.get()
+        return nextUID.incrementAndGet()
     }
 
     private fun isValid(uid: Int): Boolean = uid >= START_UID

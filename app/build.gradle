@@ -77,8 +77,6 @@ dependencies {
     implementation libs.pagingCommon
     implementation libs.pagingRuntimeKtx
 
-    implementation libs.butterknifeX
-    kapt libs.butterknifeCompilerX
     implementation libs.lifecycleLivedataKtx
 
     implementation (libs.exozetCore) {

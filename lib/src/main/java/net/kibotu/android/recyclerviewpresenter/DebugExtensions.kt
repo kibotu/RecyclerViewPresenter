@@ -1,3 +1,7 @@
+/**
+ * Created by [Jan Rabe](https://about.me/janrabe).
+ */
+
 @file:JvmName("DebugExtensions")
 
 package net.kibotu.android.recyclerviewpresenter
