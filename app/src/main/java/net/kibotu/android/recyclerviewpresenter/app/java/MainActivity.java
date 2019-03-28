@@ -9,7 +9,7 @@ import kotlin.Unit;
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
-import net.kibotu.android.recyclerviewpresenter.app.kotlin.PaginationActivity;
+import net.kibotu.android.recyclerviewpresenter.app.pagination.PaginationActivity;
 import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator;
 
 import java.util.UUID;

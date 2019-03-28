@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".kotlin.MainActivity" />
-        <activity android:name=".kotlin.PaginationActivity" />
+        <activity android:name=".pagination.PaginationActivity" />
     </application>
 
 </manifest>

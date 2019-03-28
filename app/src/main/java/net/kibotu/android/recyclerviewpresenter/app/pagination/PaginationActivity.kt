@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.app.kotlin
+package net.kibotu.android.recyclerviewpresenter.app.pagination
 
 import android.net.Uri
 import android.os.Bundle
@@ -23,9 +23,6 @@ import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp
-import net.kibotu.android.recyclerviewpresenter.app.pagination.SimpleItemKeyedDataSource
-import net.kibotu.android.recyclerviewpresenter.app.pagination.SimplePageKeyedDataSource
-import net.kibotu.android.recyclerviewpresenter.app.pagination.SimplePositionalDataSource
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
