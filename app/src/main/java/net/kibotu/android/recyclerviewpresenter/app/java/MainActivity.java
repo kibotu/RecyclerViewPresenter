@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        runJavaImplementation();
-//        runKotlinImplementation();
+//        runJavaImplementation();
+        runKotlinImplementation();
 //        runPagination();
     }
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.append(viewModel, LabelPresenter.class);
         }
 
-//        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png");
+        adapter.update(0, new RecyclerViewModel<>("https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png", UUID.randomUUID().toString(), null));
 
         adapter.notifyDataSetChanged();
     }

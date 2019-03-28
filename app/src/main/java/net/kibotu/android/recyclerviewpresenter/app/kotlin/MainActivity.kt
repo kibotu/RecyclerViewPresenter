@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             adapter.append(RecyclerViewModel(createRandomImageUrl()), LabelPresenter::class.java)
         }
 
-        //        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png");
+        adapter.update(0, RecyclerViewModel("https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png"))
 
         adapter.notifyDataSetChanged()
     }
