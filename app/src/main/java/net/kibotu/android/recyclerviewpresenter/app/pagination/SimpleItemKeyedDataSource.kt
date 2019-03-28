@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.paging.DataSource
 import androidx.paging.ItemKeyedDataSource
 import com.exozet.android.core.extensions.TAG
+import com.exozet.android.core.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
-import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
@@ -21,7 +21,7 @@ class SimpleItemKeyedDataSource : ItemKeyedDataSource<String, RecyclerViewModel<
         )
 
         (0 until params.requestedLoadSize).map {
-            data.add(RecyclerViewModel(FakeDataGenerator.createRandomImageUrl()))
+            data.add(RecyclerViewModel(createRandomImageUrl()))
         }
 
         callback.onResult(data)
@@ -31,7 +31,7 @@ class SimpleItemKeyedDataSource : ItemKeyedDataSource<String, RecyclerViewModel<
         Log.v(TAG, "[loadAfter] key=${params.key} requestedLoadSize=${params.requestedLoadSize} data=${data.size}")
 
         (0 until params.requestedLoadSize).map {
-            data.add(RecyclerViewModel(FakeDataGenerator.createRandomImageUrl()))
+            data.add(RecyclerViewModel(createRandomImageUrl()))
         }
 
         callback.onResult(data)

@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
 import com.exozet.android.core.extensions.TAG
+import com.exozet.android.core.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
-import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
@@ -20,7 +20,7 @@ class SimplePositionalDataSource : PositionalDataSource<RecyclerViewModel<String
         val dif = data.size - params.startPosition
 
         val list = (dif until params.loadSize).map {
-            RecyclerViewModel(FakeDataGenerator.createRandomImageUrl())
+            RecyclerViewModel(createRandomImageUrl())
         }.toList()
 
         data.addAll(list)
@@ -37,7 +37,7 @@ class SimplePositionalDataSource : PositionalDataSource<RecyclerViewModel<String
         )
 
         (params.requestedStartPosition until params.requestedLoadSize).map {
-            val uri = FakeDataGenerator.createRandomImageUrl()
+            val uri = createRandomImageUrl()
             data.add(RecyclerViewModel(uri))
         }
 

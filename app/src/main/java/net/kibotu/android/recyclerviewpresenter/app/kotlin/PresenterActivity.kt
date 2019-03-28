@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.exozet.android.core.extensions.toast
+import com.exozet.android.core.misc.createRandomImageUrl
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
-import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator.createRandomImageUrl
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).

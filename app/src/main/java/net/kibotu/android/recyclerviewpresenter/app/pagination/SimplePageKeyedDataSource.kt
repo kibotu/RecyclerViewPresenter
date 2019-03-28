@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.exozet.android.core.extensions.TAG
+import com.exozet.android.core.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
-import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
@@ -19,7 +19,7 @@ class SimplePageKeyedDataSource : PageKeyedDataSource<Int, RecyclerViewModel<Str
         Log.v(TAG, "[loadInitial] requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}")
 
         (0 until params.requestedLoadSize).map {
-            data.add(RecyclerViewModel(FakeDataGenerator.createRandomImageUrl()))
+            data.add(RecyclerViewModel(createRandomImageUrl()))
         }
 
         callback.onResult(data, null, 2)
@@ -29,7 +29,7 @@ class SimplePageKeyedDataSource : PageKeyedDataSource<Int, RecyclerViewModel<Str
         Log.v(TAG, "[loadAfter] key=${params.key} requestedLoadSize=${params.requestedLoadSize} data=${data.size}")
 
         val list = (0 until params.requestedLoadSize).map {
-            RecyclerViewModel(FakeDataGenerator.createRandomImageUrl())
+            RecyclerViewModel(createRandomImageUrl())
         }
 
         Log.v(TAG, "[loadRange] list=${list.size} data=${data.size}")

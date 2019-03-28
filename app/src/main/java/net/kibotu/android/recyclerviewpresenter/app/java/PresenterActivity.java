@@ -4,11 +4,11 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import com.exozet.android.core.misc.FakeDataGenerator;
 import kotlin.Unit;
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
-import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator;
 
 import java.util.UUID;
 
@@ -38,7 +38,7 @@ public class PresenterActivity extends AppCompatActivity {
         });
 
         for (int i = 0; i < 100; ++i) {
-            RecyclerViewModel<String> viewModel = new RecyclerViewModel<>(FakeDataGenerator.INSTANCE.createRandomImageUrl(), UUID.randomUUID().toString(), null);
+            RecyclerViewModel<String> viewModel = new RecyclerViewModel<>(FakeDataGenerator.createRandomImageUrl(), UUID.randomUUID().toString(), null);
             adapter.append(viewModel, PhotoPresenter.class);
             adapter.append(viewModel, LabelPresenter.class);
         }
