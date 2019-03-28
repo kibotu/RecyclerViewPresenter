@@ -1,6 +1,5 @@
 package net.kibotu.android.recyclerviewpresenter.app.java;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +8,6 @@ import kotlin.Unit;
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
-import net.kibotu.android.recyclerviewpresenter.app.pagination.PaginationActivity;
 import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator;
 
 import java.util.UUID;
@@ -21,19 +19,13 @@ import static net.kibotu.logger.Logger.toast;
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
 
-public class MainActivity extends AppCompatActivity {
+public class PresenterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        runJavaImplementation();
-        runKotlinImplementation();
-//        runPagination();
-    }
-
-    private void runJavaImplementation() {
         RecyclerView list = findViewById(R.id.list);
 
         PresenterAdapter<RecyclerViewModel<String>> adapter = new PresenterAdapter<>();
@@ -54,14 +46,5 @@ public class MainActivity extends AppCompatActivity {
         adapter.update(0, new RecyclerViewModel<>("https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png", UUID.randomUUID().toString(), null));
 
         adapter.notifyDataSetChanged();
-    }
-
-    private void runPagination() {
-        startActivity(new Intent(this, PaginationActivity.class));
-    }
-
-    private void runKotlinImplementation() {
-        startActivity(new Intent(this, net.kibotu.android.recyclerviewpresenter.app.kotlin.MainActivity.class));
-        finish();
     }
 }

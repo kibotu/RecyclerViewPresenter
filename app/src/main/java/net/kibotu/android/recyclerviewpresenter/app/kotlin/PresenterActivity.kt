@@ -13,7 +13,7 @@ import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator.creat
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
  */
-class MainActivity : AppCompatActivity() {
+class PresenterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -98,7 +98,7 @@ class PaginationActivity : AppCompatActivity() {
 
             override fun areItemsTheSame(oldItem: RecyclerViewModel<String>, newItem: RecyclerViewModel<String>): Boolean = oldItem.uuid == newItem.uuid
 
-            override fun areContentsTheSame(oldItem: RecyclerViewModel<String>, newItem: RecyclerViewModel<String>): Boolean = oldItem == newItem
+            override fun areContentsTheSame(oldItem: RecyclerViewModel<String>, newItem: RecyclerViewModel<String>): Boolean = oldItem.model == newItem.model
         }
 
         inline fun <VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.decorateWithAlphaScaleAdapter(): ScaleInAnimationAdapter {
