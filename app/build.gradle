@@ -72,13 +72,12 @@ dependencies {
     implementation libs.glide
     kapt libs.glideAnnotationsProcessor
 
-    implementation project(':lib')
-
     implementation libs.pagingCommon
     implementation libs.pagingRuntimeKtx
 
     implementation libs.lifecycleLivedataKtx
 
+    implementation project(':lib')
     implementation (libs.exozetCore) {
         exclude module: 'RecyclerViewPresenter'
     }
