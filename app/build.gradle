@@ -59,6 +59,14 @@ android {
     }
 
     // endregion
+
+    // region exclude duplicated meta inf files
+
+    packagingOptions {
+        exclude 'META-INF/library-core_release.kotlin_module'
+    }
+
+    // endregion
 }
 
 dependencies {
@@ -78,7 +86,7 @@ dependencies {
     implementation libs.lifecycleLivedataKtx
 
     implementation project(':lib')
-    implementation (libs.exozetCore) {
+    implementation(libs.exozetCore) {
         exclude module: 'RecyclerViewPresenter'
     }
     implementation libs.logger

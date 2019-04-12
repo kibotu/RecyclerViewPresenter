@@ -85,7 +85,6 @@ class PaginationActivity : AppCompatActivity() {
                 GlideApp.with(this.context.applicationContext)
                     .load(uri)
                     .transition(withCrossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(photo)
                     .clearOnDetach()
             }

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun runPagination() = startActivity(Intent(this, PaginationActivity::class.java))
 
-    private fun runKotlinImplementation() = startActivity(Intent(this, PresenterActivity::class.java))
+    private fun runKotlinImplementation() = startActivity(Intent(this, net.kibotu.android.recyclerviewpresenter.app.kotlin.PresenterActivity::class.java))
 
     private fun runJavaImplementation() = startActivity(Intent(this, PresenterActivity::class.java))
 }

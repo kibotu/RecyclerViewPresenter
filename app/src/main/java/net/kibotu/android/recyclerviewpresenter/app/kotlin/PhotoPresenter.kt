@@ -20,7 +20,6 @@ class PhotoPresenter : Presenter<RecyclerViewModel<String>>() {
         GlideApp.with(this.context.applicationContext)
             .load(item.model)
             .transition(withCrossFade())
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(photo)
     }
 }

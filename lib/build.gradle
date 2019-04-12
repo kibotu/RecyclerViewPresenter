@@ -67,7 +67,6 @@ android {
     // endregion
 }
 
-
 dependencies {
     implementation libs.kotlinJdk8
     implementation libs.constraintLayout

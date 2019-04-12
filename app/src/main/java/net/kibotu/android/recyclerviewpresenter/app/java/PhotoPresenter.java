@@ -2,7 +2,6 @@ package net.kibotu.android.recyclerviewpresenter.app.java;
 
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import net.kibotu.android.recyclerviewpresenter.Presenter;
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
@@ -29,7 +28,6 @@ public class PhotoPresenter extends Presenter<RecyclerViewModel<String>> {
         GlideApp.with(viewHolder.itemView.getContext().getApplicationContext())
                 .load(item.getModel())
                 .transition(withCrossFade())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(photo);
     }
 }
