@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.exozet.android.core.extensions.logv
 import com.exozet.android.core.extensions.resInt
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
@@ -23,6 +22,7 @@ import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp
+import net.kibotu.logger.Logger.logv
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).

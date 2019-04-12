@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
-import com.exozet.android.core.extensions.TAG
 import com.exozet.android.core.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
+import net.kibotu.logger.TAG
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
