@@ -29,7 +29,7 @@ Convenience library to handle different view types with different presenters in 
         adapter.append(RecyclerViewModel(myModelObject), PhotoPresenter::class.java)
         adapter.append(RecyclerViewModel(myModelObject), LabelPresenter::class.java)
         
-3. Create a presenter, e.g. [PhotoPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PhotoPresenter.kt#L15-L24) or [LabelPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/LabelPresenter.kt#L12-L19)
+3. Create a presenter, e.g. [PhotoPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PhotoPresenter.kt#L14-L24) or [LabelPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/LabelPresenter.kt#L12-L19)
 
         class PhotoPresenter : Presenter<RecyclerViewModel<String>>() {
 
@@ -47,7 +47,7 @@ Convenience library to handle different view types with different presenters in 
         }
 
 
-or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L39-L45)
+4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L39-L45)
 
         RecyclerViewModel(
             model = createRandomImageUrl(),
@@ -58,11 +58,11 @@ or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recycle
 
 ### [Updating item](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L47)
 
-     adapter.update(0, RecyclerViewModel("https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png"))
+     adapter.update(0, RecyclerViewModel(myNewModel))
        
-###License
+### License
 <pre>
-Copyright 2016 Jan Rabe
+Copyright 2019 Jan Rabe
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
