@@ -14,42 +14,54 @@ Convenience library to handle different view types with different presenters in 
 	}
 		
 	dependencies {
-	
-        compile 'com.github.kibotu:RecyclerViewPresenter:-SNAPSHOT'
-        
-        // optional
-        compile 'jp.wasabeef:recyclerview-animators:latest'
+        implementation 'com.github.kibotu:RecyclerViewPresenter:-SNAPSHOT'
     }
     
 ### How to use
 
-1. [Add the PresenterAdapter to your RecyclerView](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L36-L38)
+1. [Add the PresenterAdapter to your RecyclerView](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L22-L24)
 
-        PresenterAdapter<String> adapter = new PresenterAdapter<>();
-        list.setAdapter(adapter);
+        val adapter = PresenterAdapter<RecyclerViewModel<String>>()
+        list.adapter = adapter
         
-2. [Add a model with a Presenter as representation] (https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L42-L47) to the adapter, e.g.:
+2. [Add a model with a Presenter as representation] (app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L34-L37) to the adapter, e.g.:
 
-        adapter.add(myModelObject, PhotoPresenter.class);
-        adapter.add(myModelObject, LabelPresenter.class);
+        adapter.append(RecyclerViewModel(myModelObject), PhotoPresenter::class.java)
+        adapter.append(RecyclerViewModel(myModelObject), LabelPresenter::class.java)
         
-3. Create a presenter, e.g. [PhotoPresenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/PhotoPresenter.java) or [LabelPresenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/LabelPresenter.java)
+3. Create a presenter, e.g. [PhotoPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PhotoPresenter.kt#L15-L24) or [LabelPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/LabelPresenter.kt#L12-L19)
 
-        public class MyModelPresenter extends Presenter<MyModel, PhotoPresenter.ViewHolder> 
+        class PhotoPresenter : Presenter<RecyclerViewModel<String>>() {
+
+            override val layout: Int = R.layout.photo_presenter_item
+
+            override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: RecyclerViewModel<String>, position: Int): Unit = with(viewHolder.itemView) {
+                GlideApp.with(this.context.applicationContext)
+                    .load(item.model)
+                    .transition(withCrossFade())
+                    .into(photo)
+            }
+        }
         
 4. Add click listener [to adapter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L40) and [to presenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/PhotoPresenter.java#L54-L59)
 
-        // adapter
-        adapter.setOnItemClickListener((item, rowView, position) -> toast(format("{0}. {1}", position, item)));
-        
-        // in bind method of presenter
-        if (presenterAdapter.getOnItemClickListener() != null)
-                    presenterAdapter.getOnItemClickListener().onItemClick(item, v, position);
+        adapter.onItemClick { item, view, position ->
+            toast("$position. ${item.model}")
+        }
 
 
-### [Updating item](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L52)
+or pass [to your RecyclerViewModel](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L39-L45)
 
-    adapter.update(0, myModelObject);
+        RecyclerViewModel(
+            model = createRandomImageUrl(),
+            onItemClickListener = { item, view, position ->
+                toast("$position. $item")
+            }
+        )
+
+### [Updating item](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L47)
+
+     adapter.update(0, RecyclerViewModel("https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png"))
        
 ###License
 <pre>

@@ -79,7 +79,6 @@ configurations.all {
     resolutionStrategy.force libs.kotlinJdk8
     resolutionStrategy.force libs.constraintLayout
     resolutionStrategy.force libs.supportRecyclerview
-    resolutionStrategy.force libs.recyclerviewAnimators
 }
 
 apply from: "${project.rootDir}/Android-Dependencies/javadoc.gradle"

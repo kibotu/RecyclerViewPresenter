@@ -36,8 +36,17 @@ class PresenterActivity : AppCompatActivity() {
             adapter.append(RecyclerViewModel(createRandomImageUrl()), LabelPresenter::class.java)
         }
 
+        adapter.prepend(
+            RecyclerViewModel(
+                model = createRandomImageUrl(),
+                onItemClickListener = { item, view, position ->
+                    toast("$position. $item")
+                }), LabelPresenter::class.java
+        )
+
         adapter.update(0, RecyclerViewModel("https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png"))
 
         adapter.notifyDataSetChanged()
     }
 }
+

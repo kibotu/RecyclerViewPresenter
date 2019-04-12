@@ -5,7 +5,7 @@ import android.view.View
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
  */
-data class RecyclerViewModel<T>(
+open class RecyclerViewModel<T>(
     val model: T,
     val uuid: String = UIDGenerator.newUID().toString(),
     /**
