@@ -40,14 +40,14 @@ Convenience library to handle different view types with different presenters in 
             }
         }
         
-4. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L40) and [to presenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/PhotoPresenter.java#L54-L59)
+4. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L26-L28)
 
         adapter.onItemClick { item, view, position ->
             toast("$position. ${item.model}")
         }
 
 
-4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L39-L45)
+4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L42-L44)
 
         RecyclerViewModel(
             model = createRandomImageUrl(),
@@ -56,7 +56,7 @@ Convenience library to handle different view types with different presenters in 
             }
         )
 
-### [Updating item](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L47)
+### [Updating item](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L47)
 
      adapter.update(0, RecyclerViewModel(myNewModel))
        
