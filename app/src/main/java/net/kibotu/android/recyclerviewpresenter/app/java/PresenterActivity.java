@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.exozet.android.core.misc.FakeDataGenerator;
 import kotlin.Unit;
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
-import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
-
-import java.util.UUID;
 
 import static java.text.MessageFormat.format;
 import static net.kibotu.logger.Logger.toast;
@@ -28,7 +25,7 @@ public class PresenterActivity extends AppCompatActivity {
 
         RecyclerView list = findViewById(R.id.list);
 
-        PresenterAdapter<RecyclerViewModel<String>> adapter = new PresenterAdapter<>();
+        PresenterAdapter<String> adapter = new PresenterAdapter<>();
         list.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         list.setAdapter(adapter);
 
@@ -38,12 +35,11 @@ public class PresenterActivity extends AppCompatActivity {
         });
 
         for (int i = 0; i < 100; ++i) {
-            RecyclerViewModel<String> viewModel = new RecyclerViewModel<>(FakeDataGenerator.createRandomImageUrl(), UUID.randomUUID().toString(), null);
-            adapter.append(viewModel, PhotoPresenter.class);
-            adapter.append(viewModel, LabelPresenter.class);
+            adapter.append(FakeDataGenerator.createRandomImageUrl(), PhotoPresenter.class, null);
+            adapter.append(FakeDataGenerator.createRandomImageUrl(), LabelPresenter.class, null);
         }
 
-        adapter.update(0, new RecyclerViewModel<>("https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png", UUID.randomUUID().toString(), null));
+        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png", PhotoPresenter.class, false, null);
 
         adapter.notifyDataSetChanged();
     }

@@ -15,5 +15,5 @@ open class RecyclerViewModel<T>(
      * @param view  View that has been clicked.
      * @param position Adapter position of the clicked element.
      */
-    val onItemClickListener: ((item: T, view: View, position: Int) -> Unit)? = null
+    var onItemClickListener: ((item: T, view: View, position: Int) -> Unit)? = null
 )

@@ -1,0 +1,303 @@
+package net.kibotu.android.recyclerviewpresenter
+
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import java.lang.reflect.Constructor
+import java.util.*
+
+/**
+ * Created by [Jan Rabe](https://about.me/janrabe).
+ */
+open class RecyclerViewModelPresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<RecyclerView.ViewHolder>(), IPresenterAdapter<T> {
+
+    /**
+     * Actual data containing {@link T} and it's {@link Presenter} type.
+     */
+    protected val data: ArrayList<Pair<T, Class<*>>> = arrayListOf()
+
+    /**
+     * List of allocated concrete implementation and used [Presenter].
+     */
+    protected var binderType: ArrayList<Presenter<*>> = arrayListOf()
+
+    // region Listener
+
+    /**
+     * Callback for [RecyclerView.ViewHolder.itemView.setOnClickListener].
+     *
+     * @param item  Model of the adapter.
+     * @param view  View that has been clicked.
+     * @param position Adapter position of the clicked element.
+     */
+    protected var onItemClick: ((item: T, view: View, position: Int) -> Unit)? = null
+
+    /**
+     * Callback for [RecyclerView.ViewHolder.itemView.setOnClickListener].
+     *
+     * @param item  Model of the adapter.
+     * @param view  View that has been clicked.
+     * @param position Adapter position of the clicked element.
+     */
+    fun onItemClick(block: ((item: T, view: View, position: Int) -> Unit)?) {
+        onItemClick = block
+    }
+
+    /**
+     * Callback for [RecyclerView.ViewHolder.itemView.setOnFocusChangeListener].
+     *
+     * @param item     Model of the adapter.
+     * @param view     View that has been clicked.
+     * @param hasFocus `True` if it is focused.
+     */
+    protected var onFocusChange: ((item: T, view: View, hasFocus: Boolean, position: Int) -> Unit)? = null
+
+    /**
+     * Callback for [RecyclerView.ViewHolder.itemView.setOnFocusChangeListener].
+     *
+     * @param item     Model of the adapter.
+     * @param view     View that has been clicked.
+     * @param hasFocus `True` if it is focused.
+     */
+    fun onFocusChange(block: ((item: T, view: View, hasFocus: Boolean, position: Int) -> Unit)?) {
+        onFocusChange = block
+    }
+
+    /**
+     * Reference to the bound [RecyclerView].
+     */
+    var recyclerView: RecyclerView? = null
+
+    // endregion
+
+    // region RecyclerView.Adapter
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun getItemCount(): Int = data.size
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = getDataBinder(viewType).onCreateViewHolder(parent)
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is IBaseViewHolder) {
+            holder.onBindViewHolder()
+        }
+
+        val item = get(position)
+
+        onItemClick?.let { holder.itemView.setOnClickListener { it(item, it, position) } }
+
+        onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
+
+        @Suppress("UNCHECKED_CAST")
+        val presenterAt = getPresenterAt(position) as? Presenter<T>
+        presenterAt!!.bindViewHolder(holder, item, position)
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        this.recyclerView = recyclerView
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        this.recyclerView = recyclerView
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Also calls [IBaseViewHolder.onBindViewHolder].
+     */
+    override fun onViewDetachedFromWindow(viewHolder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(viewHolder)
+        if (viewHolder is IBaseViewHolder)
+            (viewHolder as IBaseViewHolder).onViewDetachedFromWindow()
+    }
+
+    // endregion
+
+    // region Presenter
+
+    /**
+     * {@inheritDoc}
+     *
+     * Returns position of concrete [Presenter] at adapter position.
+     *
+     * @param position Adapter position.
+     * @return [Presenter] position. Returns `-1` if there is none to be found.
+     */
+    override fun getItemViewType(position: Int) = binderType.indices.firstOrNull {
+        equalsTo(
+            data[position].second,
+            binderType[it]::class.java
+        )
+    } ?: -1
+
+    /**
+     * Returns a concrete [Presenter] based on view type.
+     *
+     * @param viewType [.getItemViewType]
+     * @return Concrete [Presenter].
+     */
+    protected fun getDataBinder(viewType: Int): Presenter<*> = binderType[viewType]
+
+    /**
+     * Returns the position of the concrete [Presenter] at adapter position.
+     *
+     * @param position Adapter position.
+     * @return [Presenter]
+     */
+    protected fun getPresenterAt(position: Int): Presenter<*> = binderType[getItemViewType(position)]
+
+    // endregion
+
+    // region IPresenterAdapter
+
+    /**
+     * Allocates a concrete [Presenter] and adds it to the list once.
+     *
+     * @param clazz Concrete [Presenter] representing the view type.
+     */
+    protected fun <P : Presenter<*>> addIfNotExists(clazz: Class<P>) {
+        if (binderType.any { equalsTo(it::class.java, clazz) })
+            return
+
+        val constructor = clazz.constructors[0] as Constructor<*>
+        try {
+            @Suppress("UNCHECKED_CAST")
+            val instance = constructor.newInstance() as Presenter<T>
+            instance.adapter = this
+            binderType.add(instance)
+        } catch (e: Exception) {
+            if (debug)
+                e.printStackTrace()
+            throw IllegalArgumentException("${clazz.canonicalName} has no constructor with parameter: ${javaClass.canonicalName}")
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun <P : Presenter<*>> add(position: Int, item: T, clazz: Class<P>) {
+        data.add(position, Pair(item, clazz))
+        addIfNotExists(clazz)
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun <P : Presenter<*>> prepend(item: T, clazz: Class<P>) = add(0, item, clazz)
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun <P : Presenter<*>> append(item: T, clazz: Class<P>) = add(itemCount, item, clazz)
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun clear() {
+        binderType.clear()
+        data.clear()
+        removeAllViews()
+        notifyDataSetChanged()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun removeAllViews() {
+        recyclerView?.removeAllViews()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun contains(item: T) = (0 until itemCount).any { get(it) == item }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun contains(item: T, comparator: (first: T, second: T) -> Boolean) = (0 until itemCount).any { comparator(get(it), item) }
+
+    /**
+     * {@inheritDoc}
+     */
+    override operator fun get(position: Int): T = data[position].first
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun get(item: T, comparator: (first: T, second: T) -> Boolean): T? {
+        for (it in 0 until itemCount) {
+            val t = get(it)
+            if (comparator(t, item))
+                return t
+        }
+        return null
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun position(item: T): Int = (0 until itemCount).firstOrNull { get(it) == item }
+        ?: -1
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun position(item: T, comparator: (first: T, second: T) -> Boolean): Int = (0 until itemCount).firstOrNull { comparator(get(it), item) }
+        ?: -1
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun <P : Presenter<*>> update(position: Int, item: T, clazz: Class<P>) = update(position, item, clazz, false)
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun <P : Presenter<*>> update(position: Int, item: T, clazz: Class<P>, notify: Boolean) {
+        data[position] = Pair(item, data[position].second)
+        if (notify)
+            notifyItemChanged(position)
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun remove(position: Int) = remove(position, false)
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun remove(position: Int, notify: Boolean) {
+        data.removeAt(position)
+        if (notify)
+            notifyItemRemoved(position)
+    }
+
+    // endregion
+
+    internal companion object {
+
+        /**
+         * Compares two classes by canonical name.
+         *
+         * @return `True` if they're equal.
+         */
+        internal fun equalsTo(first: Class<*>, second: Class<*>): Boolean = first.canonicalName == second.canonicalName
+    }
+}

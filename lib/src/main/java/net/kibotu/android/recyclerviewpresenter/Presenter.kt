@@ -13,7 +13,7 @@ abstract class Presenter<T : RecyclerViewModel<*>> {
     /**
      * Injected Respective adapter.
      */
-    var adapter: PresenterAdapter<T> by Delegates.notNull()
+    var adapter: RecyclerViewModelPresenterAdapter<T> by Delegates.notNull()
 
     /**
      * Used for inflating the view holder layout.

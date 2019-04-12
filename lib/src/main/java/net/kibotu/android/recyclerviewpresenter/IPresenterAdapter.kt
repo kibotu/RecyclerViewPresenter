@@ -102,7 +102,7 @@ interface IPresenterAdapter<T> {
      * @param position Adapter position.
      * @param item     {@link T}
      */
-    fun update(position: Int, item: T)
+    fun <P : Presenter<*>> update(position: Int, item: T, clazz: Class<P>)
 
     /**
      * Updates a model {@link T} at adapter position.
@@ -110,7 +110,7 @@ interface IPresenterAdapter<T> {
      * @param position Adapter position.
      * @param item     {@link T}
      */
-    fun update(position: Int, item: T, notify: Boolean = false)
+    fun <P : Presenter<*>> update(position: Int, item: T, clazz: Class<P>, notify: Boolean = false)
 
     /**
      * Remove an item at adapter position.
