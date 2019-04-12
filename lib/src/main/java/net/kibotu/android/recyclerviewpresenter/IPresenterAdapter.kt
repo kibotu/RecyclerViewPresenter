@@ -15,7 +15,7 @@ interface IPresenterAdapter<T> {
      * @param item     [T] as model.
      * @param clazz Concrete [Presenter] type.
      */
-    fun <P : Presenter<T>> add(position: Int, item: T, clazz: Class<P>)
+    fun <P : Presenter<*>> add(position: Int = 0, item: T, clazz: Class<P>)
 
     /**
      * Adds [item] with its [clazz] at the beginning of the list.
@@ -23,7 +23,7 @@ interface IPresenterAdapter<T> {
      * @param item     [T] as model.
      * @param clazz Concrete [Presenter] type.
      */
-    fun <P : Presenter<T>> prepend(item: T, clazz: Class<P>)
+    fun <P : Presenter<*>> prepend(item: T, clazz: Class<P>)
 
     /**
      * Adds [item] with its [clazz] at the end of the list.
@@ -31,7 +31,7 @@ interface IPresenterAdapter<T> {
      * @param item     [T] as model.
      * @param clazz Concrete [Presenter] type.
      */
-    fun <P : Presenter<T>> append(item: T, clazz: Class<P>)
+    fun <P : Presenter<*>> append(item: T, clazz: Class<P>)
 
     /**
      * Clears the adapter and also removes cached views.

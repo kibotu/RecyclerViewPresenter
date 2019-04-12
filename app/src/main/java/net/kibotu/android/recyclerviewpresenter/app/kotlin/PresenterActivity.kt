@@ -19,7 +19,7 @@ class PresenterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val adapter = PresenterAdapter<RecyclerViewModel<String>>()
+        val adapter = PresenterAdapter<RecyclerViewModel<*>>()
         list.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         list.adapter = adapter
 
@@ -32,8 +32,9 @@ class PresenterActivity : AppCompatActivity() {
         }
 
         for (i in 0 until 100) {
-            adapter.append(RecyclerViewModel(createRandomImageUrl()), PhotoPresenter::class.java)
-            adapter.append(RecyclerViewModel(createRandomImageUrl()), LabelPresenter::class.java)
+            adapter.append(item = RecyclerViewModel(createRandomImageUrl()), clazz = PhotoPresenter::class.java)
+            adapter.append(item = RecyclerViewModel(createRandomImageUrl()), clazz = LabelPresenter::class.java)
+            adapter.append(item = RecyclerViewModel(i), clazz = IntPresenter::class.java)
         }
 
         adapter.prepend(

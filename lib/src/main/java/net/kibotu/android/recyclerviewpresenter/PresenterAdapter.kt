@@ -19,7 +19,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
     /**
      * List of allocated concrete implementation and used [Presenter].
      */
-    protected var binderType: ArrayList<Presenter<T>> = arrayListOf()
+    protected var binderType: ArrayList<Presenter<*>> = arrayListOf()
 
     // region Listener
 
@@ -96,7 +96,9 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
 
         onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
 
-        getPresenterAt(position).bindViewHolder(holder, item, position)
+        @Suppress("UNCHECKED_CAST")
+        val presenterAt = getPresenterAt(position) as? Presenter<T>
+        presenterAt!!.bindViewHolder(holder, item, position)
     }
 
     /**
@@ -149,7 +151,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
      * @param viewType [.getItemViewType]
      * @return Concrete [Presenter].
      */
-    protected fun getDataBinder(viewType: Int): Presenter<T> = binderType[viewType]
+    protected fun getDataBinder(viewType: Int): Presenter<*> = binderType[viewType]
 
     /**
      * Returns the position of the concrete [Presenter] at adapter position.
@@ -157,7 +159,7 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
      * @param position Adapter position.
      * @return [Presenter]
      */
-    protected fun getPresenterAt(position: Int): Presenter<T> = binderType[getItemViewType(position)]
+    protected fun getPresenterAt(position: Int): Presenter<*> = binderType[getItemViewType(position)]
 
     // endregion
 
@@ -168,30 +170,27 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
      *
      * @param clazz Concrete [Presenter] representing the view type.
      */
-    protected fun <P : Presenter<T>> addIfNotExists(clazz: Class<P>) {
+    protected fun <P : Presenter<*>> addIfNotExists(clazz: Class<P>) {
         if (binderType.any { equalsTo(it::class.java, clazz) })
             return
 
         val constructor = clazz.constructors[0] as Constructor<*>
-        var instance: Presenter<T>? = null
         try {
             @Suppress("UNCHECKED_CAST")
-            instance = constructor.newInstance() as Presenter<T>
+            val instance = constructor.newInstance() as Presenter<T>
             instance.adapter = this
             binderType.add(instance)
         } catch (e: Exception) {
             if (debug)
                 e.printStackTrace()
-        }
-
-        if (instance == null)
             throw IllegalArgumentException("${clazz.canonicalName} has no constructor with parameter: ${javaClass.canonicalName}")
+        }
     }
 
     /**
      * {@inheritDoc}
      */
-    override fun <P : Presenter<T>> add(position: Int, item: T, clazz: Class<P>) {
+    override fun <P : Presenter<*>> add(position: Int, item: T, clazz: Class<P>) {
         data.add(position, Pair(item, clazz))
         addIfNotExists(clazz)
     }
@@ -199,12 +198,12 @@ open class PresenterAdapter<T : RecyclerViewModel<*>> : RecyclerView.Adapter<Rec
     /**
      * {@inheritDoc}
      */
-    override fun <P : Presenter<T>> prepend(item: T, clazz: Class<P>) = add(0, item, clazz)
+    override fun <P : Presenter<*>> prepend(item: T, clazz: Class<P>) = add(0, item, clazz)
 
     /**
      * {@inheritDoc}
      */
-    override fun <P : Presenter<T>> append(item: T, clazz: Class<P>) = add(itemCount, item, clazz)
+    override fun <P : Presenter<*>> append(item: T, clazz: Class<P>) = add(itemCount, item, clazz)
 
     /**
      * {@inheritDoc}
