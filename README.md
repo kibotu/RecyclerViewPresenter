@@ -24,7 +24,7 @@ Convenience library to handle different view types with different presenters in 
         val adapter = PresenterAdapter<RecyclerViewModel<String>>()
         list.adapter = adapter
         
-2. [Add a model with a Presenter as representation] (app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L34-L37) to the adapter, e.g.:
+2. [Add a model with a Presenter as representation](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L34-L37) to the adapter, e.g.:
 
         adapter.append(RecyclerViewModel(myModelObject), PhotoPresenter::class.java)
         adapter.append(RecyclerViewModel(myModelObject), LabelPresenter::class.java)
@@ -36,21 +36,18 @@ Convenience library to handle different view types with different presenters in 
             override val layout: Int = R.layout.photo_presenter_item
 
             override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: RecyclerViewModel<String>, position: Int): Unit = with(viewHolder.itemView) {
-                GlideApp.with(this.context.applicationContext)
-                    .load(item.model)
-                    .transition(withCrossFade())
-                    .into(photo)
+
             }
         }
         
-4. Add click listener [to adapter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L40) and [to presenter](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/PhotoPresenter.java#L54-L59)
+4. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/MainActivity.java#L40) and [to presenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/PhotoPresenter.java#L54-L59)
 
         adapter.onItemClick { item, view, position ->
             toast("$position. ${item.model}")
         }
 
 
-or pass [to your RecyclerViewModel](https://github.com/kibotu/RecyclerViewPresenter/blob/master/app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L39-L45)
+or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L39-L45)
 
         RecyclerViewModel(
             model = createRandomImageUrl(),
