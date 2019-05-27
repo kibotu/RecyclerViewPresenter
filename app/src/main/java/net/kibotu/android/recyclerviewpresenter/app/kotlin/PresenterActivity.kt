@@ -40,7 +40,9 @@ class PresenterActivity : AppCompatActivity() {
 
         for (i in 0..99) {
             items.add(PresenterModel(createRandomImageUrl(), R.layout.photo_presenter_item))
-            items.add(PresenterModel(createRandomImageUrl(), R.layout.label_presenter_item))
+            items.add(PresenterModel(createRandomImageUrl(), R.layout.label_presenter_item) { item, view, position ->
+                snack("$position: $item")
+            })
             items.add(PresenterModel(createRandomImageUrl(), R.layout.number_presenter_item))
         }
 

@@ -19,46 +19,56 @@ Convenience library to handle different view types with different presenters in 
     
 ### How to use
 
-1. [Add the PresenterAdapter to your RecyclerView](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L22-L24)
 
-        val adapter = PresenterAdapter<RecyclerViewModel<String>>()
-        list.adapter = adapter
-        
-2. [Add a model with a Presenter as representation](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L34-L37) to the adapter, e.g.:
+1. Create a presenter, e.g. [PhotoPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PhotoPresenter.kt#L14-L24) or [LabelPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/LabelPresenter.kt#L12-L19)
 
-        adapter.append(RecyclerViewModel(myModelObject), PhotoPresenter::class.java)
-        adapter.append(RecyclerViewModel(myModelObject), LabelPresenter::class.java)
-        
-3. Create a presenter, e.g. [PhotoPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PhotoPresenter.kt#L14-L24) or [LabelPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/LabelPresenter.kt#L12-L19)
-
-        class PhotoPresenter : Presenter<RecyclerViewModel<String>>() {
+        class PhotoPresenter : Presenter<String>() {
 
             override val layout: Int = R.layout.photo_presenter_item
 
-            override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: RecyclerViewModel<String>, position: Int): Unit = with(viewHolder.itemView) {
+            override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int): Unit = with(viewHolder.itemView) {
 
             }
         }
-        
-4. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L26-L28)
 
-        adapter.onItemClick { item, view, position ->
-            toast("$position. ${item.model}")
+2. [Add the PresenterAdapter to your RecyclerView](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L22-L24)
+
+        val adapter = PresenterAdapter()
+        list.adapter = adapter
+
+3. [Register presenter]
+
+        adapter.registerPresenter(PhotoPresenter())
+        adapter.registerPresenter(LabelPresenter())
+        adapter.registerPresenter(NumberPresenter())
+        
+4. [Submit list of models with presenter matching layout](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L34-L37) to the adapter, e.g.:
+
+        val items = ArrayList<PresenterModel<String>>()
+
+        for (i in 0..99) {
+            items.add(PresenterModel(createRandomImageUrl(), R.layout.photo_presenter_item))
+            items.add(PresenterModel(createRandomImageUrl(), R.layout.label_presenter_item))
+            items.add(PresenterModel(createRandomImageUrl(), R.layout.number_presenter_item))
         }
 
+        adapter.submitList(items)
+
+5. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L26-L28)
+
+        adapter.onItemClick { item, view, position ->
+            snack("$position. ${item.model}")
+        }
 
 4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L42-L44)
 
-        RecyclerViewModel(
-            model = createRandomImageUrl(),
-            onItemClickListener = { item, view, position ->
-                toast("$position. $item")
-            }
-        )
+        val item = PresenterModel(createRandomImageUrl()) {
+            snack("$position. ${item.model}")
+        }
 
 ### [Updating item](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L47)
 
-     adapter.update(0, RecyclerViewModel(myNewModel))
+     adapter.submitList(newItems)
        
 ### License
 <pre>
