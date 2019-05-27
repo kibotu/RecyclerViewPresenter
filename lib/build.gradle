@@ -71,6 +71,7 @@ dependencies {
     implementation libs.kotlinJdk8
     implementation libs.constraintLayout
     implementation libs.supportRecyclerview
+    implementation libs.pagingRuntimeKtx
 }
 
 configurations.all {

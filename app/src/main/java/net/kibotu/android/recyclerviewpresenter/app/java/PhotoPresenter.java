@@ -3,7 +3,7 @@ package net.kibotu.android.recyclerviewpresenter.app.java;
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 import net.kibotu.android.recyclerviewpresenter.Presenter;
-import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel;
+import net.kibotu.android.recyclerviewpresenter.PresenterModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
 import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
 
-public class PhotoPresenter extends Presenter<RecyclerViewModel<String>> {
+public class PhotoPresenter extends Presenter<String> {
 
     @Override
     public int getLayout() {
@@ -22,7 +22,7 @@ public class PhotoPresenter extends Presenter<RecyclerViewModel<String>> {
     }
 
     @Override
-    public void bindViewHolder(@NotNull RecyclerView.ViewHolder viewHolder, @NotNull RecyclerViewModel<String> item, int position) {
+    public void bindViewHolder(@NotNull RecyclerView.ViewHolder viewHolder, @NotNull PresenterModel<String> item, int position) {
         ImageView photo = viewHolder.itemView.findViewById(R.id.photo);
 
         GlideApp.with(viewHolder.itemView.getContext().getApplicationContext())

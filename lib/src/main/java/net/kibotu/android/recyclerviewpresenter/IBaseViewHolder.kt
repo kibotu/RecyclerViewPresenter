@@ -11,7 +11,7 @@ interface IBaseViewHolder {
     /**
      * [RecyclerView.Adapter.onBindViewHolder]
      */
-    fun onBindViewHolder()
+    fun onViewAttachedToWindow()
 
     /**
      * [RecyclerView.Adapter.onViewDetachedFromWindow]

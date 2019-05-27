@@ -1,12 +1,15 @@
 package net.kibotu.android.recyclerviewpresenter
 
 import android.view.View
+import androidx.annotation.LayoutRes
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
  */
-open class RecyclerViewModel<T>(
+open class PresenterModel<T>(
     val model: T,
+    @LayoutRes
+    val layout: Int,
     val uuid: String = UIDGenerator.newUID().toString(),
     /**
      * Invokes click listener.

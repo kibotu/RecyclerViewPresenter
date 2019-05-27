@@ -5,15 +5,16 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.properties.Delegates
 
+
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
  */
-abstract class Presenter<T : RecyclerViewModel<*>> {
+abstract class Presenter<T> {
 
     /**
      * Injected Respective adapter.
      */
-    var adapter: RecyclerViewModelPresenterAdapter<T> by Delegates.notNull()
+    var adapter: PresenterPageListAdapter<T> by Delegates.notNull()
 
     /**
      * Used for inflating the view holder layout.
@@ -35,5 +36,8 @@ abstract class Presenter<T : RecyclerViewModel<*>> {
      * @param item       Current [T]
      * @param position   Adapter position.
      */
-    abstract fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: T, position: Int)
+    abstract fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<T>, position: Int)
+
+    @Suppress("UNCHECKED_CAST")
+    internal fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<*>, position: Int) = bindViewHolder(viewHolder, item as PresenterModel<T>, position)
 }

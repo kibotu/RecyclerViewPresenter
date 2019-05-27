@@ -19,8 +19,8 @@ open class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
         log("[create] $uuid")
     }
 
-    override fun onBindViewHolder() {
-        log("[onBindViewHolder] $uuid")
+    override fun onViewAttachedToWindow() {
+        log("[onViewAttachedToWindow] $uuid")
     }
 
     override fun onViewDetachedFromWindow() {

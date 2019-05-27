@@ -22,6 +22,7 @@
         <activity android:name=".java.PresenterActivity" />
         <activity android:name=".kotlin.PresenterActivity" />
         <activity android:name=".pagination.PaginationActivity" />
+        <activity android:name=".v2.V2Activity" />
     </application>
 
 </manifest>

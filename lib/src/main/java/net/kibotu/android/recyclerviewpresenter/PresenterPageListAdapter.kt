@@ -3,16 +3,11 @@ package net.kibotu.android.recyclerviewpresenter
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-
-open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    /**
-     * Actual data.
-     */
-    protected val data: ArrayList<PresenterModel<*>> = arrayListOf()
+open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, RecyclerView.ViewHolder>(ItemCallback<T>()) {
 
     /**
      * Holds all registered presenter.
@@ -74,9 +69,7 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      */
     var recyclerView: RecyclerView? = null
 
-    // region RecyclerView.Adapter
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, @LayoutRes viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
@@ -89,17 +82,7 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         presenterAtAdapterPosition(position).bindViewHolder(holder, item, position)
     }
 
-    override fun getItemCount(): Int = data.size
-
-    operator fun get(position: Int) = data[position]
-
-    fun getItem(position: Int) = this[position]
-
-    /**
-     * Returns [LayoutRes] at adapter position.
-     */
-    @LayoutRes
-    override fun getItemViewType(position: Int): Int = getItem(position).layout
+    operator fun get(position: Int) = getItem(position)!!
 
     /**
      * Returns presenter at adapter position.
@@ -110,6 +93,25 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      * Returns presenter by [LayoutRes] .
      */
     protected fun presenterByViewType(viewType: Int) = presenter.first { it.layout == viewType }
+
+    /**
+     * Returns [LayoutRes] at adapter position.
+     */
+    @LayoutRes
+    override fun getItemViewType(position: Int): Int = getItem(position)?.layout ?: -1
+
+    fun clear() {
+        presenter.clear()
+        removeAllViews()
+        notifyDataSetChanged()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected fun removeAllViews() {
+        recyclerView?.removeAllViews()
+    }
 
     /**
      * {@inheritDoc}
@@ -128,17 +130,6 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     /**
      * {@inheritDoc}
      *
-     * Also calls [IBaseViewHolder.onViewAttachedToWindow].
-     */
-    override fun onViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
-        super.onViewAttachedToWindow(viewHolder)
-        if (viewHolder is IBaseViewHolder)
-            (viewHolder as IBaseViewHolder).onViewAttachedToWindow()
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * Also calls [IBaseViewHolder.onBindViewHolder].
      */
     override fun onViewDetachedFromWindow(viewHolder: RecyclerView.ViewHolder) {
@@ -147,15 +138,21 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             (viewHolder as IBaseViewHolder).onViewDetachedFromWindow()
     }
 
-    // endregion
+    /**
+     * {@inheritDoc}
+     *
+     * Also calls [IBaseViewHolder.onViewDetachedFromWindow].
+     */
+    override fun onViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(viewHolder)
+        if (viewHolder is IBaseViewHolder)
+            (viewHolder as IBaseViewHolder).onViewDetachedFromWindow()
+    }
 
-    @JvmOverloads
-    fun submitList(items: List<PresenterModel<*>>, scrollToTop: Boolean = true) {
-        val diffResult = DiffUtil.calculateDiff(PresenterModelDiffCallback(data, items))
-        diffResult.dispatchUpdatesTo(this)
-        data.clear()
-        data.addAll(items)
-        if (scrollToTop)
-            recyclerView?.scrollToPosition(0)
+    open class ItemCallback<T> : DiffUtil.ItemCallback<PresenterModel<T>>() {
+
+        override fun areContentsTheSame(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Boolean = oldItem.uuid == newItem.uuid
+
+        override fun areItemsTheSame(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Boolean = oldItem.model == newItem.model
     }
 }

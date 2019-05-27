@@ -3,11 +3,13 @@ package net.kibotu.android.recyclerviewpresenter.app.kotlin
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.exozet.android.core.extensions.toast
 import com.exozet.android.core.misc.createRandomImageUrl
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
+import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.logger.snack
+import java.util.*
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
@@ -18,30 +20,38 @@ class PresenterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val adapter = PresenterAdapter<Any>()
+        val adapter = PresenterAdapter()
+        adapter.registerPresenter(PhotoPresenter())
+        adapter.registerPresenter(LabelPresenter())
+        adapter.registerPresenter(NumberPresenter())
+
         list.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         list.adapter = adapter
 
         adapter.onItemClick { item, view, position ->
-            toast("$position. ${item.model}")
+            snack("$position. ${item.model}")
         }
 
         adapter.onFocusChange { item, view, hasFocus, position ->
 
         }
 
-        for (i in 0 until 100) {
-            adapter.append(createRandomImageUrl(), PhotoPresenter::class.java)
-            adapter.append(createRandomImageUrl(), LabelPresenter::class.java)
-            adapter.append(i, IntPresenter::class.java)
+        val items = ArrayList<PresenterModel<String>>()
+
+        for (i in 0..99) {
+            items.add(PresenterModel(createRandomImageUrl(), R.layout.photo_presenter_item))
+            items.add(PresenterModel(createRandomImageUrl(), R.layout.label_presenter_item))
+            items.add(PresenterModel(createRandomImageUrl(), R.layout.number_presenter_item))
         }
 
-        adapter.prepend(createRandomImageUrl(), LabelPresenter::class.java) { item, view, position ->
-            toast("$position. $item")
+        items.shuffle()
+
+        adapter.submitList(items)
+
+        swipeRefresh.setOnRefreshListener {
+            items.shuffle()
+            adapter.submitList(items)
+            swipeRefresh.isRefreshing = false
         }
-
-        adapter.update(0, "https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png", LabelPresenter::class.java)
-
-        adapter.notifyDataSetChanged()
     }
 }

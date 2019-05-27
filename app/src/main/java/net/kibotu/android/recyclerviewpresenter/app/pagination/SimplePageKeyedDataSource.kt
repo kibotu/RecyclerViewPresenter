@@ -1,35 +1,40 @@
 package net.kibotu.android.recyclerviewpresenter.app.pagination
 
 import android.util.Log
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.exozet.android.core.misc.createRandomImageUrl
-import net.kibotu.android.recyclerviewpresenter.RecyclerViewModel
+import net.kibotu.android.recyclerviewpresenter.PresenterModel
+import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.logger.TAG
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
  */
-class SimplePageKeyedDataSource : PageKeyedDataSource<Int, RecyclerViewModel<String>>() {
+class SimplePageKeyedDataSource : PageKeyedDataSource<Int, PresenterModel<String>>() {
 
-    private val data = mutableListOf<RecyclerViewModel<String>>()
+    private val data = mutableListOf<PresenterModel<String>>()
 
-    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, RecyclerViewModel<String>>) {
+    @LayoutRes
+    val layout = R.layout.photo_presenter_item
+
+    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, PresenterModel<String>>) {
         Log.v(TAG, "[loadInitial] requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}")
 
         (0 until params.requestedLoadSize).map {
-            data.add(RecyclerViewModel(createRandomImageUrl()))
+            data.add(PresenterModel(createRandomImageUrl(), layout))
         }
 
         callback.onResult(data, null, 2)
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, RecyclerViewModel<String>>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterModel<String>>) {
         Log.v(TAG, "[loadAfter] key=${params.key} requestedLoadSize=${params.requestedLoadSize} data=${data.size}")
 
         val list = (0 until params.requestedLoadSize).map {
-            RecyclerViewModel(createRandomImageUrl())
+            PresenterModel(createRandomImageUrl(), layout)
         }
 
         Log.v(TAG, "[loadRange] list=${list.size} data=${data.size}")
@@ -39,11 +44,11 @@ class SimplePageKeyedDataSource : PageKeyedDataSource<Int, RecyclerViewModel<Str
         callback.onResult(data, params.key + 1)
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, RecyclerViewModel<String>>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterModel<String>>) {
         Log.v(TAG, "[loadBefore] key=${params.key} requestedLoadSize=${params.requestedLoadSize}")
     }
 
-    class Factory : DataSource.Factory<Int, RecyclerViewModel<String>>() {
+    class Factory : DataSource.Factory<Int, PresenterModel<String>>() {
 
         val dataSource by lazy { MutableLiveData<SimplePageKeyedDataSource>() }
 

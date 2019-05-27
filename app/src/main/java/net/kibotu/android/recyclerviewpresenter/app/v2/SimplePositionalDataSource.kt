@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.app.pagination
+package net.kibotu.android.recyclerviewpresenter.app.v2
 
 import android.util.Log
 import androidx.annotation.LayoutRes
@@ -8,6 +8,7 @@ import com.exozet.android.core.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.logger.TAG
+import kotlin.random.Random
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
@@ -16,8 +17,15 @@ class SimplePositionalDataSource : PositionalDataSource<PresenterModel<String>>(
 
     private val data = mutableListOf<PresenterModel<String>>()
 
-    @LayoutRes
-    val layout = R.layout.photo_presenter_item
+    private val random by lazy { Random }
+
+    @get:LayoutRes
+    val layout
+        get() = when (random.nextFloat()) {
+            in 0f..0.33f -> R.layout.photo_presenter_item
+            in 0.33f..0.66f -> R.layout.number_presenter_item
+            else -> R.layout.label_presenter_item
+        }
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<PresenterModel<String>>) {
         Log.v(TAG, "[loadRange] startPosition=${params.startPosition} data=${data.size} loadSize=${params.loadSize}")

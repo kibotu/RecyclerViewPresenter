@@ -11,11 +11,11 @@ import org.jetbrains.annotations.NotNull;
  * Created by <a href="https://about.me/janrabe">Jan Rabe</a>.
  */
 
-public class LabelPresenter extends Presenter<String> {
+public class NumberPresenter extends Presenter<String> {
 
     @Override
     public int getLayout() {
-        return R.layout.label_presenter_item;
+        return R.layout.number_presenter_item;
     }
 
     @Override

@@ -73,6 +73,7 @@ dependencies {
     implementation libs.kotlinJdk8
     implementation libs.supportAppCompat
     implementation libs.appCompatResources
+    implementation libs.supportDesign
     implementation libs.constraintLayout
     implementation libs.supportRecyclerview
     implementation libs.recyclerviewAnimators
