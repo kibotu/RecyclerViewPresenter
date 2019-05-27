@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.app
+package net.kibotu.android.recyclerviewpresenter.app.misc
 
 import androidx.recyclerview.widget.RecyclerView
 import com.exozet.android.core.extensions.resInt

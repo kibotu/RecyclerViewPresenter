@@ -1,5 +1,5 @@
 [![Donation](https://img.shields.io/badge/buy%20me%20a%20coffee-brightgreen.svg)](https://www.paypal.me/janrabe/5) [![About Jan Rabe](https://img.shields.io/badge/about-me-green.svg)](https://about.me/janrabe)
-# RecyclerView Presenter [![](https://jitpack.io/v/kibotu/RecyclerViewPresenter.svg)](https://jitpack.io/#kibotu/RecyclerViewPresenter) [![](https://jitpack.io/v/kibotu/RecyclerViewPresenter/month.svg)](https://jitpack.io/#kibotu/RecyclerViewPresenter) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RecyclerViewPresenter-green.svg?style=true)](https://android-arsenal.com/details/1/3593) [![appetize.io](https://img.shields.io/badge/appetize.io-Live%20Demo-blue.svg)](https://appetize.io/app/twkuv0xydcy5h8whmkcmx81kur) [![Javadoc](https://img.shields.io/badge/javadoc-SNAPSHOT-green.svg)](https://jitpack.io/com/github/kibotu/RecyclerViewPresenter/master-SNAPSHOT/javadoc/index.html) [![Build Status](https://travis-ci.org/kibotu/RecyclerViewPresenter.svg)](https://travis-ci.org/kibotu/RecyclerViewPresenter)  [![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=15) [![Gradle Version](https://img.shields.io/badge/gradle-5.3.1-green.svg)](https://docs.gradle.org/current/release-notes)  [![Kotlin](https://img.shields.io/badge/kotlin-1.3.30-green.svg)](https://kotlinlang.org/) [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/LICENSE) [![androidx](https://img.shields.io/badge/androidx-brightgreen.svg)](https://developer.android.com/topic/libraries/support-library/refactor)
+# RecyclerView Presenter [![](https://jitpack.io/v/kibotu/RecyclerViewPresenter.svg)](https://jitpack.io/#kibotu/RecyclerViewPresenter) [![](https://jitpack.io/v/kibotu/RecyclerViewPresenter/month.svg)](https://jitpack.io/#kibotu/RecyclerViewPresenter) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RecyclerViewPresenter-green.svg?style=true)](https://android-arsenal.com/details/1/3593) [![appetize.io](https://img.shields.io/badge/appetize.io-Live%20Demo-blue.svg)](https://appetize.io/app/twkuv0xydcy5h8whmkcmx81kur) [![Javadoc](https://img.shields.io/badge/javadoc-SNAPSHOT-green.svg)](https://jitpack.io/com/github/kibotu/RecyclerViewPresenter/master-SNAPSHOT/javadoc/index.html) [![Build Status](https://travis-ci.org/kibotu/RecyclerViewPresenter.svg)](https://travis-ci.org/kibotu/RecyclerViewPresenter)  [![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=15) [![Gradle Version](https://img.shields.io/badge/gradle-5.4.1-green.svg)](https://docs.gradle.org/current/release-notes)  [![Kotlin](https://img.shields.io/badge/kotlin-1.3.1-green.svg)](https://kotlinlang.org/) [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/LICENSE) [![androidx](https://img.shields.io/badge/androidx-brightgreen.svg)](https://developer.android.com/topic/libraries/support-library/refactor)
 
 Convenience library to handle different view types with different presenters in a single RecyclerView. 
 
@@ -22,27 +22,27 @@ Convenience library to handle different view types with different presenters in 
 
 1. Create a presenter, e.g. [PhotoPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PhotoPresenter.kt#L14-L24) or [LabelPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/LabelPresenter.kt#L12-L19)
 
-        class PhotoPresenter : Presenter<String>() {
+        class LabelPresenter : Presenter<String>() {
 
-            override val layout: Int = R.layout.photo_presenter_item
+            override val layout = R.layout.label_presenter_item
 
-            override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int): Unit = with(viewHolder.itemView) {
-
+            override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int) = with(viewHolder.itemView) {
+                label.text = item.model
             }
         }
 
-2. [Add the PresenterAdapter to your RecyclerView](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L22-L24)
+2. [Add the PresenterAdapter to your RecyclerView](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L23-L29)
 
         val adapter = PresenterAdapter()
         list.adapter = adapter
 
-3. [Register presenter]
+3. [Register Presenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L24-L26)
 
         adapter.registerPresenter(PhotoPresenter())
         adapter.registerPresenter(LabelPresenter())
         adapter.registerPresenter(NumberPresenter())
         
-4. [Submit list of models with presenter matching layout](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L34-L37) to the adapter, e.g.:
+4. [Submit list of models with presenter matching layout](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L39-L51) to the adapter, e.g.:
 
         val items = ArrayList<PresenterModel<String>>()
 
@@ -54,19 +54,19 @@ Convenience library to handle different view types with different presenters in 
 
         adapter.submitList(items)
 
-5. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L26-L28)
+5. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L31-L33)
 
         adapter.onItemClick { item, view, position ->
             snack("$position. ${item.model}")
         }
 
-4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L42-L44)
+4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L43-L45)
 
         val item = PresenterModel(createRandomImageUrl()) {
             snack("$position. ${item.model}")
         }
 
-### [Updating item](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L47)
+### [Updating item](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L55)
 
      adapter.submitList(newItems)
        
