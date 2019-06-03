@@ -2,7 +2,7 @@ package net.kibotu.android.recyclerviewpresenter
 
 import androidx.recyclerview.widget.DiffUtil
 
-open class PresenterModelDiffCallback(var newItems: List<PresenterModel<*>>, var oldItems: List<PresenterModel<*>>) : DiffUtil.Callback() {
+open class PresenterModelDiffCallback(var oldItems: List<PresenterModel<*>>, var newItems: List<PresenterModel<*>>) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldItems.size
 
