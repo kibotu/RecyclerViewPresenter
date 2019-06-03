@@ -45,7 +45,7 @@ class V2Activity : AppCompatActivity() {
         }
 
         val config = PagedList.Config.Builder()
-            .setPageSize(30)
+            .setPageSize(10)
             .setPrefetchDistance(3)
             .setEnablePlaceholders(false)
             .build()

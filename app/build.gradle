@@ -81,6 +81,11 @@ dependencies {
     implementation libs.glide
     kapt libs.glideAnnotationsProcessor
 
+    implementation libs.androidKtx
+    implementation libs.activityKtx
+    implementation libs.androidKtxCollection
+    implementation libs.androidKtxFragment
+
     implementation libs.pagingCommon
     implementation libs.pagingRuntimeKtx
 

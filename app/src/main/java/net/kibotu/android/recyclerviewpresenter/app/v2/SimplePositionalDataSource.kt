@@ -1,13 +1,14 @@
 package net.kibotu.android.recyclerviewpresenter.app.v2
 
-import android.util.Log
+import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
+import com.exozet.android.core.extensions.clamp
 import com.exozet.android.core.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
-import net.kibotu.logger.TAG
+import net.kibotu.logger.Logger.logv
 import kotlin.random.Random
 
 /**
@@ -15,46 +16,30 @@ import kotlin.random.Random
  */
 class SimplePositionalDataSource : PositionalDataSource<PresenterModel<String>>() {
 
-    private val data = mutableListOf<PresenterModel<String>>()
-
-    private val random by lazy { Random }
-
-    @get:LayoutRes
-    val layout
-        get() = when (random.nextFloat()) {
-            in 0f..0.33f -> R.layout.photo_presenter_item
-            in 0.33f..0.66f -> R.layout.number_presenter_item
-            else -> R.layout.label_presenter_item
+    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<PresenterModel<String>>) {
+        // new start position is larger than list size
+        if (params.startPosition >= cache.size) {
+            logv("[loadRange] ")
+            return
         }
 
-    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<PresenterModel<String>>) {
-        Log.v(TAG, "[loadRange] startPosition=${params.startPosition} data=${data.size} loadSize=${params.loadSize}")
+        val toIndex = (params.startPosition + params.loadSize).clamp(0, cache.lastIndex)
 
-        val dif = data.size - params.startPosition
+        logv("[loadRange] from=${params.startPosition} to=$toIndex data=${cache.size} loadSize=${params.loadSize}")
 
-        val list = (dif until params.loadSize).map {
-            PresenterModel(createRandomImageUrl(), layout)
-        }.toList()
+        val list = cache.subList(params.startPosition, toIndex)
 
-        data.addAll(list)
+        logv("[loadRange] list=${list.size} data=${cache.size}")
 
-        Log.v(TAG, "[loadRange] dif=$dif list=${list.size} data=${data.size}")
-
-        callback.onResult(data.subList(params.startPosition, params.startPosition + params.loadSize))
+        callback.onResult(list)
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<PresenterModel<String>>) {
-        Log.v(
-            TAG,
-            "[loadInitial] requestedStartPosition=${params.requestedStartPosition} data=${data.size} pageSize=${params.pageSize} requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}"
-        )
+        logv("[loadInitial] requestedStartPosition=${params.requestedStartPosition} data=${cache.size} pageSize=${params.pageSize} requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}")
 
-        (params.requestedStartPosition until params.requestedLoadSize).map {
-            val uri = createRandomImageUrl()
-            data.add(PresenterModel(uri, layout))
-        }
+        val list = cache.take(params.requestedLoadSize)
 
-        callback.onResult(data, 0, data.size)
+        callback.onResult(list, 0, list.size)
     }
 
     class Factory : DataSource.Factory<Int, PresenterModel<String>>() {
@@ -65,5 +50,31 @@ class SimplePositionalDataSource : PositionalDataSource<PresenterModel<String>>(
             dataSource = SimplePositionalDataSource()
             return dataSource
         }
+    }
+
+    companion object {
+
+        private val random by lazy { Random }
+
+        @get:LayoutRes
+        val layout
+            get() = when (random.nextFloat()) {
+                in 0f..0.33f -> R.layout.photo_presenter_item
+                in 0.33f..0.66f -> R.layout.number_presenter_item
+                else -> R.layout.label_presenter_item
+            }
+
+        val cache = (0 until 100).map {
+            val uri = createRandomImageUrl()
+
+            PresenterModel(uri, layout, changedPayload = { new, old ->
+                if (new != old)
+                    Bundle().apply {
+                        putString("TEXT_CHANGED_TO", new)
+                    }
+                else
+                    null
+            })
+        }.toList()
     }
 }

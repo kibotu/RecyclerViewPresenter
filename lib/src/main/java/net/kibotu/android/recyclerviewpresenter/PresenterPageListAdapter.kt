@@ -165,5 +165,9 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
         override fun areContentsTheSame(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Boolean = oldItem.uuid == newItem.uuid
 
         override fun areItemsTheSame(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Boolean = oldItem.model == newItem.model
+
+        override fun getChangePayload(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Any? {
+            return oldItem.changedPayload(oldItem.model as Any) ?: super.getChangePayload(oldItem, newItem)
+        }
     }
 }

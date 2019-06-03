@@ -50,9 +50,9 @@ public class PresenterActivity extends AppCompatActivity {
         List<PresenterModel<String>> items = new ArrayList<>();
 
         for (int i = 0; i < 100; ++i) {
-            items.add(new PresenterModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.photo_presenter_item, UUID.randomUUID().toString(), null));
-            items.add(new PresenterModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.label_presenter_item, UUID.randomUUID().toString(), null));
-            items.add(new PresenterModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.number_presenter_item, UUID.randomUUID().toString(), null));
+            items.add(new PresenterModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.photo_presenter_item, UUID.randomUUID().toString(), null, null));
+            items.add(new PresenterModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.label_presenter_item, UUID.randomUUID().toString(), null, null));
+            items.add(new PresenterModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.number_presenter_item, UUID.randomUUID().toString(), null, null));
         }
 
         Collections.shuffle(items);
