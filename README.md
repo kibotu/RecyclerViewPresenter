@@ -26,7 +26,7 @@ Convenience library to handle different view types with different presenters in 
 
             override val layout = R.layout.label_presenter_item
 
-            override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int) = with(viewHolder.itemView) {
+            override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int, payloads: MutableList<Any>?, adapter: Adapter) = with(viewHolder.itemView) {
                 label.text = item.model
             }
         }
