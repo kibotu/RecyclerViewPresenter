@@ -7,7 +7,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, RecyclerView.ViewHolder>(ItemCallback<T>()) {
+open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, RecyclerView.ViewHolder>(ItemCallback<T>()), Adapter {
 
     /**
      * Holds all registered presenter.
@@ -79,7 +79,18 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
 
         onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
 
-        presenterAtAdapterPosition(position).bindViewHolder(holder, item, position)
+        presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, null, this)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
+
+        val item = this[position]
+
+        onItemClick?.let { holder.itemView.setOnClickListener { it(item, it, position) } }
+
+        onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
+
+        presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, payloads, this)
     }
 
     operator fun get(position: Int) = getItem(position)!!

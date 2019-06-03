@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 
-open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Adapter {
 
     /**
      * Actual data.
@@ -86,7 +86,18 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
 
-        presenterAtAdapterPosition(position).bindViewHolder(holder, item, position)
+        presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, null, this)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
+
+        val item = this[position]
+
+        onItemClick?.let { holder.itemView.setOnClickListener { it(item, it, position) } }
+
+        onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
+
+        presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, payloads, this)
     }
 
     override fun getItemCount(): Int = data.size
