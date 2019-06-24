@@ -72,6 +72,14 @@ dependencies {
     implementation libs.constraintLayout
     implementation libs.supportRecyclerview
     implementation libs.pagingRuntimeKtx
+
+    // viewmodel and lifecycle
+    implementation libs.lifecycleExtensions
+    implementation libs.lifecycleViewmodel
+    kapt libs.lifecycleCompiler
+    implementation libs.lifecycleRuntime
+    implementation libs.lifecycleLivedataKtx
+    implementation libs.androidKtxLifecycleViewmodel
 }
 
 configurations.all {
