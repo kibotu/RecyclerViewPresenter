@@ -1,13 +1,16 @@
 package net.kibotu.android.recyclerviewpresenter.app.v2
 
 import android.os.Bundle
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.exozet.android.core.misc.createRandomImageUrl
 import kotlinx.android.synthetic.main.activity_main.*
+import net.kibotu.android.recyclerviewpresenter.CircularDataSource
+import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.PresenterPageListAdapter
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.kotlin.LabelPresenter
@@ -16,6 +19,7 @@ import net.kibotu.android.recyclerviewpresenter.app.kotlin.PhotoPresenter
 import net.kibotu.logger.Logger.logv
 import net.kibotu.logger.snack
 import java.text.MessageFormat.format
+import kotlin.random.Random
 
 
 /**
@@ -28,8 +32,6 @@ class V2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val list = findViewById<RecyclerView>(R.id.list)
-
         val adapter = PresenterPageListAdapter<String>()
         adapter.registerPresenter(PhotoPresenter())
         adapter.registerPresenter(LabelPresenter())
@@ -40,7 +42,6 @@ class V2Activity : AppCompatActivity() {
 
         adapter.onItemClick { item, rowView, position ->
             snack(format("{0}. {1}", position, item))
-            Unit
         }
 
         val config = PagedList.Config.Builder()
@@ -49,17 +50,73 @@ class V2Activity : AppCompatActivity() {
             .setEnablePlaceholders(false)
             .build()
 
-        val positionalDataSourceFactory = SimplePositionalDataSource.Factory()
-        val positionalDataSource = LivePagedListBuilder(positionalDataSourceFactory, config).build()
+        // simplePositionalDataSource(config, adapter)
+        circularDataSource(config, adapter)
+    }
 
-        positionalDataSource.observe(this, Observer {
+    private fun circularDataSource(config: PagedList.Config, adapter: PresenterPageListAdapter<String>) {
+
+        swipeRefresh.isRefreshing = true
+
+        val dataSourceFactory = CircularDataSource.Factory(FakeData.cache)
+        val dataSourceSource = LivePagedListBuilder(dataSourceFactory, config).build()
+
+        dataSourceSource.observe(this, Observer {
+            logv("circularDataSource data: ${it.size}")
+            adapter.submitList(it)
+            swipeRefresh.isRefreshing = false
+        })
+
+        swipeRefresh.setOnRefreshListener {
+            dataSourceFactory.invalidate()
+        }
+    }
+
+    private fun simplePositionalDataSource(
+        config: PagedList.Config,
+        adapter: PresenterPageListAdapter<String>
+    ) {
+
+        swipeRefresh.isRefreshing = true
+
+        val dataSourceFactory = SimplePositionalDataSource.Factory()
+        val dataSourceSource = LivePagedListBuilder(dataSourceFactory, config).build()
+
+        dataSourceSource.observe(this, Observer {
             logv("positionalDataSource data: ${it.size}")
             adapter.submitList(it)
             swipeRefresh.isRefreshing = false
         })
 
         swipeRefresh.setOnRefreshListener {
-            positionalDataSourceFactory.dataSource.invalidate()
+            dataSourceFactory.dataSource.invalidate()
         }
     }
+}
+
+object FakeData {
+
+    private val random by lazy { Random }
+
+    @get:LayoutRes
+    val layout
+        get() = when (random.nextFloat()) {
+            in 0f..0.33f -> R.layout.photo_presenter_item
+            in 0.33f..0.66f -> R.layout.number_presenter_item
+            else -> R.layout.label_presenter_item
+        }
+
+    val cache = (0 until 100).map {
+        //        val uri = "$it" // createRandomImageUrl()
+        val uri = createRandomImageUrl()
+
+        PresenterModel(uri, layout, changedPayload = { new, old ->
+            if (new != old)
+                Bundle().apply {
+                    putString("TEXT_CHANGED_TO", new)
+                }
+            else
+                null
+        })
+    }.toList()
 }

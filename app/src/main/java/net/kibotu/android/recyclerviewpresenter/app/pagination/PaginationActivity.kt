@@ -7,7 +7,6 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.PresenterPageListAdapter
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.decorateWithAlphaScaleAdapter
@@ -39,11 +38,11 @@ class PaginationActivity : AppCompatActivity() {
 
         // http://androidkt.com/paging-library-datasource/
         val pageKeyedDataSourceFactory = SimplePageKeyedDataSource.Factory()
-        val pageKeyedDataSource = LivePagedListBuilder<Int, PresenterModel<String>>(pageKeyedDataSourceFactory, config).build()
+        val pageKeyedDataSource = LivePagedListBuilder(pageKeyedDataSourceFactory, config).build()
         val positionalDataSourceFactory = SimplePositionalDataSource.Factory()
-        val positionalDataSource = LivePagedListBuilder<Int, PresenterModel<String>>(positionalDataSourceFactory, config).build()
+        val positionalDataSource = LivePagedListBuilder(positionalDataSourceFactory, config).build()
         val itemKeyedDataSourceFactory = SimpleItemKeyedDataSource.Factory()
-        val itemKeyedDataSource = LivePagedListBuilder<String, PresenterModel<String>>(itemKeyedDataSourceFactory, config).build()
+        val itemKeyedDataSource = LivePagedListBuilder(itemKeyedDataSourceFactory, config).build()
 
 
         positionalDataSource.observe(this, Observer {

@@ -41,7 +41,7 @@ class SimplePageKeyedDataSource : PageKeyedDataSource<Int, PresenterModel<String
 
         data.addAll(list)
 
-        callback.onResult(data, params.key + 1)
+        callback.onResult(data, params.key + list.size)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterModel<String>>) {

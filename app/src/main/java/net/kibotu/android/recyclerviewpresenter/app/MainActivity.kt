@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 //        runJavaImplementation()
-        runKotlinImplementation()
+//        runKotlinImplementation()
 //        runPagination()
-//        runV2Implementation()
+        runV2Implementation()
     }
 
     private fun runPagination() = startActivity(Intent(this, PaginationActivity::class.java))
