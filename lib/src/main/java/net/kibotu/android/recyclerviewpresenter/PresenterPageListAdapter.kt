@@ -67,7 +67,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
     /**
      * Reference to the bound [RecyclerView].
      */
-    var recyclerView: RecyclerView? = null
+    override var recyclerView: RecyclerView? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, @LayoutRes viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent)
 
@@ -166,8 +166,6 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
 
         override fun areItemsTheSame(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Boolean = oldItem.model == newItem.model
 
-        override fun getChangePayload(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Any? {
-            return oldItem.changedPayload(oldItem.model as Any) ?: super.getChangePayload(oldItem, newItem)
-        }
+        override fun getChangePayload(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Any? = oldItem.changedPayload(oldItem.model as Any) ?: super.getChangePayload(oldItem, newItem)
     }
 }

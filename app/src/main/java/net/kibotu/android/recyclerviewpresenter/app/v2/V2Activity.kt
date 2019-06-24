@@ -8,7 +8,6 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.PresenterPageListAdapter
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.kotlin.LabelPresenter
@@ -51,7 +50,7 @@ class V2Activity : AppCompatActivity() {
             .build()
 
         val positionalDataSourceFactory = SimplePositionalDataSource.Factory()
-        val positionalDataSource = LivePagedListBuilder<Int, PresenterModel<String>>(positionalDataSourceFactory, config).build()
+        val positionalDataSource = LivePagedListBuilder(positionalDataSourceFactory, config).build()
 
         positionalDataSource.observe(this, Observer {
             logv("positionalDataSource data: ${it.size}")

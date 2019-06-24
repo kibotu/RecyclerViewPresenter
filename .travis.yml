@@ -1,9 +1,6 @@
 language: android
 jdk: oraclejdk8
 
-dist: trusty
-sudo: required
-
 git:
   depth: 10000
 
@@ -22,24 +19,30 @@ android:
 
     - platform-tools
     - tools
-    - build-tools-28.0.3
-    - android-28
+    - build-tools-29.0.0-rc3
+    - android-29
     - extra-google-m2repository
     - extra-android-m2repository
 
+  # https://docs.travis-ci.com/user/languages/android/
   licenses:
-    - android-sdk-license-.+
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 
 before_install:
   - git submodule update --init --recursive
   - chmod u+x gradlew
-  - yes | sdkmanager "platforms;android-28"
+  - android list sdk --no-ui --all --extended
+  - android list targets
+  - wget -r -nH -nd -np -R index.html* robots.txt* http://download.kiwix.org/dev/android/api/licenses/ -e robots=off -P $ANDROID_HOME/licenses || true
+  - yes | sdkmanager "platforms;android-29"
 
 install: true
 
 script:
   - ./gradlew -v
-  - ./gradlew clean build --stacktrace -DignoreFailure=true
+  - ./gradlew clean build --stacktrace
 
 after_failure: true
 

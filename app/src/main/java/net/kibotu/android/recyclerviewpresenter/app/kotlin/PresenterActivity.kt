@@ -48,6 +48,7 @@ class PresenterActivity : AppCompatActivity() {
 
         items.shuffle()
 
+        adapter.isCircular = true
         adapter.submitList(items)
 
         swipeRefresh.setOnRefreshListener {

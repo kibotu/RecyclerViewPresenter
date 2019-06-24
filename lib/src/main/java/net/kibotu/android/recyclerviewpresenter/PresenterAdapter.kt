@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Adapter {
 
+
     /**
      * Actual data.
      */
@@ -72,7 +73,12 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
     /**
      * Reference to the bound [RecyclerView].
      */
-    var recyclerView: RecyclerView? = null
+    override var recyclerView: RecyclerView? = null
+
+    /**
+     * Represents if adapter should be circular.
+     */
+    var isCircular: Boolean = false
 
     // region RecyclerView.Adapter
 
@@ -100,9 +106,14 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
         presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, payloads, this)
     }
 
-    override fun getItemCount(): Int = data.size
+    var maxSizeFactor = 100
 
-    operator fun get(position: Int) = data[position]
+    internal val max
+        get() = data.size * maxSizeFactor
+
+    override fun getItemCount(): Int = if (isCircular) max else data.size
+
+    operator fun get(position: Int) = if (isCircular) data[position % data.size] else data[position]
 
     fun getItem(position: Int) = this[position]
 
@@ -138,6 +149,25 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
 
     /**
      * {@inheritDoc}
+     */
+    override fun onViewRecycled(viewHolder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(viewHolder)
+        if (viewHolder is IBaseViewHolder)
+            (viewHolder as IBaseViewHolder).onViewRecycled()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun onFailedToRecycleView(viewHolder: RecyclerView.ViewHolder): Boolean {
+        return if (viewHolder is IBaseViewHolder)
+            (viewHolder as IBaseViewHolder).onFailedToRecycleView()
+        else
+            super.onFailedToRecycleView(viewHolder)
+    }
+
+    /**
+     * {@inheritDoc}
      *
      * Also calls [IBaseViewHolder.onViewAttachedToWindow].
      */
@@ -150,7 +180,7 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
     /**
      * {@inheritDoc}
      *
-     * Also calls [IBaseViewHolder.onBindViewHolder].
+     * Also calls [IBaseViewHolder.onViewDetachedFromWindow].
      */
     override fun onViewDetachedFromWindow(viewHolder: RecyclerView.ViewHolder) {
         super.onViewDetachedFromWindow(viewHolder)
@@ -162,11 +192,28 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
 
     @JvmOverloads
     fun submitList(items: List<PresenterModel<*>>, scrollToTop: Boolean = true) {
+        val initial = isCircular && data.isNotEmpty()
+
         val diffResult = DiffUtil.calculateDiff(PresenterModelDiffCallback(data, items))
         diffResult.dispatchUpdatesTo(this)
         data.clear()
         data.addAll(items)
-        if (scrollToTop)
-            recyclerView?.scrollToPosition(0)
+
+        if (initial || scrollToTop)
+            scrollToPosition(0)
+    }
+
+    fun scrollToPosition(position: Int) {
+        if (isCircular)
+            recyclerView?.scrollToPosition(((max / 2) - ((max / 2) % data.size)))
+        else
+            recyclerView?.scrollToPosition(position)
+    }
+
+    fun smoothScrollToPosition(position: Int) {
+        if (isCircular)
+            recyclerView?.smoothScrollToPosition(((max / 2) - ((max / 2) % data.size)) + position)
+        else
+            recyclerView?.smoothScrollToPosition(position)
     }
 }

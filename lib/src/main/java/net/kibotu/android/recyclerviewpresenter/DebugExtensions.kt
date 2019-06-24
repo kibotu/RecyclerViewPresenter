@@ -8,14 +8,14 @@ package net.kibotu.android.recyclerviewpresenter
 
 import android.util.Log
 
-internal val debug = false
+internal val debug = true
 
-internal fun Any.log(message: String?) {
+internal fun Any.log(block: () -> String?) {
     if (debug)
-        Log.d(this::class.java.simpleName, "$message")
+        Log.d(this::class.java.simpleName, "${block()}")
 }
 
-internal fun Exception.log(message: String?) {
+internal fun Exception.log(block: () -> String?) {
     if (debug)
-        Log.d(this::class.java.simpleName, "$message")
+        Log.d(this::class.java.simpleName, "${block()}")
 }

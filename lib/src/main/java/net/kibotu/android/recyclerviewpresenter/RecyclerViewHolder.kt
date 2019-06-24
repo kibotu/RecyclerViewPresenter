@@ -16,14 +16,25 @@ open class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
     var uuid = UIDGenerator.newUID().toString()
 
     init {
-        log("[create] $uuid")
+        log { "[create] $uuid" }
     }
 
     override fun onViewAttachedToWindow() {
-        log("[onViewAttachedToWindow] $uuid")
+        log { "[onViewAttachedToWindow] $uuid" }
     }
 
     override fun onViewDetachedFromWindow() {
-        log("[onViewDetachedFromWindow] $uuid")
+        log { "[onViewDetachedFromWindow] $uuid" }
+    }
+
+    override fun onViewRecycled() {
+        log { "[onViewRecycled] $uuid" }
+        super.onViewRecycled()
+    }
+
+    override fun onFailedToRecycleView(): Boolean {
+        val onFailedToRecycleView = super.onFailedToRecycleView()
+        log { "[onFailedToRecycleView] $uuid $onFailedToRecycleView" }
+        return onFailedToRecycleView
     }
 }

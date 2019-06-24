@@ -2,11 +2,11 @@ package net.kibotu.android.recyclerviewpresenter.app.misc
 
 import android.content.Context
 import com.bumptech.glide.GlideBuilder
+import com.bumptech.glide.Priority
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.signature.ObjectKey
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
@@ -20,7 +20,7 @@ class MyAppGlideModule : AppGlideModule() {
         builder.apply {
             RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(ObjectKey(System.currentTimeMillis().toShort()))
+                .priority(Priority.HIGH)
         }
     }
 }

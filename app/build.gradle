@@ -81,10 +81,10 @@ dependencies {
     implementation libs.glide
     kapt libs.glideAnnotationsProcessor
 
-    implementation libs.androidKtx
+    implementation libs.androidKtxCore
     implementation libs.activityKtx
     implementation libs.androidKtxCollection
-    implementation libs.androidKtxFragment
+    implementation libs.fragmentKtx
 
     implementation libs.pagingCommon
     implementation libs.pagingRuntimeKtx
@@ -96,6 +96,8 @@ dependencies {
         exclude module: 'RecyclerViewPresenter'
     }
     implementation libs.logger
+
+    implementation 'com.github.JastAir:Android-ProgressView:0.1'
 }
 
 // region override support library version

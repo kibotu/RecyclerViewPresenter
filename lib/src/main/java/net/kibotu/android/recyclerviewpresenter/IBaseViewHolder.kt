@@ -17,4 +17,16 @@ interface IBaseViewHolder {
      * [RecyclerView.Adapter.onViewDetachedFromWindow]
      */
     fun onViewDetachedFromWindow()
+
+    /**
+     * [RecyclerView.Adapter.onViewRecycled]
+     */
+    fun onViewRecycled() {
+
+    }
+
+    /**
+     * [RecyclerView.Adapter.onFailedToRecycleView]
+     */
+    fun onFailedToRecycleView(): Boolean = false
 }

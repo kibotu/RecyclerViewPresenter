@@ -1,3 +1,11 @@
 package net.kibotu.android.recyclerviewpresenter
 
-interface Adapter
+import androidx.recyclerview.widget.RecyclerView
+
+interface Adapter {
+
+    var recyclerView: RecyclerView?
+
+    val recycledViewPool: RecyclerView.RecycledViewPool?
+        get() = recyclerView?.recycledViewPool
+}

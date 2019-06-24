@@ -1,5 +1,6 @@
 package net.kibotu.android.recyclerviewpresenter
 
+import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView

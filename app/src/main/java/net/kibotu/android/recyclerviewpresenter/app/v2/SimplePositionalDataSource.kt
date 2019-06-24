@@ -59,9 +59,9 @@ class SimplePositionalDataSource : PositionalDataSource<PresenterModel<String>>(
         @get:LayoutRes
         val layout
             get() = when (random.nextFloat()) {
-                in 0f..0.33f -> R.layout.photo_presenter_item
-                in 0.33f..0.66f -> R.layout.number_presenter_item
-                else -> R.layout.label_presenter_item
+//                in 0f..0.33f -> R.layout.photo_presenter_item
+//                in 0.33f..0.66f -> R.layout.number_presenter_item
+                else -> R.layout.photo_presenter_item
             }
 
         val cache = (0 until 100).map {
