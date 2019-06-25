@@ -25,7 +25,7 @@ class CircularDataSource<T>(private val data: List<PresenterModel<T>>) : PageKey
 
         // append missing items to list of we're at the end
         val difference = (params.key + params.requestedLoadSize) - toIndex
-        if (difference > 0) {
+        if (difference > 0) { // todo add loop if data.size is small
             list.addAll(data.subList(0, difference))
             nextPage = difference + 1
         }
@@ -45,7 +45,7 @@ class CircularDataSource<T>(private val data: List<PresenterModel<T>>) : PageKey
 
         // append missing items to list of we're at the end
         val difference = (key + params.requestedLoadSize) - toIndex
-        if (difference > 0) {
+        if (difference > 0) { // todo add loop if data.size is small
             list.addAll(data.asReversed().subList(0, difference))
             nextPage = difference + 1
         }
