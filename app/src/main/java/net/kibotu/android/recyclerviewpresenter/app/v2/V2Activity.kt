@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.exozet.android.core.misc.createRandomImageUrl
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kibotu.android.recyclerviewpresenter.CircularDataSource
 import net.kibotu.android.recyclerviewpresenter.ListDataSource
@@ -50,8 +51,8 @@ class V2Activity : AppCompatActivity() {
             .setEnablePlaceholders(false)
             .build()
 
-        simplePositionalDataSource(config, adapter)
-//        circularDataSource(config, adapter)
+//        simplePositionalDataSource(config, adapter)
+        circularDataSource(config, adapter)
     }
 
     private fun circularDataSource(config: PagedList.Config, adapter: PresenterPageListAdapter<String>) {
@@ -101,14 +102,14 @@ object FakeData {
     @get:LayoutRes
     val layout
         get() = when (random.nextFloat()) {
-//            in 0f..0.33f -> R.layout.photo_presenter_item
-//            in 0.33f..0.66f -> R.layout.number_presenter_item
+            in 0f..0.33f -> R.layout.photo_presenter_item
+            in 0.33f..0.66f -> R.layout.number_presenter_item
             else -> R.layout.label_presenter_item
         }
 
     val cache = (0 until 100).map {
-        val uri = "$it"
-//        val uri = createRandomImageUrl()
+//        val uri = "$it"
+        val uri = createRandomImageUrl()
 
         PresenterModel(uri, layout, changedPayload = { new, old ->
             if (new != old)
