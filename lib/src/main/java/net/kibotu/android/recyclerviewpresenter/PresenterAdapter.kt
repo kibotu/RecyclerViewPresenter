@@ -70,10 +70,16 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
 
     // endregion
 
+    protected var _recyclerView: WeakReference<RecyclerView>? = null
+
     /**
      * Reference to the bound [RecyclerView].
      */
-    override var recyclerView: WeakReference<RecyclerView>? = null
+    override var recyclerView
+        get() = _recyclerView?.get()
+        set(value) {
+            _recyclerView = WeakReference(value)
+        }
 
     /**
      * Represents if adapter should be circular.
@@ -137,7 +143,7 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * {@inheritDoc}
      */
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = WeakReference(recyclerView)
+        this.recyclerView = recyclerView
     }
 
     /**
@@ -198,7 +204,7 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * {@inheritDoc}
      */
     protected fun removeAllViews() {
-        recyclerView?.get()?.removeAllViews()
+        recyclerView?.removeAllViews()
     }
 
     // endregion
@@ -218,15 +224,15 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
 
     fun scrollToPosition(position: Int) {
         if (isCircular)
-            recyclerView?.get()?.scrollToPosition(((max / 2) - ((max / 2) % data.size)))
+            recyclerView?.scrollToPosition(((max / 2) - ((max / 2) % data.size)))
         else
-            recyclerView?.get()?.scrollToPosition(position)
+            recyclerView?.scrollToPosition(position)
     }
 
     fun smoothScrollToPosition(position: Int) {
         if (isCircular)
-            recyclerView?.get()?.smoothScrollToPosition(((max / 2) - ((max / 2) % data.size)) + position)
+            recyclerView?.smoothScrollToPosition(((max / 2) - ((max / 2) % data.size)) + position)
         else
-            recyclerView?.get()?.smoothScrollToPosition(position)
+            recyclerView?.smoothScrollToPosition(position)
     }
 }

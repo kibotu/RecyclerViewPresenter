@@ -5,8 +5,8 @@ import java.lang.ref.WeakReference
 
 interface Adapter {
 
-    var recyclerView: WeakReference<RecyclerView>?
+    var recyclerView: RecyclerView?
 
     val recycledViewPool: RecyclerView.RecycledViewPool?
-        get() = recyclerView?.get()?.recycledViewPool
+        get() = recyclerView?.recycledViewPool
 }

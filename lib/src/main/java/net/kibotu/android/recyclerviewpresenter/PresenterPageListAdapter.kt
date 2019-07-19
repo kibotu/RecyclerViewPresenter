@@ -65,10 +65,16 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
 
     // endregion
 
+    protected var _recyclerView: WeakReference<RecyclerView>? = null
+
     /**
      * Reference to the bound [RecyclerView].
      */
-    override var recyclerView: WeakReference<RecyclerView>? = null
+    override var recyclerView
+        get() = _recyclerView?.get()
+        set(value) {
+            _recyclerView = WeakReference(value)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, @LayoutRes viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent)
 
@@ -122,14 +128,14 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
      * {@inheritDoc}
      */
     protected fun removeAllViews() {
-        recyclerView?.get()?.removeAllViews()
+        recyclerView?.removeAllViews()
     }
 
     /**
      * {@inheritDoc}
      */
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = WeakReference(recyclerView)
+        this.recyclerView = recyclerView
     }
 
     /**
