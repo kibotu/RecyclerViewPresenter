@@ -78,7 +78,10 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
     override var recyclerView
         get() = _recyclerView?.get()
         set(value) {
-            _recyclerView = WeakReference(value)
+            if (value != null)
+                _recyclerView = WeakReference(value)
+            else
+                _recyclerView = null
         }
 
     /**

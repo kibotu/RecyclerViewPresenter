@@ -73,7 +73,10 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
     override var recyclerView
         get() = _recyclerView?.get()
         set(value) {
-            _recyclerView = WeakReference(value)
+            if (value != null)
+                _recyclerView = WeakReference(value)
+            else
+                _recyclerView = null
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, @LayoutRes viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent)
