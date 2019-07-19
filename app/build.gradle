@@ -98,6 +98,9 @@ dependencies {
     implementation libs.logger
 
     implementation 'com.github.JastAir:Android-ProgressView:0.1'
+    debugImplementation libs.leakcanary2
+    implementation libs.okhttp4
+
 }
 
 // region override support library version
@@ -111,6 +114,7 @@ configurations.all {
     resolutionStrategy.force libs.supportRecyclerview
     resolutionStrategy.force libs.recyclerviewAnimators
     resolutionStrategy.force libs.supportCardView
+    resolutionStrategy.force libs.okhttp4
 }
 
 // endregion
