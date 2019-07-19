@@ -6,6 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.ref.WeakReference
 
 open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, RecyclerView.ViewHolder>(ItemCallback<T>()), Adapter {
 
@@ -67,7 +68,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
     /**
      * Reference to the bound [RecyclerView].
      */
-    override var recyclerView: RecyclerView? = null
+    override var recyclerView: WeakReference<RecyclerView>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, @LayoutRes viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent)
 
@@ -121,21 +122,21 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
      * {@inheritDoc}
      */
     protected fun removeAllViews() {
-        recyclerView?.removeAllViews()
+        recyclerView?.get()?.removeAllViews()
     }
 
     /**
      * {@inheritDoc}
      */
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = recyclerView
+        this.recyclerView = WeakReference(recyclerView)
     }
 
     /**
      * {@inheritDoc}
      */
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = recyclerView
+        this.recyclerView = null
     }
 
     /**

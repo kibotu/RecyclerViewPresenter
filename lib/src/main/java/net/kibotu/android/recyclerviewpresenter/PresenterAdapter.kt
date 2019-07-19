@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.ref.WeakReference
 
 
 open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Adapter {
-
 
     /**
      * Actual data.
@@ -73,7 +73,7 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
     /**
      * Reference to the bound [RecyclerView].
      */
-    override var recyclerView: RecyclerView? = null
+    override var recyclerView: WeakReference<RecyclerView>? = null
 
     /**
      * Represents if adapter should be circular.
@@ -137,14 +137,14 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * {@inheritDoc}
      */
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = recyclerView
+        this.recyclerView = WeakReference(recyclerView)
     }
 
     /**
      * {@inheritDoc}
      */
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = recyclerView
+        this.recyclerView = null
     }
 
     /**
@@ -188,10 +188,23 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
             (viewHolder as IBaseViewHolder).onViewDetachedFromWindow()
     }
 
+    fun clear() {
+        presenter.clear()
+        removeAllViews()
+        notifyDataSetChanged()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected fun removeAllViews() {
+        recyclerView?.get()?.removeAllViews()
+    }
+
     // endregion
 
     @JvmOverloads
-    fun submitList(items: List<PresenterModel<*>>, scrollToTop: Boolean = true) {
+    fun submitList(items: List<PresenterModel<*>>, scrollToTop: Boolean = false) {
         val initial = isCircular && data.isNotEmpty()
 
         val diffResult = DiffUtil.calculateDiff(PresenterModelDiffCallback(data, items))
@@ -205,15 +218,15 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
 
     fun scrollToPosition(position: Int) {
         if (isCircular)
-            recyclerView?.scrollToPosition(((max / 2) - ((max / 2) % data.size)))
+            recyclerView?.get()?.scrollToPosition(((max / 2) - ((max / 2) % data.size)))
         else
-            recyclerView?.scrollToPosition(position)
+            recyclerView?.get()?.scrollToPosition(position)
     }
 
     fun smoothScrollToPosition(position: Int) {
         if (isCircular)
-            recyclerView?.smoothScrollToPosition(((max / 2) - ((max / 2) % data.size)) + position)
+            recyclerView?.get()?.smoothScrollToPosition(((max / 2) - ((max / 2) % data.size)) + position)
         else
-            recyclerView?.smoothScrollToPosition(position)
+            recyclerView?.get()?.smoothScrollToPosition(position)
     }
 }
