@@ -16,8 +16,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
     protected val presenter = mutableListOf<Presenter<*>>()
 
     fun registerPresenter(presenter: Presenter<*>) {
-        if (this.presenter.firstOrNull { it.layout == presenter.layout } != null)
-            throw IllegalArgumentException("Layout already registered, each presenter layout needs to be unique.")
+        require(this.presenter.firstOrNull { it.layout == presenter.layout } == null) { "Layout already registered, each presenter layout needs to be unique." }
         this.presenter.add(presenter)
     }
 
@@ -178,4 +177,5 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
 
         override fun getChangePayload(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Any? = oldItem.changedPayload(oldItem.model as Any) ?: super.getChangePayload(oldItem, newItem)
     }
+
 }
