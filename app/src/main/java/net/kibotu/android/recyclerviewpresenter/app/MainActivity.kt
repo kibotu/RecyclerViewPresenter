@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
 //        runJavaImplementation()
 //        runKotlinImplementation()
 //        runPagination()
-//        runV2Implementation()
-        runNested()
+        runV2Implementation()
+//        runNested()
     }
 
     private fun runPagination() = startActivity(Intent(this, PaginationActivity::class.java))
