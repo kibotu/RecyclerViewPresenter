@@ -98,11 +98,7 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
 
     // region RecyclerView.Adapter
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent).apply {
-        //
-//        if (this is IBaseViewHolder)
-//            itemView.addOnAttachStateChangeListener(this@apply)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
@@ -165,17 +161,6 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * {@inheritDoc}
      */
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        log { "$uuid onDetachedFromRecyclerView $recyclerView childCount=${recyclerView.childCount}" }
-        (0 until recyclerView.childCount).map {
-            val child = recyclerView.getChildAt(it)
-            log { "onDetachedFromRecyclerView $it child=$child" }
-            recyclerView.findContainingViewHolder(child)
-        }.forEach {
-            log { "onDetachedFromRecyclerView $it" }
-            if (it is IBaseViewHolder) {
-                it.onViewDetachedFromWindow()
-            }
-        }
         super.onDetachedFromRecyclerView(recyclerView)
         this.recyclerView = null
     }
@@ -208,7 +193,6 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * Also calls [IBaseViewHolder.onViewAttachedToWindow].
      */
     override fun onViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
-        log { "$uuid onViewAttachedToWindow adapterPosition=${viewHolder.adapterPosition} itemCount=${itemCount}" }
         super.onViewAttachedToWindow(viewHolder)
         if (viewHolder is IBaseViewHolder)
             (viewHolder as IBaseViewHolder).onViewAttachedToWindow()
@@ -220,7 +204,6 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * Also calls [IBaseViewHolder.onViewDetachedFromWindow].
      */
     override fun onViewDetachedFromWindow(viewHolder: RecyclerView.ViewHolder) {
-        log { "$uuid onViewDetachedFromWindow adapterPosition=${viewHolder.adapterPosition} itemCount=${itemCount}" }
         super.onViewDetachedFromWindow(viewHolder)
         if (viewHolder is IBaseViewHolder)
             (viewHolder as IBaseViewHolder).onViewDetachedFromWindow()
