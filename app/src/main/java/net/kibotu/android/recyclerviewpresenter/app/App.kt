@@ -6,6 +6,7 @@ import android.os.StrictMode
 import net.kibotu.logger.LogcatLogger
 import net.kibotu.logger.Logger
 import net.kibotu.logger.Logger.logv
+import net.kibotu.logger.logv
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).

@@ -7,6 +7,7 @@ import net.kibotu.android.recyclerviewpresenter.Presenter
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.logger.Logger.logv
+import net.kibotu.logger.logv
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).

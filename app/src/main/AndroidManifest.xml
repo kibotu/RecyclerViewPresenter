@@ -23,6 +23,7 @@
         <activity android:name=".kotlin.PresenterActivity" />
         <activity android:name=".pagination.PaginationActivity" />
         <activity android:name=".v2.V2Activity" />
+        <activity android:name=".nested.NestedActivity" />
     </application>
 
 </manifest>

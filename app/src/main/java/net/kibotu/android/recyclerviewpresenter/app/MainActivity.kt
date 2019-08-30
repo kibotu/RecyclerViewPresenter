@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import net.kibotu.android.recyclerviewpresenter.app.java.PresenterActivity
+import net.kibotu.android.recyclerviewpresenter.app.nested.NestedActivity
 import net.kibotu.android.recyclerviewpresenter.app.pagination.PaginationActivity
 import net.kibotu.android.recyclerviewpresenter.app.v2.V2Activity
 
@@ -21,7 +22,8 @@ class MainActivity : AppCompatActivity() {
 //        runJavaImplementation()
 //        runKotlinImplementation()
 //        runPagination()
-        runV2Implementation()
+//        runV2Implementation()
+        runNested()
     }
 
     private fun runPagination() = startActivity(Intent(this, PaginationActivity::class.java))
@@ -31,4 +33,6 @@ class MainActivity : AppCompatActivity() {
     private fun runJavaImplementation() = startActivity(Intent(this, PresenterActivity::class.java))
 
     private fun runV2Implementation() = startActivity(Intent(this, V2Activity::class.java))
+
+    private fun runNested() = startActivity(Intent(this, NestedActivity::class.java))
 }

@@ -1,5 +1,6 @@
 package net.kibotu.android.recyclerviewpresenter
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -18,15 +19,13 @@ abstract class LifecycleViewHolder(parent: ViewGroup, layout: Int) : RecyclerVie
         lifecycleRegistry = LifecycleRegistry(this)
     }
 
-    override fun onViewAttachedToWindow() {
-        super.onViewAttachedToWindow()
+    override fun onViewAttachedToWindow(view: View?) {
         log { "onViewAttachedToWindow" }
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
     }
 
-    override fun onViewDetachedFromWindow() {
-        super.onViewDetachedFromWindow()
+    override fun onViewDetachedFromWindow(view: View?) {
         log { "onViewDetachedFromWindow" }
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }

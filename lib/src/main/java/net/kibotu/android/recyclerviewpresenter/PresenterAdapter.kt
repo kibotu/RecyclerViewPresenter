@@ -15,10 +15,6 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      */
     protected val data: ArrayList<PresenterModel<*>> = arrayListOf()
 
-    private val onAttachListener: MutableList<((recyclerView: RecyclerView) -> Unit)> = mutableListOf()
-
-    private val onDetachListener: MutableList<((recyclerView: RecyclerView) -> Unit)> = mutableListOf()
-
     /**
      * Holds all registered presenter.
      */
@@ -97,15 +93,8 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent).apply {
 
-        if (this is IBaseViewHolder) {
-            onAttachListener?.let {
-                this@PresenterAdapter.onAttachListener.add(it)
-            }
-
-            onDetachListener?.let {
-                this@PresenterAdapter.onDetachListener.add(it)
-            }
-        }
+        if (this is IBaseViewHolder)
+            itemView.addOnAttachStateChangeListener(this@apply)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -165,8 +154,6 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         this.recyclerView = recyclerView
-
-        onAttachListener.forEach { it.invoke(recyclerView) }
     }
 
     /**
@@ -174,7 +161,6 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      */
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
-        onDetachListener.forEach { it.invoke(recyclerView) }
         this.recyclerView = null
     }
 
@@ -185,6 +171,7 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
         super.onViewRecycled(viewHolder)
         if (viewHolder is IBaseViewHolder) {
             (viewHolder as IBaseViewHolder).onViewRecycled()
+            viewHolder.itemView.removeOnAttachStateChangeListener(viewHolder)
         }
     }
 

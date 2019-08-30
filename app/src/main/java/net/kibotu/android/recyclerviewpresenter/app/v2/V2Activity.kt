@@ -18,6 +18,7 @@ import net.kibotu.android.recyclerviewpresenter.app.kotlin.LabelPresenter
 import net.kibotu.android.recyclerviewpresenter.app.kotlin.NumberPresenter
 import net.kibotu.android.recyclerviewpresenter.app.kotlin.PhotoPresenter
 import net.kibotu.logger.Logger.logv
+import net.kibotu.logger.logv
 import net.kibotu.logger.snack
 import java.text.MessageFormat.format
 import kotlin.random.Random
