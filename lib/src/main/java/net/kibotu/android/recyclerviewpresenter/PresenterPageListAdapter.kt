@@ -170,6 +170,18 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
             (viewHolder as IBaseViewHolder).onViewDetachedFromWindow()
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    override fun onViewRecycled(viewHolder: RecyclerView.ViewHolder) {
+        if (viewHolder is IBaseViewHolder) {
+            (viewHolder as IBaseViewHolder).onViewRecycled()
+            viewHolder.itemView.setOnClickListener(null)
+            viewHolder.itemView.onFocusChangeListener = null
+        }
+        super.onViewRecycled(viewHolder)
+    }
+
     open class ItemCallback<T> : DiffUtil.ItemCallback<PresenterModel<T>>() {
 
         override fun areContentsTheSame(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Boolean = oldItem.uuid == newItem.uuid
