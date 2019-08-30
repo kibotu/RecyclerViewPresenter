@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
  */
 open class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), IBaseViewHolder {
 
+    override var onDetachListener: ((recyclerView: RecyclerView) -> Unit)? = null
+
+    override var onAttachListener: ((recyclerView: RecyclerView) -> Unit)? = null
+
     constructor(parent: ViewGroup, @LayoutRes layout: Int) : this(LayoutInflater.from(parent.context).inflate(layout, parent, false))
 
     var uuid = UIDGenerator.newUID().toString()

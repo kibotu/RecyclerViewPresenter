@@ -8,6 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 interface IBaseViewHolder {
 
+    var onDetachListener: ((recyclerView: RecyclerView) -> Unit)?
+
+    var onAttachListener: ((recyclerView: RecyclerView) -> Unit)?
+
     /**
      * [RecyclerView.Adapter.onBindViewHolder]
      */

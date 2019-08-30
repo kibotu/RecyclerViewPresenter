@@ -15,6 +15,10 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      */
     protected val data: ArrayList<PresenterModel<*>> = arrayListOf()
 
+    private val onAttachListener: MutableList<((recyclerView: RecyclerView) -> Unit)> = mutableListOf()
+
+    private val onDetachListener: MutableList<((recyclerView: RecyclerView) -> Unit)> = mutableListOf()
+
     /**
      * Holds all registered presenter.
      */
@@ -91,7 +95,18 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
 
     // region RecyclerView.Adapter
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent).apply {
+
+        if (this is IBaseViewHolder) {
+            onAttachListener?.let {
+                this@PresenterAdapter.onAttachListener.add(it)
+            }
+
+            onDetachListener?.let {
+                this@PresenterAdapter.onDetachListener.add(it)
+            }
+        }
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
@@ -100,6 +115,8 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
         onItemClick?.let { holder.itemView.setOnClickListener { it(item, it, position) } }
 
         onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
+
+
 
         presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, null, this)
     }
@@ -146,13 +163,18 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * {@inheritDoc}
      */
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
         this.recyclerView = recyclerView
+
+        onAttachListener.forEach { it.invoke(recyclerView) }
     }
 
     /**
      * {@inheritDoc}
      */
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        onDetachListener.forEach { it.invoke(recyclerView) }
         this.recyclerView = null
     }
 
@@ -161,8 +183,9 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      */
     override fun onViewRecycled(viewHolder: RecyclerView.ViewHolder) {
         super.onViewRecycled(viewHolder)
-        if (viewHolder is IBaseViewHolder)
+        if (viewHolder is IBaseViewHolder) {
             (viewHolder as IBaseViewHolder).onViewRecycled()
+        }
     }
 
     /**
