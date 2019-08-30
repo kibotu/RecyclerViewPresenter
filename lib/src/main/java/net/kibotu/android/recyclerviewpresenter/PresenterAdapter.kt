@@ -6,9 +6,12 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import java.lang.ref.WeakReference
+import java.util.*
 
 
 open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Adapter {
+
+    val uuid by lazy { UUID.randomUUID().toString().subSequence(0, 8) }
 
     /**
      * Actual data.
@@ -25,6 +28,10 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
             throw IllegalArgumentException("Layout already registered, each presenter layout needs to be unique.")
         this.presenter.add(presenter)
     }
+
+    fun unregisterPresenter(presenter: Presenter<*>) = this.presenter.remove(presenter)
+
+    fun unregisterPresenter() = presenter.clear()
 
     // region Listener
 
@@ -92,9 +99,9 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
     // region RecyclerView.Adapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent).apply {
-
-        if (this is IBaseViewHolder)
-            itemView.addOnAttachStateChangeListener(this@apply)
+        //
+//        if (this is IBaseViewHolder)
+//            itemView.addOnAttachStateChangeListener(this@apply)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -104,8 +111,6 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
         onItemClick?.let { holder.itemView.setOnClickListener { it(item, it, position) } }
 
         onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
-
-
 
         presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, null, this)
     }
@@ -160,6 +165,17 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * {@inheritDoc}
      */
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        log { "$uuid onDetachedFromRecyclerView $recyclerView childCount=${recyclerView.childCount}" }
+        (0 until recyclerView.childCount).map {
+            val child = recyclerView.getChildAt(it)
+            log { "onDetachedFromRecyclerView $it child=$child" }
+            recyclerView.findContainingViewHolder(child)
+        }.forEach {
+            log { "onDetachedFromRecyclerView $it" }
+            if (it is IBaseViewHolder) {
+                it.onViewDetachedFromWindow()
+            }
+        }
         super.onDetachedFromRecyclerView(recyclerView)
         this.recyclerView = null
     }
@@ -168,11 +184,12 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * {@inheritDoc}
      */
     override fun onViewRecycled(viewHolder: RecyclerView.ViewHolder) {
-        super.onViewRecycled(viewHolder)
         if (viewHolder is IBaseViewHolder) {
             (viewHolder as IBaseViewHolder).onViewRecycled()
-            viewHolder.itemView.removeOnAttachStateChangeListener(viewHolder)
+            viewHolder.itemView.setOnClickListener(null)
+            viewHolder.itemView.onFocusChangeListener = null
         }
+        super.onViewRecycled(viewHolder)
     }
 
     /**
@@ -191,6 +208,7 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * Also calls [IBaseViewHolder.onViewAttachedToWindow].
      */
     override fun onViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
+        log { "$uuid onViewAttachedToWindow adapterPosition=${viewHolder.adapterPosition} itemCount=${itemCount}" }
         super.onViewAttachedToWindow(viewHolder)
         if (viewHolder is IBaseViewHolder)
             (viewHolder as IBaseViewHolder).onViewAttachedToWindow()
@@ -202,22 +220,26 @@ open class PresenterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), A
      * Also calls [IBaseViewHolder.onViewDetachedFromWindow].
      */
     override fun onViewDetachedFromWindow(viewHolder: RecyclerView.ViewHolder) {
+        log { "$uuid onViewDetachedFromWindow adapterPosition=${viewHolder.adapterPosition} itemCount=${itemCount}" }
         super.onViewDetachedFromWindow(viewHolder)
         if (viewHolder is IBaseViewHolder)
             (viewHolder as IBaseViewHolder).onViewDetachedFromWindow()
     }
 
-    fun clear() {
-        presenter.clear()
-        removeAllViews()
-        notifyDataSetChanged()
-    }
+    fun clearData() = data.clear()
 
     /**
      * {@inheritDoc}
      */
-    protected fun removeAllViews() {
+    fun removeAllViews() {
+        recyclerView?.layoutManager?.removeAllViews()
         recyclerView?.removeAllViews()
+    }
+
+    fun clear() {
+        clearData()
+        removeAllViews()
+        notifyDataSetChanged()
     }
 
     // endregion

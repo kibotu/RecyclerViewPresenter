@@ -8,7 +8,7 @@ package net.kibotu.android.recyclerviewpresenter
 
 import android.util.Log
 
-internal val debug = false
+internal val debug = true
 
 internal fun Any.log(block: () -> String?) {
     if (debug)

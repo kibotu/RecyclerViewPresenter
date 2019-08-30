@@ -31,19 +31,18 @@ class ColumnPresenter : Presenter<Column>() {
                 .into(imageCard)
                 .waitForLayout()
                 .clearOnDetach()
-
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup) = object : RecyclerViewHolder(parent, layout) {
 
-        override fun onViewAttachedToWindow(view: View?) {
-            super.onViewAttachedToWindow(view)
+        override fun onViewAttachedToWindow() {
+            super.onViewAttachedToWindow()
             Log.v("Column-VH", "onViewAttachedToWindow $adapterPosition $uuid")
         }
 
-        override fun onViewDetachedFromWindow(view: View?) {
-            super.onViewDetachedFromWindow(view)
+        override fun onViewDetachedFromWindow() {
+            super.onViewDetachedFromWindow()
             Log.v("Column-VH", "onViewDetachedFromWindow $adapterPosition $uuid")
         }
 

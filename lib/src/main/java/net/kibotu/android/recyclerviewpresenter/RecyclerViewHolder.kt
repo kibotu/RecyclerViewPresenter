@@ -20,29 +20,21 @@ open class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
     }
 
     override fun onViewAttachedToWindow() {
-        log { "[onViewAttachedToWindow] $uuid" }
+        log { "[onViewAttachedToWindow] $uuid $adapterPosition" }
     }
 
     override fun onViewDetachedFromWindow() {
-        log { "[onViewDetachedFromWindow] $uuid" }
-    }
-
-    override fun onViewAttachedToWindow(view: View?) {
-        log { "[onViewAttachedToWindow] $uuid" }
-    }
-
-    override fun onViewDetachedFromWindow(view: View?) {
-        log { "[onViewDetachedFromWindow] $uuid" }
+        log { "[onViewDetachedFromWindow] $uuid $adapterPosition" }
     }
 
     override fun onViewRecycled() {
-        log { "[onViewRecycled] $uuid" }
+        log { "[onViewRecycled] $uuid $adapterPosition" }
         super.onViewRecycled()
     }
 
     override fun onFailedToRecycleView(): Boolean {
         val onFailedToRecycleView = super.onFailedToRecycleView()
-        log { "[onFailedToRecycleView] $uuid $onFailedToRecycleView" }
+        log { "[onFailedToRecycleView] $uuid $onFailedToRecycleView  $adapterPosition" }
         return onFailedToRecycleView
     }
 }

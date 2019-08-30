@@ -34,4 +34,6 @@ data class PresenterModel<T>(
      * @see https://developer.android.com/reference/android/support/v7/util/DiffUtil.Callback.html#getChangePayload(int,%20int)
      */
     internal fun changedPayload(new: Any) = changedPayload?.invoke(new as T, model)
+
+    var onAttachStateChangeListener: View.OnAttachStateChangeListener? = null
 }

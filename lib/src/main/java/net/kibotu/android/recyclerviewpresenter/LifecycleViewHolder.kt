@@ -19,13 +19,13 @@ abstract class LifecycleViewHolder(parent: ViewGroup, layout: Int) : RecyclerVie
         lifecycleRegistry = LifecycleRegistry(this)
     }
 
-    override fun onViewAttachedToWindow(view: View?) {
+    override fun onViewAttachedToWindow() {
         log { "onViewAttachedToWindow" }
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
     }
 
-    override fun onViewDetachedFromWindow(view: View?) {
+    override fun onViewDetachedFromWindow() {
         log { "onViewDetachedFromWindow" }
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }

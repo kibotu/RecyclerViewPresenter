@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import net.kibotu.android.recyclerviewpresenter.Presenter
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
@@ -29,6 +28,12 @@ class NestedActivity : AppCompatActivity() {
         list.adapter = adapter
 
         addResults(100)
+
+
+        // ignore for now
+        swipeRefresh.setOnRefreshListener {
+            swipeRefresh.isRefreshing = false
+        }
     }
 
     private fun addResults(amount: Int) {
@@ -36,13 +41,6 @@ class NestedActivity : AppCompatActivity() {
         val images = (0 until amount).map {
             "https://lorempixel.com/2%02d/300/".format(it)
         }
-
-
-//        val items = mutableListOf<Presenter<*>>() .apply {
-//
-//
-//
-//        }
 
         val items = images.map {
             PresenterModel<Any>(Row(it, "$it label"), uuid = it, layout = R.layout.item_icon_with_label)
