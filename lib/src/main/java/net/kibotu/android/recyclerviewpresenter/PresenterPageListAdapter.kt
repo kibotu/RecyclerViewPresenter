@@ -130,6 +130,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
      * {@inheritDoc}
      */
     protected fun removeAllViews() {
+        recyclerView?.layoutManager?.removeAllViews()
         recyclerView?.removeAllViews()
     }
 
