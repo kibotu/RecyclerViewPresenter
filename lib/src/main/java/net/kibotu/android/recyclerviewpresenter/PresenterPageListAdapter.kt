@@ -22,8 +22,6 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
 
     fun unregisterPresenter() = presenter.clear()
 
-    fun clearData() = data.clear()
-
     // region Listener
 
     /**
@@ -124,16 +122,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
     @LayoutRes
     override fun getItemViewType(position: Int): Int = getItem(position)?.layout ?: -1
 
-    /**
-     * {@inheritDoc}
-     */
-    fun removeAllViews() {
-        recyclerView?.layoutManager?.removeAllViews()
-        recyclerView?.removeAllViews()
-    }
-
     fun clear() {
-        clearData()
         removeAllViews()
         notifyDataSetChanged()
     }
