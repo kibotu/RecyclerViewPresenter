@@ -103,14 +103,13 @@ object FakeData {
     @get:LayoutRes
     val layout
         get() = when (random.nextFloat()) {
-//            in 0f..0.33f -> R.layout.photo_presenter_item
-//            in 0.33f..0.66f -> R.layout.number_presenter_item
+            in 0f..0.33f -> R.layout.photo_presenter_item
+            in 0.33f..0.66f -> R.layout.number_presenter_item
             else -> R.layout.label_presenter_item
         }
 
     val cache = (0 until 10).map {
-        val uri = "$it"
-//        val uri = createRandomImageUrl()
+        val uri = createRandomImageUrl()
 
         PresenterModel(uri, layout, uuid = it.toString(), changedPayload = { new, old ->
             if (new != old)
