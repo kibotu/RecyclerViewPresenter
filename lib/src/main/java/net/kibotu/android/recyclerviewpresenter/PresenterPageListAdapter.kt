@@ -168,7 +168,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
     override fun onViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
         super.onViewAttachedToWindow(viewHolder)
         if (viewHolder is IBaseViewHolder)
-            (viewHolder as IBaseViewHolder).onViewDetachedFromWindow()
+            (viewHolder as IBaseViewHolder).onViewAttachedToWindow()
     }
 
     /**
