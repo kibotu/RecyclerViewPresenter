@@ -72,6 +72,7 @@ dependencies {
     implementation libs.constraintLayout
     implementation libs.supportRecyclerview
     implementation libs.pagingRuntimeKtx
+//    implementation libs.cirkle
 
     // viewmodel and lifecycle
     implementation libs.lifecycleExtensions

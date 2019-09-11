@@ -13,6 +13,7 @@ import net.kibotu.android.recyclerviewpresenter.Presenter
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.logger.Logger.logv
 
 data class Column(val image: String)
 
@@ -21,6 +22,8 @@ class ColumnPresenter : Presenter<Column>() {
     override val layout = R.layout.item_column
 
     override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<Column>, position: Int, payloads: MutableList<Any>?, adapter: Adapter) {
+
+        logv { "bindViewHolder position=$position" }
 
         with(viewHolder.itemView) {
             Glide.with(this)

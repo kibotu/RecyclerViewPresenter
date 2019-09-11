@@ -23,7 +23,7 @@ class PhotoPresenter : Presenter<String>() {
 
     override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int, payloads: MutableList<Any>?, adapter: Adapter): Unit = with(viewHolder.itemView) {
 
-        GlideApp.with(this.context.applicationContext)
+        GlideApp.with(context.applicationContext)
             .load(item.model)
             .transition(DrawableTransitionOptions.withCrossFade())
             .listener(object : RequestListener<Drawable> {
@@ -38,6 +38,7 @@ class PhotoPresenter : Presenter<String>() {
                 }
             })
             .into(photo)
+            .waitForLayout()
             .clearOnDetach()
 
         progressBar.show()

@@ -18,6 +18,6 @@ class LabelPresenter : Presenter<String>() {
 
     override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int, payloads: MutableList<Any>?, adapter: Adapter) = with(viewHolder.itemView) {
         logv("bindViewHolder $position $item payload=$payloads")
-        label.text = item.model
+        label.text = "$position. ${item.model}"
     }
 }

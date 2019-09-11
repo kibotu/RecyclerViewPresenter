@@ -3,7 +3,9 @@ package net.kibotu.android.recyclerviewpresenter.app.nested
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_horizontal_list.view.*
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
@@ -22,6 +24,8 @@ class NestedActivity : AppCompatActivity() {
     private fun addResultList() {
 
         list.layoutManager = LinearLayoutManager(this)
+        list.setRecycledViewPool(RecyclerView.RecycledViewPool())
+        list.setHasFixedSize(true)
 
         adapter.registerPresenter(RowPresenter())
         adapter.registerPresenter(HorizontalListPresenter())

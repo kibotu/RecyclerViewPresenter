@@ -16,9 +16,14 @@ class HorizontalListPresenter : Presenter<HorizontalListItems>() {
 
     override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<HorizontalListItems>, position: Int, payloads: MutableList<Any>?, adapter: Adapter) {
 
+        logv { "bindViewHolder position=$position" }
+
         with(viewHolder.itemView) {
 
             if (horizontalList.adapter == null) {
+                horizontalList.setHasFixedSize(true)
+                horizontalList.setRecycledViewPool(adapter.recycledViewPool)
+                horizontalList.isNestedScrollingEnabled = false
                 logv { "bindViewHolder $position add adapter" }
                 val presenterAdapter = PresenterAdapter()
                 presenterAdapter.registerPresenter(ColumnPresenter())
@@ -31,9 +36,13 @@ class HorizontalListPresenter : Presenter<HorizontalListItems>() {
 
     override fun onCreateViewHolder(parent: ViewGroup) = object : RecyclerViewHolder(parent, layout) {
 
+        init {
+            setIsRecyclable(false)
+        }
+
         override fun onViewAttachedToWindow() {
             super.onViewAttachedToWindow()
-            Log.v("HorizontalListPresenter", "onViewAttachedToWindow")
+            Log.v("HorizontalListPresenter", "onViewAttachedToWindow $adapterPosition")
         }
 
         override fun onViewDetachedFromWindow() {

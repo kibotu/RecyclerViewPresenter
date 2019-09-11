@@ -1,12 +1,15 @@
 package net.kibotu.android.recyclerviewpresenter.app.java;
 
 import android.widget.ImageView;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import net.kibotu.android.recyclerviewpresenter.Adapter;
 import net.kibotu.android.recyclerviewpresenter.Presenter;
 import net.kibotu.android.recyclerviewpresenter.PresenterModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
 import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,6 +35,8 @@ public class PhotoPresenter extends Presenter<String> {
         GlideApp.with(viewHolder.itemView.getContext().getApplicationContext())
                 .load(item.getModel())
                 .transition(withCrossFade())
-                .into(photo);
+                .into(photo)
+                .waitForLayout()
+                .clearOnDetach();
     }
 }
