@@ -48,7 +48,8 @@ class V2Activity : AppCompatActivity() {
 
         val config = PagedList.Config.Builder()
             .setPageSize(10)
-            .setPrefetchDistance(3)
+            .setInitialLoadSizeHint(10)
+            .setPrefetchDistance(1)
             .setEnablePlaceholders(false)
             .build()
 
@@ -108,8 +109,10 @@ object FakeData {
             else -> R.layout.label_presenter_item
         }
 
+    val letters = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j')
+
     val cache = (0 until 10).map {
-        val uri = createRandomImageUrl()
+        val uri = /*letters[it].toString() */ createRandomImageUrl()
 
         PresenterModel(uri, layout, uuid = it.toString(), changedPayload = { new, old ->
             if (new != old)

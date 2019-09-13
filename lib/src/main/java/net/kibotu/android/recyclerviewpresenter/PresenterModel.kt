@@ -11,7 +11,7 @@ data class PresenterModel<T>(
     val model: T,
     @LayoutRes
     val layout: Int,
-    val uuid: String = UIDGenerator.newUID().toString(),
+    var uuid: String = UIDGenerator.newUID().toString(),
 
     /**
      * Hook for diff utils

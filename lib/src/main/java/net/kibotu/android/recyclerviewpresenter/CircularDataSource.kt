@@ -4,50 +4,70 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import net.kibotu.android.recyclerviewpresenter.cirkle.circular
+import java.util.*
 
-class CircularDataSource<T>(private val data: List<PresenterModel<T>>) : PageKeyedDataSource<Int, PresenterModel<T>>() {
+class CircularDataSource<T>(private val data: List<PresenterModel<T>>, val generateUuid: Boolean = true) : PageKeyedDataSource<Int, PresenterModel<T>>() {
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, PresenterModel<T>>) {
 
         val fromIndex = 0
-        val toIndex = (fromIndex + params.requestedLoadSize)
+        val toIndex = (fromIndex + params.requestedLoadSize - 1)
+        val previousKey = fromIndex - 1
+        val nextKey = toIndex + 1
 
-        val list = data.circular().subList(fromIndex, toIndex)
+        val list = data.circular().subList(fromIndex, toIndex + 1)
 
-        log { "[loadInitial] data=${data.size} result=${list.size} from=$fromIndex toIndex=$toIndex requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled} previous=0 adjacentPageKey=${list.size}" }
+        setNewUuid(list, fromIndex, toIndex)
 
-        callback.onResult(list, 0, list.size + 1)
+        log { "[loadInitial] data=${data.size} result=${list.size} from=$fromIndex toIndex=$toIndex previousKey=$previousKey nextKey=$nextKey requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled} result=${list.map { it.model }}" }
+
+        callback.onResult(list, previousKey, nextKey)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterModel<T>>) {
 
         val fromIndex = params.key
-        val toIndex = (fromIndex + params.requestedLoadSize)
+        val toIndex = (fromIndex + params.requestedLoadSize - 1)
+        val nextKey = toIndex + 1
 
-        val list = data.circular().subList(fromIndex, toIndex)
+        val list = data.circular().subList(fromIndex, toIndex + 1)
 
-        log { "[loadAfter] result=${list.size} from=$fromIndex toIndex=$toIndex requestedLoadSize=${params.requestedLoadSize}" }
+        setNewUuid(list, fromIndex, toIndex)
 
-        callback.onResult(list, list.size + 1)
+        log { "[loadAfter] result=${list.size} from=$fromIndex toIndex=$toIndex nextKey=$nextKey requestedLoadSize=${params.requestedLoadSize} result=${list.map { it.model }}" }
+
+        callback.onResult(list, nextKey)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterModel<T>>) {
 
         val fromIndex = params.key
-        val toIndex = (fromIndex - params.requestedLoadSize)
+        val toIndex = (fromIndex - params.requestedLoadSize - 1)
+        val previousKey = fromIndex - 1
 
-        val list = data.circular().subList(fromIndex, toIndex)
+        val list = data.circular().subList(fromIndex, toIndex + 1).reversed()
 
-        log { "[loadBefore] result=${list.size} from=$fromIndex toIndex=$toIndex requestedLoadSize=${params.requestedLoadSize}" }
+        setNewUuid(list, fromIndex, toIndex)
 
-        callback.onResult(list.asReversed(), fromIndex - 1)
+        log { "[loadBefore] result=${list.size} from=$fromIndex toIndex=$toIndex previousKey=$previousKey requestedLoadSize=${params.requestedLoadSize} result=${list.map { it.model }}" }
+
+        callback.onResult(list, previousKey)
     }
 
-    class Factory<T>(var data: List<PresenterModel<T>>) : DataSource.Factory<Int, PresenterModel<T>>() {
+    private fun setNewUuid(list: List<PresenterModel<T>>, fromIndex: Int, toIndex: Int) {
+        if (!generateUuid)
+            return
+
+        list.forEachIndexed { index, item ->
+            item.uuid = UUID.randomUUID().toString() // (fromIndex - toIndex + index).toString()
+        }
+    }
+
+    class Factory<T>(var data: List<PresenterModel<T>>, val generateUuid: Boolean = true) : DataSource.Factory<Int, PresenterModel<T>>() {
 
         private val dataSource by lazy { MutableLiveData<CircularDataSource<T>>() }
 
-        override fun create() = CircularDataSource(data).also {
+        override fun create() = CircularDataSource(data, generateUuid).also {
             dataSource.postValue(it)
         }
 
