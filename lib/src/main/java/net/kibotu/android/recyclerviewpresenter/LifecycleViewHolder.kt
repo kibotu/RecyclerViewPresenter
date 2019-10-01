@@ -1,6 +1,5 @@
 package net.kibotu.android.recyclerviewpresenter
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner

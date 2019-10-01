@@ -13,6 +13,9 @@ open class PresenterModelDiffCallback(var oldItems: List<PresenterModel<*>>, var
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = oldItems[oldItemPosition].model == (newItems[newItemPosition]).model
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-        return oldItems[oldItemPosition].changedPayload(newItems[newItemPosition].model ?: return super.getChangePayload(oldItemPosition, newItemPosition)) ?: super.getChangePayload(oldItemPosition, newItemPosition)
+        return oldItems[oldItemPosition].changedPayload(newItems[newItemPosition].model ?: return super.getChangePayload(oldItemPosition, newItemPosition)) ?: super.getChangePayload(
+            oldItemPosition,
+            newItemPosition
+        )
     }
 }

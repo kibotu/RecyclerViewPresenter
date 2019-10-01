@@ -30,11 +30,11 @@ package net.kibotu.android.recyclerviewpresenter.cirkle
  *
  * @sample samples.Cirkle.Extensions.circularListExtension
  */
-internal fun <T> List<T>.circular(): CircularList<T> = CircularList(this)
+fun <T> List<T>.circular(): CircularList<T> = CircularList(this)
 
 /**
  * Wrap an existing [kotlin.collections.MutableList<T>] in a [com.ginsberg.cirkle.MutableCircularList]
  *
  * @sample samples.Cirkle.Extensions.mutableCircularListExtension
  */
-internal fun <T> MutableList<T>.circular(): MutableList<T> = MutableCircularList(this)
+fun <T> MutableList<T>.circular(): MutableList<T> = MutableCircularList(this)

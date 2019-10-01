@@ -18,7 +18,6 @@ import net.kibotu.android.recyclerviewpresenter.app.kotlin.LabelPresenter
 import net.kibotu.android.recyclerviewpresenter.app.kotlin.NumberPresenter
 import net.kibotu.android.recyclerviewpresenter.app.kotlin.PhotoPresenter
 import net.kibotu.logger.Logger.logv
-import net.kibotu.logger.logv
 import net.kibotu.logger.snack
 import java.text.MessageFormat.format
 import kotlin.random.Random
@@ -65,7 +64,7 @@ class V2Activity : AppCompatActivity() {
         val dataSourceSource = LivePagedListBuilder(dataSourceFactory, config).build()
 
         dataSourceSource.observe(this, Observer {
-            logv("circularDataSource data: ${it.size}")
+            logv { "circularDataSource data: ${it.size}" }
             adapter.submitList(it)
             swipeRefresh.isRefreshing = false
         })
@@ -86,7 +85,7 @@ class V2Activity : AppCompatActivity() {
         val dataSourceSource = LivePagedListBuilder(dataSourceFactory, config).build()
 
         dataSourceSource.observe(this, Observer {
-            logv("positionalDataSource data: ${it.size}")
+            logv { "positionalDataSource data: ${it.size}" }
             adapter.submitList(it)
             swipeRefresh.isRefreshing = false
         })

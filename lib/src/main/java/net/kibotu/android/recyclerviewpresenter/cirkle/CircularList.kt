@@ -31,7 +31,7 @@ import kotlin.math.absoluteValue
  * Implementation of a Circularly-addressable [kotlin.collections.List], allowing negative
  * indexes and positive indexes that are larger than the size of the List.
  */
-internal class CircularList<out T>(private val list: List<T>) : List<T> by list {
+class CircularList<out T>(private val list: List<T>) : List<T> by list {
     /**
      * Get the value at the specified [index].
      *

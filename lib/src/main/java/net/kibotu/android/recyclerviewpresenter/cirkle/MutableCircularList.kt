@@ -31,7 +31,7 @@ import kotlin.math.absoluteValue
  * Implementation of a Circularly-addressable [kotlin.collections.MutableList], allowing negative
  * indexes and positive indexes that are larger than the size of the List.
  */
-internal class MutableCircularList<T>(private val list: MutableList<T>): MutableList<T> by list {
+class MutableCircularList<T>(private val list: MutableList<T>) : MutableList<T> by list {
 
     /**
      * Add the [element] at the specified [index].
@@ -146,7 +146,7 @@ internal class MutableCircularList<T>(private val list: MutableList<T>): Mutable
         list.toString()
 
     private fun Int.safely(): Int =
-        if(this < 0) (this % lastIndex + lastIndex) % lastIndex
+        if (this < 0) (this % lastIndex + lastIndex) % lastIndex
         else this % lastIndex
 
 }

@@ -1,7 +1,6 @@
 package net.kibotu.android.recyclerviewpresenter
 
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.ref.WeakReference
 
 interface Adapter {
 

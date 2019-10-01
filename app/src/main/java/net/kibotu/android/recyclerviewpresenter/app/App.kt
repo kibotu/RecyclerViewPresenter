@@ -6,7 +6,6 @@ import android.os.StrictMode
 import net.kibotu.logger.LogcatLogger
 import net.kibotu.logger.Logger
 import net.kibotu.logger.Logger.logv
-import net.kibotu.logger.logv
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
@@ -20,7 +19,7 @@ class App : Application() {
 
         Logger.addLogger(LogcatLogger())
 
-        logv("onCreate")
+        logv { "onCreate" }
     }
 
     override fun onTerminate() {
@@ -28,7 +27,7 @@ class App : Application() {
         Logger.onTerminate()
     }
 
-    fun initStrictMode() {
+    private fun initStrictMode() {
 
         StrictMode.setThreadPolicy(
             StrictMode.ThreadPolicy.Builder()
