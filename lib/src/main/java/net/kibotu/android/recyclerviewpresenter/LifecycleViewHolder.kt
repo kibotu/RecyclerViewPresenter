@@ -44,8 +44,8 @@ inline fun <reified T> LifecycleViewHolder.submitList(adapter: PresenterPageList
 
     val dataSourceSource = LivePagedListBuilder(
         dataSourceFactory, config ?: PagedList.Config.Builder()
-            .setPageSize(1)
-            .setPrefetchDistance(1)
+            .setPageSize(10.coerceAtMost(items.size))
+            .setPrefetchDistance(3)
             .setEnablePlaceholders(false)
             .build()
     ).build()
