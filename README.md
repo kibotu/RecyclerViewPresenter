@@ -6,65 +6,79 @@ Convenience library to handle different view types with different presenters in 
 [![Screenshot](https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png)](https://raw.githubusercontent.com/kibotu/RecyclerViewPresenter/master/screenshot.png)
   
 ### How to install
-	
-	repositories {
-	    maven {
-	        url "https://jitpack.io"
-	    }
-	}
-		
-	dependencies {
-        implementation 'com.github.kibotu:RecyclerViewPresenter:-SNAPSHOT'
+
+```groovy
+repositories {
+    maven {
+	url "https://jitpack.io"
     }
-    
+}
+
+dependencies {
+    implementation 'com.github.kibotu:RecyclerViewPresenter:-SNAPSHOT'
+}
+```
+
 ### How to use
 
 
 1. Create a presenter, e.g. [PhotoPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PhotoPresenter.kt#L14-L24) or [LabelPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/LabelPresenter.kt#L12-L19)
 
-        class LabelPresenter : Presenter<String>() {
+```kotlin
+class LabelPresenter : Presenter<String>() {
 
-            override val layout = R.layout.label_presenter_item
+    override val layout = R.layout.label_presenter_item
 
-            override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int, payloads: MutableList<Any>?, adapter: Adapter) = with(viewHolder.itemView) {
-                label.text = item.model
-            }
-        }
+    override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int, payloads: MutableList<Any>?, adapter: Adapter) = with(viewHolder.itemView) {
+	label.text = item.model
+    }
+}
+```
 
 2. [Add the PresenterAdapter to your RecyclerView](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L23-L29)
 
-        val adapter = PresenterAdapter()
-        list.adapter = adapter
+```kotlin
+val adapter = PresenterAdapter()
+list.adapter = adapter
+```
 
 3. [Register Presenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L24-L26)
 
-        adapter.registerPresenter(PhotoPresenter())
-        adapter.registerPresenter(LabelPresenter())
-        adapter.registerPresenter(NumberPresenter())
-        
+```kotlin
+adapter.registerPresenter(PhotoPresenter())
+adapter.registerPresenter(LabelPresenter())
+adapter.registerPresenter(NumberPresenter())
+```
+
 4. [Submit list of models with presenter matching layout](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L39-L51) to the adapter, e.g.:
 
-        val items = ArrayList<PresenterModel<String>>()
+```kotlin
+val items = ArrayList<PresenterModel<String>>()
 
-        for (i in 0..99) {
-            items.add(PresenterModel(createRandomImageUrl(), R.layout.photo_presenter_item))
-            items.add(PresenterModel(createRandomImageUrl(), R.layout.label_presenter_item))
-            items.add(PresenterModel(createRandomImageUrl(), R.layout.number_presenter_item))
-        }
+for (i in 0..99) {
+    items.add(PresenterModel(createRandomImageUrl(), R.layout.photo_presenter_item))
+    items.add(PresenterModel(createRandomImageUrl(), R.layout.label_presenter_item))
+    items.add(PresenterModel(createRandomImageUrl(), R.layout.number_presenter_item))
+}
 
-        adapter.submitList(items)
+adapter.submitList(items)
+```
 
 5. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L31-L33)
 
-        adapter.onItemClick { item, view, position ->
-            snack("$position. ${item.model}")
-        }
+```kotlin
+adapter.onItemClick { item, view, position ->
+    snack("$position. ${item.model}")
+}
+```
 
 4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L43-L45)
 
-        val item = PresenterModel(createRandomImageUrl()) {
-            snack("$position. ${item.model}")
-        }
+```kotlin
+val item = PresenterModel(createRandomImageUrl()) {
+    snack("$position. ${item.model}")
+}
+```
 
 ### [Updating item](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L55)
 
