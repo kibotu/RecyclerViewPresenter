@@ -68,8 +68,18 @@ Convenience library to handle different view types with different presenters in 
 
 ### [Updating item](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L55)
 
-     adapter.submitList(newItems)
-       
+```kotlin
+adapter.submitList(newItems)
+```
+
+### Notes
+
+Follow me on Twitter: [@wolkenschauer](https://twitter.com/wolkenschauer)
+
+Let me know what you think: [jan.rabe@kibotu.net](mailto:jan.rabe@kibotu.net)
+
+Contributions welcome!
+
 ### License
 <pre>
 Copyright 2019 Jan Rabe
