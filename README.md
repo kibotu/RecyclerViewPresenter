@@ -88,7 +88,7 @@ adapter.submitList(newItems)
 
 ### Notes
 
-Follow me on Twitter: [@wolkenschauer](https://twitter.com/wolkenschauer)
+Follow me on Twitter: [![Twitter Follow](https://img.shields.io/twitter/follow/wolkenschauer.svg?style=social)](https://twitter.com/wolkenschauer)
 
 Let me know what you think: [jan.rabe@kibotu.net](mailto:jan.rabe@kibotu.net)
 
