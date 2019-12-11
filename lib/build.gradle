@@ -36,6 +36,14 @@ android {
 
     // endregion
 
+    // region compile options
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    // endregion
+
     // region lint options
 
     lintOptions {
@@ -73,14 +81,10 @@ dependencies {
     implementation libs.supportRecyclerview
     implementation libs.pagingRuntimeKtx
 //    implementation libs.cirkle
-
-    // viewmodel and lifecycle
+    implementation libs.lifecycleRuntimeKtx
     implementation libs.lifecycleExtensions
-    implementation libs.lifecycleViewmodel
-    kapt libs.lifecycleCompiler
-    implementation libs.lifecycleRuntime
+    implementation libs.lifecycleCommonJava8
     implementation libs.lifecycleLivedataKtx
-    implementation libs.androidKtxLifecycleViewmodel
 }
 
 configurations.all {

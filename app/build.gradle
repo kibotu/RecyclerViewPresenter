@@ -23,6 +23,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    // region compile options
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    // endregion
+
     buildTypes {
         release {
             minifyEnabled false
@@ -70,23 +78,25 @@ android {
 }
 
 dependencies {
+
     implementation libs.kotlinJdk8
-    implementation libs.supportAppCompat
-    implementation libs.appCompatResources
-    implementation libs.supportDesign
-    implementation libs.constraintLayout
-    implementation libs.supportRecyclerview
-    implementation libs.recyclerviewAnimators
-    implementation libs.swipeRefreshLayout
-    implementation libs.supportCardView
-    implementation libs.glide
-    kapt libs.glideAnnotationsProcessor
 
     implementation libs.androidKtxCore
+    implementation libs.supportAppCompat
+    implementation libs.appCompatResources
+    implementation libs.fragmentKtx
     implementation libs.activityKtx
+    implementation libs.material
+    implementation libs.swipeRefreshLayout
+    implementation libs.constraintLayout2
+    implementation libs.supportRecyclerview
+    implementation libs.supportAnnotations
+    implementation libs.supportCardView
+
+    implementation libs.recyclerviewAnimators
+
     implementation libs.androidKtxCollection
     implementation libs.fragmentKtx
-    implementation libs.supportDesign
 
     implementation libs.pagingCommon
     implementation libs.pagingRuntimeKtx
@@ -100,28 +110,19 @@ dependencies {
     }
     implementation libs.logger
 
-    implementation 'com.github.JastAir:Android-ProgressView:0.1'
     debugImplementation libs.leakcanary2
     implementation libs.okhttp4
-    implementation 'com.google.android.material:material:1.1.0-alpha09'
+
+    testImplementation testLibs.junit
+    androidTestImplementation androidTestLibs.espressoRunner
+    androidTestImplementation androidTestLibs.espressoRules
 
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-    implementation 'androidx.appcompat:appcompat-resources:1.1.0-rc01'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation libs.glide
+    implementation libs.glideOkHttp3
+    kapt libs.glideAnnotationsProcessor
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta03'
-    implementation 'com.google.android.material:material:1.1.0-alpha09'
-
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
-    kapt 'com.github.bumptech.glide:compiler:4.9.0'
-
-    implementation 'com.github.kibotu:StreamingAndroidLogger:4.3.8'
+    implementation libs.androidProgressView
 
 }
 
