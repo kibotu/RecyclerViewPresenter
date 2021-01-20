@@ -10,7 +10,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath plugin.gradleBuildToolsCanary
+        classpath plugin.gradleBuildTools
         classpath plugin.kotlinGradle
         classpath plugin.kotlinApt
         classpath pluginLibrary.mavenGradle

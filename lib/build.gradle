@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount'
 
@@ -77,10 +76,9 @@ android {
 
 dependencies {
     implementation libs.kotlinJdk8
-    implementation libs.constraintLayout
+    implementation libs.constraintLayout2
     implementation libs.supportRecyclerview
     implementation libs.pagingRuntimeKtx
-//    implementation libs.cirkle
     implementation libs.lifecycleRuntimeKtx
     implementation libs.lifecycleExtensions
     implementation libs.lifecycleCommonJava8
@@ -91,7 +89,7 @@ configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
 
     resolutionStrategy.force libs.kotlinJdk8
-    resolutionStrategy.force libs.constraintLayout
+    resolutionStrategy.force libs.constraintLayout2
     resolutionStrategy.force libs.supportRecyclerview
 }
 

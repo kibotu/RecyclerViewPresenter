@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount'
 
@@ -67,14 +66,6 @@ android {
     }
 
     // endregion
-
-    // region exclude duplicated meta inf files
-
-    packagingOptions {
-        exclude 'META-INF/library-core_release.kotlin_module'
-    }
-
-    // endregion
 }
 
 dependencies {
@@ -133,7 +124,7 @@ configurations.all {
     resolutionStrategy.force libs.kotlinJdk8
     resolutionStrategy.force libs.supportAppCompat
     resolutionStrategy.force libs.appCompatResources
-    resolutionStrategy.force libs.constraintLayout
+    resolutionStrategy.force libs.constraintLayout2
     resolutionStrategy.force libs.supportRecyclerview
     resolutionStrategy.force libs.recyclerviewAnimators
     resolutionStrategy.force libs.supportCardView
