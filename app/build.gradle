@@ -98,6 +98,7 @@ dependencies {
 
     implementation(libs.exozetCore) {
         exclude module: 'RecyclerViewPresenter'
+        exclude group: 'io.realm'
     }
     implementation libs.logger
 
