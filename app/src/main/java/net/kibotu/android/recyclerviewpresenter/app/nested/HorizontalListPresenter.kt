@@ -1,9 +1,10 @@
 package net.kibotu.android.recyclerviewpresenter.app.nested
 
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_horizontal_list.view.*
 import net.kibotu.android.recyclerviewpresenter.*
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.logger.Logger.logv
@@ -13,6 +14,9 @@ data class HorizontalListItems(val items: List<Column>)
 class HorizontalListPresenter : Presenter<HorizontalListItems>() {
 
     override val layout = R.layout.item_horizontal_list
+
+    private val View.horizontalList: RecyclerView
+        get() = findViewById(R.id.horizontalList)
 
     override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<HorizontalListItems>, position: Int, payloads: MutableList<Any>?, adapter: Adapter) {
 

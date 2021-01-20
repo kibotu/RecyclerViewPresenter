@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.annotation.LayoutRes
 import androidx.paging.DataSource
 import androidx.paging.ItemKeyedDataSource
-import com.exozet.android.core.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
 import net.kibotu.logger.TAG
 
 /**

@@ -2,12 +2,13 @@ package net.kibotu.android.recyclerviewpresenter.app.kotlin
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.exozet.android.core.misc.createRandomImageUrl
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
 import net.kibotu.logger.snack
 import java.util.*
 
@@ -15,6 +16,12 @@ import java.util.*
  * Created by [Jan Rabe](https://about.me/janrabe).
  */
 class PresenterActivity : AppCompatActivity() {
+
+    private val list: RecyclerView
+        get() = findViewById(R.id.list)
+
+    private val swipeRefresh: SwipeRefreshLayout
+        get() = findViewById(R.id.swipeRefresh)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_horizontal_list.view.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
@@ -13,6 +12,12 @@ import net.kibotu.android.recyclerviewpresenter.app.R
 class NestedActivity : AppCompatActivity() {
 
     val adapter = PresenterAdapter()
+
+    private val list: RecyclerView
+        get() = findViewById(R.id.list)
+
+    private val swipeRefresh: SwipeRefreshLayout
+        get() = findViewById(R.id.swipeRefresh)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +48,7 @@ class NestedActivity : AppCompatActivity() {
     private fun addResults(amount: Int) {
 
         val images = (0 until amount).map {
-            "https://lorempixel.com/2%02d/300/".format(it)
+            "https://via.placeholder.com/2%02d/300/".format(it)
         }
 
         val items = images.map {

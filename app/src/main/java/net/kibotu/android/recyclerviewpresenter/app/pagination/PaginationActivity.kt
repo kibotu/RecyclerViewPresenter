@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.kibotu.android.recyclerviewpresenter.PresenterPageListAdapter
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.decorateWithAlphaScaleAdapter
@@ -18,6 +19,12 @@ import net.kibotu.logger.Logger.logv
  * https://guides.codepath.com/android/Paging-Library-Guide
  */
 class PaginationActivity : AppCompatActivity() {
+
+    private val list: RecyclerView
+        get() = findViewById(R.id.list)
+
+    private val swipeRefresh: SwipeRefreshLayout
+        get() = findViewById(R.id.swipeRefresh)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

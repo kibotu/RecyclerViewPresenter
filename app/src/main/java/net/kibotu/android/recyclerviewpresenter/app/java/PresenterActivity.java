@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import com.exozet.android.core.misc.FakeDataGenerator;
 import kotlin.Unit;
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
 import net.kibotu.android.recyclerviewpresenter.PresenterModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
+import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator;
 
 import java.util.ArrayList;
 import java.util.Collections;
