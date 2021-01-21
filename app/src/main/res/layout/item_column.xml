@@ -10,16 +10,16 @@
     android:paddingEnd="@dimen/activity_vertical_margin">
 
 
-        <ImageView
-            android:id="@+id/imageCard"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            tools:background="@tools:sample/backgrounds/scenic" />
+    <ImageView
+        android:id="@+id/imageCard"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        tools:background="@tools:sample/backgrounds/scenic" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

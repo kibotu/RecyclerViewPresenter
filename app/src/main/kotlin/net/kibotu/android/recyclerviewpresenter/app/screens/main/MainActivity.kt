@@ -11,7 +11,6 @@ import net.kibotu.android.recyclerviewpresenter.app.screens.circular.CircularPre
 import net.kibotu.android.recyclerviewpresenter.app.screens.kotlin.PresenterActivity
 import net.kibotu.android.recyclerviewpresenter.app.screens.nested.NestedActivity
 import net.kibotu.android.recyclerviewpresenter.app.screens.pagination.PaginationActivity
-import net.kibotu.android.recyclerviewpresenter.app.screens.v2.V2Activity
 
 typealias JavaPresenterActivity = net.kibotu.android.recyclerviewpresenter.app.java.PresenterActivity
 
