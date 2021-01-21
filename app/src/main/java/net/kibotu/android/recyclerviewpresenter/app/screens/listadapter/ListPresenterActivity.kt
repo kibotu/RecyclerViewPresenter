@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.v2.PresenterListAdapter
 import net.kibotu.android.recyclerviewpresenter.v2.PresenterViewModel
 import net.kibotu.logger.Logger
@@ -63,11 +64,9 @@ class ListPresenterActivity : AppCompatActivity(R.layout.activity_main) {
 
         for (i in 0..100) {
             add(PresenterViewModel(i, R.layout.number_presenter_item))
-//            add(PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_item))
-//            add(PresenterViewModel(createRandomImageUrl(), R.layout.label_presenter_item))
+            add(PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_item))
+            add(PresenterViewModel(createRandomImageUrl(), R.layout.label_presenter_item))
         }
-
-//        shuffle()
     }
 
     override fun onDestroy() {

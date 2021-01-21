@@ -19,10 +19,6 @@ class LabelPresenter : Presenter<String>(R.layout.label_presenter_item) {
 
     override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<String>, payloads: MutableList<Any>?) = with(viewHolder.itemView) {
         logv { "bindViewHolder ${viewHolder.adapterPosition} $item payload=$payloads" }
-        label.text = "${viewHolder.adapterPosition}. ${item.model}"
-
-        onClick {
-            item.onClick(viewHolder)
-        }
+        label.text = "${item.model}"
     }
 }

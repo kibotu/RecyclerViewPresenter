@@ -43,6 +43,8 @@ class PhotoPresenter : Presenter<String>(R.layout.photo_presenter_item) {
                 }
             })
             .into(photo)
+            .waitForLayout()
+            .clearOnDetach()
 
         progressBar.show()
     }

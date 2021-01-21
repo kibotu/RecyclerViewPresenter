@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.PresenterModel
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.misc.startActivity
 import net.kibotu.android.recyclerviewpresenter.app.screens.kotlin.PresenterActivity
 import net.kibotu.android.recyclerviewpresenter.app.screens.listadapter.ListPresenterActivity
 import net.kibotu.android.recyclerviewpresenter.app.screens.nested.NestedActivity
@@ -55,9 +56,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         )
 
         adapter.submitList(items)
-
-        startActivity<ListPresenterActivity>()
+        // startActivity<ListPresenterActivity>()
     }
 }
-
-private inline fun <reified T : Activity> Activity.startActivity() = startActivity(Intent(this, T::class.java))
