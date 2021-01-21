@@ -8,7 +8,7 @@ import net.kibotu.logger.Logger
 import net.kibotu.logger.Logger.logv
 
 /**
- * Created by [Jan Rabe](https://about.me/janrabe).
+ * Created by [Jan Rabe](https://kibotu.net).
  */
 class App : Application() {
 
@@ -20,11 +20,6 @@ class App : Application() {
         Logger.addLogger(LogcatLogger())
 
         logv { "onCreate" }
-    }
-
-    override fun onTerminate() {
-        super.onTerminate()
-        Logger.onTerminate()
     }
 
     private fun initStrictMode() {
@@ -41,8 +36,7 @@ class App : Application() {
         StrictMode.setVmPolicy(
             StrictMode.VmPolicy.Builder()
                 .apply {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-                        detectLeakedRegistrationObjects()
+                    detectLeakedRegistrationObjects()
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                         detectCleartextNetwork()
                 }

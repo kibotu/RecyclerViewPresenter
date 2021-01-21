@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="net_kibotu_android_recyclerviewpresenter_debug">false</bool>
+</resources>

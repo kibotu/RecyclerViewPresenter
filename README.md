@@ -35,14 +35,14 @@ class LabelPresenter : Presenter<String>() {
 }
 ```
 
-2. [Add the PresenterAdapter to your RecyclerView](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L23-L29)
+2. [Add the PresenterAdapter to your RecyclerView](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L23-L29)
 
 ```kotlin
 val adapter = PresenterAdapter()
 list.adapter = adapter
 ```
 
-3. [Register Presenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L24-L26)
+3. [Register Presenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L24-L26)
 
 ```kotlin
 adapter.registerPresenter(PhotoPresenter())
@@ -50,7 +50,7 @@ adapter.registerPresenter(LabelPresenter())
 adapter.registerPresenter(NumberPresenter())
 ```
 
-4. [Submit list of models with presenter matching layout](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L39-L51) to the adapter, e.g.:
+4. [Submit list of models with presenter matching layout](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L39-L51) to the adapter, e.g.:
 
 ```kotlin
 val items = ArrayList<PresenterModel<String>>()
@@ -64,7 +64,7 @@ for (i in 0..99) {
 adapter.submitList(items)
 ```
 
-5. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L31-L33)
+5. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L31-L33)
 
 ```kotlin
 adapter.onItemClick { item, view, position ->
@@ -72,7 +72,7 @@ adapter.onItemClick { item, view, position ->
 }
 ```
 
-4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L43-L45)
+4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L43-L45)
 
 ```kotlin
 val item = PresenterModel(createRandomImageUrl()) {
@@ -80,7 +80,7 @@ val item = PresenterModel(createRandomImageUrl()) {
 }
 ```
 
-### [Updating item](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PresenterActivity.kt#L55)
+### [Updating item](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L55)
 
 ```kotlin
 adapter.submitList(newItems)

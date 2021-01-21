@@ -3,20 +3,39 @@ package net.kibotu.android.recyclerviewpresenter
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.ref.WeakReference
 
 
 /**
- * Created by [Jan Rabe](https://about.me/janrabe).
+ * Created by [Jan Rabe](https://kibotu.net).
  */
-abstract class Presenter<T> {
-
+abstract class Presenter<T>(
     /**
      * Used for inflating the view holder layout.
      *
      * @return Layout Resource Id.
      */
     @get:LayoutRes
-    abstract val layout: Int
+    val layout: Int
+) {
+
+    // region adapter
+
+    private var _adapter: WeakReference<PresenterAdapter>? = null
+
+    /**
+     * Reference to the bound [RecyclerView].
+     */
+    var adapter
+        get() = _adapter?.get()
+        set(value) {
+            _adapter = if (value != null)
+                WeakReference(value)
+            else
+                null
+        }
+
+    // endregion
 
     /**
      * [PresenterAdapter.createViewHolder]
@@ -28,15 +47,11 @@ abstract class Presenter<T> {
      *
      * @param viewHolder Current [VH].
      * @param item       Current [T]
-     * @param position   Adapter position.
      * @param payloads Changes
-     * @param adapter Adapter
      */
-    abstract fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<T>, position: Int, payloads: MutableList<Any>?, adapter: Adapter)
+    abstract fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<T>, payloads: MutableList<Any>?)
 
     @Suppress("UNCHECKED_CAST")
-    internal fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<*>, position: Int, payloads: MutableList<Any>?, adapter: Adapter) =
-        bindViewHolder(viewHolder, item as PresenterModel<T>, position, payloads, adapter)
-
-
+    internal fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<*>, payloads: MutableList<Any>?) =
+        bindViewHolder(viewHolder, item as PresenterViewModel<T>, payloads)
 }

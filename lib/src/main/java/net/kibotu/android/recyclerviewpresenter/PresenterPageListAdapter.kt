@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import java.lang.ref.WeakReference
 
-open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, RecyclerView.ViewHolder>(ItemCallback<T>()), Adapter {
+open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterViewModel<T>, RecyclerView.ViewHolder>(ItemCallback<T>()), Adapter {
 
     /**
      * Holds all registered presenter.
@@ -16,11 +16,22 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
     protected val presenter = mutableListOf<Presenter<*>>()
 
     fun registerPresenter(presenter: Presenter<*>) {
+        if (presenter.adapter != null)
+            throw IllegalArgumentException("Presenter already registered to ${requireNotNull(presenter.adapter)::class.java}.")
+
         require(this.presenter.firstOrNull { it.layout == presenter.layout } == null) { "Layout already registered, each presenter layout needs to be unique." }
         this.presenter.add(presenter)
     }
 
-    fun unregisterPresenter() = presenter.clear()
+    fun unregisterPresenter(presenter: Presenter<*>) {
+        presenter.adapter = null
+        this.presenter.remove(presenter)
+    }
+
+    fun unregisterPresenter() {
+        presenter.forEach { it.adapter = null }
+        presenter.clear()
+    }
 
     // region Listener
 
@@ -31,7 +42,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
      * @param view  View that has been clicked.
      * @param position Adapter position of the clicked element.
      */
-    protected var onItemClick: ((item: PresenterModel<*>, view: View, position: Int) -> Unit)? = null
+    protected var onItemClick: ((item: PresenterViewModel<*>, view: View, position: Int) -> Unit)? = null
 
     /**
      * Callback for [RecyclerView.ViewHolder.itemView.setOnClickListener].
@@ -40,7 +51,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
      * @param view  View that has been clicked.
      * @param position Adapter position of the clicked element.
      */
-    fun onItemClick(block: ((item: PresenterModel<*>, view: View, position: Int) -> Unit)?) {
+    fun onItemClick(block: ((item: PresenterViewModel<*>, view: View, position: Int) -> Unit)?) {
         onItemClick = block
     }
 
@@ -51,7 +62,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
      * @param view     View that has been clicked.
      * @param hasFocus `True` if it is focused.
      */
-    protected var onFocusChange: ((item: PresenterModel<*>, view: View, hasFocus: Boolean, position: Int) -> Unit)? = null
+    protected var onFocusChange: ((item: PresenterViewModel<*>, view: View, hasFocus: Boolean, position: Int) -> Unit)? = null
 
     /**
      * Callback for [RecyclerView.ViewHolder.itemView.setOnFocusChangeListener].
@@ -60,7 +71,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
      * @param view     View that has been clicked.
      * @param hasFocus `True` if it is focused.
      */
-    fun onFocusChange(block: ((item: PresenterModel<*>, view: View, hasFocus: Boolean, position: Int) -> Unit)?) {
+    fun onFocusChange(block: ((item: PresenterViewModel<*>, view: View, hasFocus: Boolean, position: Int) -> Unit)?) {
         onFocusChange = block
     }
 
@@ -90,7 +101,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
 
         onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
 
-        presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, null, this)
+        presenterAtAdapterPosition(position).bindViewHolder(holder, item, null)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
@@ -101,10 +112,10 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
 
         onFocusChange?.let { holder.itemView.setOnFocusChangeListener { v, hasFocus -> it(item, v, hasFocus, position) } }
 
-        presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, payloads, this)
+        presenterAtAdapterPosition(position).bindViewHolder(holder, item, payloads)
     }
 
-    operator fun get(position: Int) = getItem(position)!!
+    operator fun get(position: Int) = requireNotNull(getItem(position))
 
     /**
      * Returns presenter at adapter position.
@@ -183,13 +194,13 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
         super.onViewRecycled(viewHolder)
     }
 
-    open class ItemCallback<T> : DiffUtil.ItemCallback<PresenterModel<T>>() {
+    open class ItemCallback<T> : DiffUtil.ItemCallback<PresenterViewModel<T>>() {
 
-        override fun areContentsTheSame(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Boolean = oldItem.uuid == newItem.uuid
+        override fun areContentsTheSame(oldItem: PresenterViewModel<T>, newItem: PresenterViewModel<T>): Boolean = oldItem.uuid == newItem.uuid
 
-        override fun areItemsTheSame(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Boolean = oldItem.model == newItem.model
+        override fun areItemsTheSame(oldItem: PresenterViewModel<T>, newItem: PresenterViewModel<T>): Boolean = oldItem.model == newItem.model
 
-        override fun getChangePayload(oldItem: PresenterModel<T>, newItem: PresenterModel<T>): Any? = oldItem.changedPayload(oldItem.model as Any) ?: super.getChangePayload(oldItem, newItem)
+        override fun getChangePayload(oldItem: PresenterViewModel<T>, newItem: PresenterViewModel<T>): Any? = oldItem.changedPayload(oldItem.model as Any) ?: super.getChangePayload(oldItem, newItem)
     }
 
 }

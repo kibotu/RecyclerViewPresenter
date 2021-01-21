@@ -3,7 +3,7 @@ package net.kibotu.android.recyclerviewpresenter
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * Created by [Jan Rabe](https://about.me/janrabe).
+ * Created by [Jan Rabe](https://kibotu.net).
  */
 internal object UIDGenerator {
 
