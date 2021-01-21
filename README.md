@@ -74,15 +74,15 @@ adapter.onItemClick { item, view, position ->
 }
 ```
 
-4.1 or pass [to your RecyclerViewModel](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L43-L45)
+4.1 or pass [to your RecyclerViewModel](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L65-L67)
 
 ```kotlin
-val item = PresenterModel(createRandomImageUrl()) {
-    snack("$position. ${item.model}")
-}
+val item = PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_item) { item, view, position -> 
+	snack("$position. $item")
+})
 ```
 
-### [Updating item](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L55)
+### [Updating item](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L56)
 
 ```kotlin
 adapter.submitList(newItems)
