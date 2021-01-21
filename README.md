@@ -88,7 +88,7 @@ val item = PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_i
 adapter.submitList(newItems)
 ```
 
-#### Circular[app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/circular/CircularPresenterActivity.kt#L37]
+#### [Circular](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/circular/CircularPresenterActivity.kt#L37)
 
 ```kotlin
 adapter.isCircular = true
