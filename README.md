@@ -52,7 +52,7 @@ adapter.registerPresenter(LabelPresenter())
 adapter.registerPresenter(NumberPresenter())
 ```
 
-4. [Submit list of models with presenter matching layout](app/screens/kotlin/PresenterActivity.kt#L50-L52) to the adapter, e.g.:
+4. [Submit list of models with presenter matching layout](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L50-L70) to the adapter, e.g.:
 
 ```kotlin
 val items = mutableListOf<PresenterViewModel<*>>()
@@ -82,10 +82,20 @@ val item = PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_i
 })
 ```
 
-### [Updating item](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L56)
+#### [Updating item](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L56)
 
 ```kotlin
 adapter.submitList(newItems)
+```
+
+#### Circular[app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/circular/CircularPresenterActivity.kt#L37]
+
+```kotlin
+adapter.isCircular = true
+
+// Note: use adapter scroll methods for correct scroll position when using circular
+adapter.smoothScrollToPosition(0)
+adapter.scrollToPosition(0)
 ```
 
 ### Notes
@@ -98,7 +108,7 @@ Contributions welcome!
 
 ### License
 <pre>
-Copyright 2019 Jan Rabe
+Copyright 2021 Jan Rabe
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

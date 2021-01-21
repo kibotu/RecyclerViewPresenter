@@ -56,6 +56,7 @@ class PresenterActivity : AppCompatActivity(R.layout.activity_main) {
             adapter.submitList(items)
             swipeRefresh.isRefreshing = false
         }
+        
     }
 
     private fun createItems() = mutableListOf<PresenterViewModel<*>>().apply {
