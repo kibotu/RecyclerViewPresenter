@@ -62,7 +62,9 @@ class PresenterActivity : AppCompatActivity(R.layout.activity_main) {
 
         repeat(100) {
             add(PresenterViewModel(it, R.layout.number_presenter_item))
-            add(PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_item))
+            add(PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_item) { item, view, position ->
+                snack("$position. $item")
+            })
             add(PresenterViewModel(createRandomImageUrl(), R.layout.label_presenter_item))
         }
     }

@@ -22,27 +22,29 @@ dependencies {
 ### How to use
 
 
-1. Create a presenter, e.g. [PhotoPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/PhotoPresenter.kt#L14-L24) or [LabelPresenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/LabelPresenter.kt#L12-L19)
+1. Create a presenter, e.g. [PhotoPresenter](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PhotoPresenter.kt#L21-L51) or [LabelPresenter](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/LabelPresenter.kt#L14-L23)
 
 ```kotlin
-class LabelPresenter : Presenter<String>() {
+class LabelPresenter : Presenter<String>(R.layout.label_presenter_item) {
 
-    override val layout = R.layout.label_presenter_item
+    private val View.label: TextView
+        get() = findViewById(R.id.label)
 
-    override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterModel<String>, position: Int, payloads: MutableList<Any>?, adapter: Adapter) = with(viewHolder.itemView) {
-	label.text = item.model
+    override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<String>, payloads: MutableList<Any>?) = with(viewHolder.itemView) {
+        logv { "bindViewHolder ${viewHolder.adapterPosition} $item payload=$payloads" }
+        label.text = "${item.model}"
     }
 }
 ```
 
-2. [Add the PresenterAdapter to your RecyclerView](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L23-L29)
+2. [Add the PresenterAdapter to your RecyclerView](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L26)
 
 ```kotlin
 val adapter = PresenterAdapter()
 list.adapter = adapter
 ```
 
-3. [Register Presenter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L24-L26)
+3. [Register Presenter](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L33-L35)
 
 ```kotlin
 adapter.registerPresenter(PhotoPresenter())
@@ -50,10 +52,10 @@ adapter.registerPresenter(LabelPresenter())
 adapter.registerPresenter(NumberPresenter())
 ```
 
-4. [Submit list of models with presenter matching layout](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L39-L51) to the adapter, e.g.:
+4. [Submit list of models with presenter matching layout](app/screens/kotlin/PresenterActivity.kt#L50-L52) to the adapter, e.g.:
 
 ```kotlin
-val items = ArrayList<PresenterModel<String>>()
+val items = mutableListOf<PresenterViewModel<*>>()
 
 for (i in 0..99) {
     items.add(PresenterModel(createRandomImageUrl(), R.layout.photo_presenter_item))
@@ -64,7 +66,7 @@ for (i in 0..99) {
 adapter.submitList(items)
 ```
 
-5. Add click listener [to adapter](app/src/main/java/net/kibotu/android/recyclerviewpresenter/app/kotlin/CircularPresenterActivity.kt#L31-L33)
+5. Add click listener [to adapter](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L37-L40)
 
 ```kotlin
 adapter.onItemClick { item, view, position ->
