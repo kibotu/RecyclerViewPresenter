@@ -66,7 +66,7 @@ for (i in 0..99) {
 adapter.submitList(items)
 ```
 
-5. Add click listener [to adapter](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L37-L40)
+5.1 Add click listener [to adapter](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L37-L40)
 
 ```kotlin
 adapter.onItemClick { item, view, position ->
@@ -74,7 +74,7 @@ adapter.onItemClick { item, view, position ->
 }
 ```
 
-4.1 or pass [to your RecyclerViewModel](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L65-L67)
+5.2 or pass [to your RecyclerViewModel](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PresenterActivity.kt#L65-L67)
 
 ```kotlin
 val item = PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_item) { item, view, position -> 
