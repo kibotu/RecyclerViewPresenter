@@ -16,7 +16,7 @@ import kotlin.math.roundToInt
 fun createRandomImageUrl(): String {
 
     val landscape = randomBoolean()
-    val endpoint = randomBoolean()
+    val endpoint = false // randomBoolean()
 
     val width = random(300, 400)
     val height = random(200, 300)

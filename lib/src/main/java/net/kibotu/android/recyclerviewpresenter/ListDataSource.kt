@@ -6,7 +6,7 @@ import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
 
 /**
- * Created by [Jan Rabe](https://about.me/janrabe).
+ * Created by [Jan Rabe](https://kibotu.net).
  */
 class ListDataSource<T>(private val data: List<PresenterModel<T>>) : PositionalDataSource<PresenterModel<T>>() {
 

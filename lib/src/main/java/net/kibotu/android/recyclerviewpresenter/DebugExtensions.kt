@@ -1,5 +1,5 @@
 /**
- * Created by [Jan Rabe](https://about.me/janrabe).
+ * Created by [Jan Rabe](https://kibotu.net).
  */
 
 @file:JvmName("DebugExtensions")

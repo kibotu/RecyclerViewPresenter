@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 /**
- * Created by [Jan Rabe](https://about.me/janrabe).
+ * Created by [Jan Rabe](https://kibotu.net).
  */
 abstract class Presenter<T> {
 

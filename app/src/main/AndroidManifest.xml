@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".screens.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -20,10 +20,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".java.PresenterActivity" />
-        <activity android:name=".kotlin.PresenterActivity" />
-        <activity android:name=".pagination.PaginationActivity" />
-        <activity android:name=".v2.V2Activity" />
-        <activity android:name=".nested.NestedActivity" />
+        <activity android:name=".screens.kotlin.PresenterActivity" />
+        <activity android:name=".screens.pagination.PaginationActivity" />
+        <activity android:name=".screens.v2.V2Activity" />
+        <activity android:name=".screens.nested.NestedActivity" />
+        <activity android:name=".screens.listadapter.ListPresenterActivity" />
     </application>
 
 </manifest>

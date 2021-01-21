@@ -9,7 +9,7 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 
 /**
- * Created by [Jan Rabe](https://about.me/janrabe).
+ * Created by [Jan Rabe](https://kibotu.net).
  */
 @GlideModule
 class MyAppGlideModule : AppGlideModule() {

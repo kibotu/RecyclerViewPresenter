@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 
 /**
- * Created by [Jan Rabe](https://about.me/janrabe).
+ * Created by [Jan Rabe](https://kibotu.net).
  */
 data class PresenterModel<T>(
     val model: T,

@@ -1,10 +1,12 @@
-package net.kibotu.android.recyclerviewpresenter
+package net.kibotu.android.recyclerviewpresenter.v2
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import net.kibotu.android.recyclerviewpresenter.UIDGenerator
+import net.kibotu.android.recyclerviewpresenter.log
 
 /**
  * Created by [Jan Rabe](https://kibotu.net).

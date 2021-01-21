@@ -66,6 +66,14 @@ android {
     }
 
     // endregion
+
+    // region source sets for merging res-folders together
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    // endregion
 }
 
 dependencies {
@@ -108,7 +116,6 @@ dependencies {
     testImplementation testLibs.junit
     androidTestImplementation androidTestLibs.espressoRunner
     androidTestImplementation androidTestLibs.espressoRules
-
 
     implementation libs.glide
     implementation libs.glideOkHttp3

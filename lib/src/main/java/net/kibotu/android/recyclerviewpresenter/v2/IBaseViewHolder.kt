@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter
+package net.kibotu.android.recyclerviewpresenter.v2
 
 import androidx.recyclerview.widget.RecyclerView
 
