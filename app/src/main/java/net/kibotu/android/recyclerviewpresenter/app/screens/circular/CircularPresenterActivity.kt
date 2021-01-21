@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.app.screens.kotlin
+package net.kibotu.android.recyclerviewpresenter.app.screens.circular
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,13 +9,16 @@ import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
+import net.kibotu.android.recyclerviewpresenter.app.screens.kotlin.LabelPresenter
+import net.kibotu.android.recyclerviewpresenter.app.screens.kotlin.NumberPresenter
+import net.kibotu.android.recyclerviewpresenter.app.screens.kotlin.PhotoPresenter
 import net.kibotu.logger.Logger
 import net.kibotu.logger.snack
 
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-class PresenterActivity : AppCompatActivity(R.layout.activity_main) {
+class CircularPresenterActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val list: RecyclerView
         get() = findViewById(R.id.list)
@@ -30,6 +33,9 @@ class PresenterActivity : AppCompatActivity(R.layout.activity_main) {
 
         list.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         list.adapter = adapter
+
+        adapter.isCircular = true
+
         adapter.registerPresenter(PhotoPresenter())
         adapter.registerPresenter(LabelPresenter())
         adapter.registerPresenter(NumberPresenter())
@@ -46,6 +52,7 @@ class PresenterActivity : AppCompatActivity(R.layout.activity_main) {
         adapter.onCurrentListChanged { previousList, currentList ->
             Logger.v("onCurrentListChanged ${previousList.size} -> ${currentList.size}")
         }
+
 
         val items = createItems()
 

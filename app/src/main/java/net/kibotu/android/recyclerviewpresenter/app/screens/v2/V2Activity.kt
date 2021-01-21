@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.kibotu.android.recyclerviewpresenter.CircularDataSource
 import net.kibotu.android.recyclerviewpresenter.ListDataSource
-import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.PresenterPageListAdapter
+import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.app.screens.kotlin.LabelPresenter

@@ -7,6 +7,7 @@ import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.startActivity
+import net.kibotu.android.recyclerviewpresenter.app.screens.circular.CircularPresenterActivity
 import net.kibotu.android.recyclerviewpresenter.app.screens.kotlin.PresenterActivity
 import net.kibotu.android.recyclerviewpresenter.app.screens.nested.NestedActivity
 import net.kibotu.android.recyclerviewpresenter.app.screens.pagination.PaginationActivity
@@ -38,11 +39,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             PresenterViewModel("Java", R.layout.item_button, onItemClickListener = { _, _, _ ->
                 startActivity<JavaPresenterActivity>()
             }),
+            PresenterViewModel("Circular Scrolling", R.layout.item_button, onItemClickListener = { _, _, _ ->
+                startActivity<CircularPresenterActivity>()
+            }),
             PresenterViewModel("Pagination", R.layout.item_button, onItemClickListener = { _, _, _ ->
                 startActivity<PaginationActivity>()
-            }),
-            PresenterViewModel("Circular", R.layout.item_button, onItemClickListener = { _, _, _ ->
-                startActivity<V2Activity>()
             }),
             PresenterViewModel("Nested Scrolling", R.layout.item_button, onItemClickListener = { _, _, _ ->
                 startActivity<NestedActivity>()
@@ -50,6 +51,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         )
 
         adapter.submitList(items)
-        // startActivity<ListPresenterActivity>()
+
+        // start default use case
+        startActivity<CircularPresenterActivity>()
     }
 }
