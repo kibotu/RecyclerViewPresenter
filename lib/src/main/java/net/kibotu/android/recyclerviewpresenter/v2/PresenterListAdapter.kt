@@ -181,7 +181,7 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
             throw IllegalArgumentException("Layout '${resName(presenter.layout)}' already registered, each presenter layout needs to be unique.")
         this.presenter.add(presenter)
         if (presenter.adapter != null)
-            throw IllegalArgumentException("Presenter already registered to ${presenter.adapter!!::class.java}.")
+            throw IllegalArgumentException("Presenter already registered to ${requireNotNull(presenter.adapter)::class.java}.")
         presenter.adapter = this
     }
 

@@ -104,7 +104,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterModel<T>, Rec
         presenterAtAdapterPosition(position).bindViewHolder(holder, item, position, payloads, this)
     }
 
-    operator fun get(position: Int) = getItem(position)!!
+    operator fun get(position: Int) = requireNotNull(getItem(position))
 
     /**
      * Returns presenter at adapter position.
