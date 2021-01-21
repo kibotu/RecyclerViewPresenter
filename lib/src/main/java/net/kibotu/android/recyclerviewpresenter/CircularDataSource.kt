@@ -3,12 +3,12 @@ package net.kibotu.android.recyclerviewpresenter
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
-import net.kibotu.android.recyclerviewpresenter.cirkle.     circular
+import net.kibotu.android.recyclerviewpresenter.cirkle.circular
 import java.util.*
 
-class CircularDataSource<T>(private val data: List<PresenterModel<T>>, val generateUuid: Boolean = true) : PageKeyedDataSource<Int, PresenterModel<T>>() {
+class CircularDataSource<T>(private val data: List<PresenterViewModel<T>>, val generateUuid: Boolean = true) : PageKeyedDataSource<Int, PresenterViewModel<T>>() {
 
-    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, PresenterModel<T>>) {
+    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, PresenterViewModel<T>>) {
 
         val fromIndex = 0
         val toIndex = (fromIndex + params.requestedLoadSize - 1)
@@ -24,7 +24,7 @@ class CircularDataSource<T>(private val data: List<PresenterModel<T>>, val gener
         callback.onResult(list, previousKey, nextKey)
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterModel<T>>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterViewModel<T>>) {
 
         val fromIndex = params.key
         val toIndex = (fromIndex + params.requestedLoadSize - 1)
@@ -39,7 +39,7 @@ class CircularDataSource<T>(private val data: List<PresenterModel<T>>, val gener
         callback.onResult(list, nextKey)
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterModel<T>>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterViewModel<T>>) {
 
         val fromIndex = params.key
         val toIndex = (fromIndex - params.requestedLoadSize - 1)
@@ -54,7 +54,7 @@ class CircularDataSource<T>(private val data: List<PresenterModel<T>>, val gener
         callback.onResult(list, previousKey)
     }
 
-    private fun setNewUuid(list: List<PresenterModel<T>>, fromIndex: Int, toIndex: Int) {
+    private fun setNewUuid(list: List<PresenterViewModel<T>>, fromIndex: Int, toIndex: Int) {
         if (!generateUuid)
             return
 
@@ -63,7 +63,7 @@ class CircularDataSource<T>(private val data: List<PresenterModel<T>>, val gener
         }
     }
 
-    class Factory<T>(var data: List<PresenterModel<T>>, val generateUuid: Boolean = true) : DataSource.Factory<Int, PresenterModel<T>>() {
+    class Factory<T>(var data: List<PresenterViewModel<T>>, val generateUuid: Boolean = true) : DataSource.Factory<Int, PresenterViewModel<T>>() {
 
         private val dataSource by lazy { MutableLiveData<CircularDataSource<T>>() }
 

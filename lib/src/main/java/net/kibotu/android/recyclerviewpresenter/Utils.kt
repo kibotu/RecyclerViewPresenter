@@ -1,4 +1,4 @@
-package net.kibotu.android.recyclerviewpresenter.v2
+package net.kibotu.android.recyclerviewpresenter
 
 import androidx.annotation.AnyRes
 

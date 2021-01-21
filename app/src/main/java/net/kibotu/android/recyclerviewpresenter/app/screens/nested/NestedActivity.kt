@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
-import net.kibotu.android.recyclerviewpresenter.PresenterModel
+import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 
 class NestedActivity : AppCompatActivity() {
@@ -51,11 +51,11 @@ class NestedActivity : AppCompatActivity() {
             "https://via.placeholder.com/2%02d/300/".format(it)
         }
 
-        val items = images.map {
-            PresenterModel<Any>(Row(it, "$it label"), uuid = it, layout = R.layout.item_icon_with_label)
+        val items: MutableList<PresenterViewModel<*>> = images.map {
+            PresenterViewModel(Row(it, "$it label"), uuid = it, layout = R.layout.item_icon_with_label)
         }.toMutableList()
 
-        items.add(0, PresenterModel(HorizontalListItems(images.map {
+        items.add(0, PresenterViewModel(HorizontalListItems(images.map {
             Column(it)
         }), R.layout.item_horizontal_list))
 

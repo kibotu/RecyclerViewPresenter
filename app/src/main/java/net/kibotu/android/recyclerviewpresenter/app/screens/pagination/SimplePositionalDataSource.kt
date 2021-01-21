@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.annotation.LayoutRes
 import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
-import net.kibotu.android.recyclerviewpresenter.PresenterModel
+import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
 import net.kibotu.logger.TAG
@@ -12,20 +12,20 @@ import net.kibotu.logger.TAG
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-class SimplePositionalDataSource : PositionalDataSource<PresenterModel<String>>() {
+class SimplePositionalDataSource : PositionalDataSource<PresenterViewModel<String>>() {
 
-    private val data = mutableListOf<PresenterModel<String>>()
+    private val data = mutableListOf<PresenterViewModel<String>>()
 
     @LayoutRes
     val layout = R.layout.photo_presenter_item
 
-    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<PresenterModel<String>>) {
+    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<PresenterViewModel<String>>) {
         Log.v(TAG, "[loadRange] startPosition=${params.startPosition} data=${data.size} loadSize=${params.loadSize}")
 
         val dif = data.size - params.startPosition
 
         val list = (dif until params.loadSize).map {
-            PresenterModel(createRandomImageUrl(), layout)
+            PresenterViewModel(createRandomImageUrl(), layout)
         }.toList()
 
         data.addAll(list)
@@ -35,7 +35,7 @@ class SimplePositionalDataSource : PositionalDataSource<PresenterModel<String>>(
         callback.onResult(data.subList(params.startPosition, params.startPosition + params.loadSize))
     }
 
-    override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<PresenterModel<String>>) {
+    override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<PresenterViewModel<String>>) {
         Log.v(
             TAG,
             "[loadInitial] requestedStartPosition=${params.requestedStartPosition} data=${data.size} pageSize=${params.pageSize} requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}"
@@ -43,13 +43,13 @@ class SimplePositionalDataSource : PositionalDataSource<PresenterModel<String>>(
 
         (params.requestedStartPosition until params.requestedLoadSize).map {
             val uri = createRandomImageUrl()
-            data.add(PresenterModel(uri, layout))
+            data.add(PresenterViewModel(uri, layout))
         }
 
         callback.onResult(data, 0, data.size)
     }
 
-    class Factory : DataSource.Factory<Int, PresenterModel<String>>() {
+    class Factory : DataSource.Factory<Int, PresenterViewModel<String>>() {
 
         lateinit var dataSource: SimplePositionalDataSource
 

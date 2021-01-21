@@ -5,7 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
-import net.kibotu.android.recyclerviewpresenter.PresenterModel
+import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
 import net.kibotu.logger.TAG
@@ -13,28 +13,28 @@ import net.kibotu.logger.TAG
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-class SimplePageKeyedDataSource : PageKeyedDataSource<Int, PresenterModel<String>>() {
+class SimplePageKeyedDataSource : PageKeyedDataSource<Int, PresenterViewModel<String>>() {
 
-    private val data = mutableListOf<PresenterModel<String>>()
+    private val data = mutableListOf<PresenterViewModel<String>>()
 
     @LayoutRes
     val layout = R.layout.photo_presenter_item
 
-    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, PresenterModel<String>>) {
+    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, PresenterViewModel<String>>) {
         Log.v(TAG, "[loadInitial] requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}")
 
         (0 until params.requestedLoadSize).map {
-            data.add(PresenterModel(createRandomImageUrl(), layout))
+            data.add(PresenterViewModel(createRandomImageUrl(), layout))
         }
 
         callback.onResult(data, null, 2)
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterModel<String>>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterViewModel<String>>) {
         Log.v(TAG, "[loadAfter] key=${params.key} requestedLoadSize=${params.requestedLoadSize} data=${data.size}")
 
         val list = (0 until params.requestedLoadSize).map {
-            PresenterModel(createRandomImageUrl(), layout)
+            PresenterViewModel(createRandomImageUrl(), layout)
         }
 
         Log.v(TAG, "[loadRange] list=${list.size} data=${data.size}")
@@ -44,11 +44,11 @@ class SimplePageKeyedDataSource : PageKeyedDataSource<Int, PresenterModel<String
         callback.onResult(data, params.key + list.size)
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterModel<String>>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, PresenterViewModel<String>>) {
         Log.v(TAG, "[loadBefore] key=${params.key} requestedLoadSize=${params.requestedLoadSize}")
     }
 
-    class Factory : DataSource.Factory<Int, PresenterModel<String>>() {
+    class Factory : DataSource.Factory<Int, PresenterViewModel<String>>() {
 
         val dataSource by lazy { MutableLiveData<SimplePageKeyedDataSource>() }
 

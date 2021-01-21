@@ -8,9 +8,9 @@ import androidx.paging.PositionalDataSource
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-class ListDataSource<T>(private val data: List<PresenterModel<T>>) : PositionalDataSource<PresenterModel<T>>() {
+class ListDataSource<T>(private val data: List<PresenterViewModel<T>>) : PositionalDataSource<PresenterViewModel<T>>() {
 
-    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<PresenterModel<T>>) {
+    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<PresenterViewModel<T>>) {
         // new start position is larger than list size
         if (params.startPosition >= data.size) {
             log { "[loadRange] " }
@@ -28,7 +28,7 @@ class ListDataSource<T>(private val data: List<PresenterModel<T>>) : PositionalD
         callback.onResult(list)
     }
 
-    override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<PresenterModel<T>>) {
+    override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<PresenterViewModel<T>>) {
         log { "[loadInitial] requestedStartPosition=${params.requestedStartPosition} data=${data.size} pageSize=${params.pageSize} requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}" }
 
         val list = data.take(params.requestedLoadSize)
@@ -36,7 +36,7 @@ class ListDataSource<T>(private val data: List<PresenterModel<T>>) : PositionalD
         callback.onResult(list, 0, list.size)
     }
 
-    class Factory<T>(var data: List<PresenterModel<T>>) : DataSource.Factory<Int, PresenterModel<T>>() {
+    class Factory<T>(var data: List<PresenterViewModel<T>>) : DataSource.Factory<Int, PresenterViewModel<T>>() {
 
         private val dataSource by lazy { MutableLiveData<ListDataSource<T>>() }
 

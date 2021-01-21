@@ -1,9 +1,9 @@
-package net.kibotu.android.recyclerviewpresenter.v2
+package net.kibotu.android.recyclerviewpresenter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
 
-open class PresenterModelDiffCallback : DiffUtil.ItemCallback<PresenterViewModel<*>>() {
+open class PresenterViewModelDiffCallback : DiffUtil.ItemCallback<PresenterViewModel<*>>() {
 
     override fun areItemsTheSame(oldItem: PresenterViewModel<*>, newItem: PresenterViewModel<*>): Boolean = oldItem.uuid == newItem.uuid
 

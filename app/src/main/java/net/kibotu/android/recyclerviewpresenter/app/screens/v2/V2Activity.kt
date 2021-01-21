@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.kibotu.android.recyclerviewpresenter.CircularDataSource
 import net.kibotu.android.recyclerviewpresenter.ListDataSource
-import net.kibotu.android.recyclerviewpresenter.PresenterModel
+import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.PresenterPageListAdapter
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
@@ -120,7 +120,7 @@ object FakeData {
     val cache = (0 until 10).map {
         val uri = /*letters[it].toString() */ createRandomImageUrl()
 
-        PresenterModel(uri, layout, uuid = it.toString(), changedPayload = { new, old ->
+        PresenterViewModel(uri, layout, uuid = it.toString(), changedPayload = { new, old ->
             if (new != old)
                 Bundle().apply {
                     putString("TEXT_CHANGED_TO", new)

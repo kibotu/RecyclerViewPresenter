@@ -1,20 +1,22 @@
 package net.kibotu.android.recyclerviewpresenter.app.java;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import kotlin.Unit;
+
 import net.kibotu.android.recyclerviewpresenter.PresenterAdapter;
-import net.kibotu.android.recyclerviewpresenter.PresenterModel;
+import net.kibotu.android.recyclerviewpresenter.PresenterViewModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
 import net.kibotu.android.recyclerviewpresenter.app.misc.FakeDataGenerator;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
+
+import kotlin.Unit;
 
 import static java.text.MessageFormat.format;
 import static net.kibotu.logger.Logger.snackbar;
@@ -47,12 +49,12 @@ public class PresenterActivity extends AppCompatActivity {
             return Unit.INSTANCE;
         });
 
-        List<PresenterModel<String>> items = new ArrayList<>();
+        ArrayList<PresenterViewModel<?>> items = new ArrayList<>();
 
         for (int i = 0; i < 100; ++i) {
-            items.add(new PresenterModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.photo_presenter_item, UUID.randomUUID().toString(), null, null));
-            items.add(new PresenterModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.label_presenter_item, UUID.randomUUID().toString(), null, null));
-            items.add(new PresenterModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.number_presenter_item, UUID.randomUUID().toString(), null, null));
+            items.add(new PresenterViewModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.photo_presenter_item, UUID.randomUUID().toString(), null, null, null));
+            items.add(new PresenterViewModel<>(FakeDataGenerator.createRandomImageUrl(), R.layout.label_presenter_item, UUID.randomUUID().toString(), null, null, null));
+            items.add(new PresenterViewModel<>(i, R.layout.number_presenter_item, UUID.randomUUID().toString(), null, null, null));
         }
 
         Collections.shuffle(items);

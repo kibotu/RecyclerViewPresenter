@@ -4,9 +4,8 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.kibotu.android.recyclerviewpresenter.Adapter;
 import net.kibotu.android.recyclerviewpresenter.Presenter;
-import net.kibotu.android.recyclerviewpresenter.PresenterModel;
+import net.kibotu.android.recyclerviewpresenter.PresenterViewModel;
 import net.kibotu.android.recyclerviewpresenter.app.R;
 import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp;
 
@@ -23,13 +22,12 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class PhotoPresenter extends Presenter<String> {
 
-    @Override
-    public int getLayout() {
-        return R.layout.photo_presenter_item;
+    public PhotoPresenter() {
+        super(R.layout.photo_presenter_item);
     }
 
     @Override
-    public void bindViewHolder(@NotNull RecyclerView.ViewHolder viewHolder, @NotNull PresenterModel<String> item, int position, @Nullable List<Object> payloads, @NotNull Adapter adapter) {
+    public void bindViewHolder(@NotNull RecyclerView.ViewHolder viewHolder, @NotNull PresenterViewModel<String> item, @Nullable List<Object> payloads) {
         ImageView photo = viewHolder.itemView.findViewById(R.id.photo);
 
         GlideApp.with(viewHolder.itemView.getContext().getApplicationContext())
