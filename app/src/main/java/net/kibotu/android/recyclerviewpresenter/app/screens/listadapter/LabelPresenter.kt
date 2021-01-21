@@ -12,9 +12,7 @@ import net.kibotu.logger.Logger.logv
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-class LabelPresenter : Presenter<String>() {
-
-    override val layout = R.layout.label_presenter_item
+class LabelPresenter : Presenter<String>(R.layout.label_presenter_item) {
 
     private val View.label: TextView
         get() = findViewById(R.id.label)

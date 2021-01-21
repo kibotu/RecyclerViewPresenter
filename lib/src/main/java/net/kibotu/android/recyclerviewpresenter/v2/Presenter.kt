@@ -9,7 +9,15 @@ import java.lang.ref.WeakReference
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-abstract class Presenter<T> {
+abstract class Presenter<T>(
+    /**
+     * Used for inflating the view holder layout.
+     *
+     * @return Layout Resource Id.
+     */
+    @get:LayoutRes
+    val layout: Int
+) {
 
     // region adapter
 
@@ -28,14 +36,6 @@ abstract class Presenter<T> {
         }
 
     // endregion
-
-    /**
-     * Used for inflating the view holder layout.
-     *
-     * @return Layout Resource Id.
-     */
-    @get:LayoutRes
-    abstract val layout: Int
 
     /**
      * [PresenterAdapter.createViewHolder]

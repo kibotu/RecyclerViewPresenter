@@ -95,6 +95,27 @@ dependencies {
     implementation libs.lifecycleExtensions
     implementation libs.lifecycleCommonJava8
     implementation libs.lifecycleLivedataKtx
+
+    // core test
+    testImplementation "androidx.test:core:1.3.0"
+
+    // Kotlin
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+    // JUnit
+    testImplementation "junit:junit:4.13.1"
+    testImplementation "net.javacrumbs.json-unit:json-unit:2.8.1"
+    testImplementation "net.javacrumbs.json-unit:json-unit-fluent:2.8.1"
+
+    // Hamcrest
+    testImplementation "org.hamcrest:hamcrest-library:2.2"
+
+    // truth
+    testImplementation "com.google.truth:truth:1.0.1"
+
+    // mock
+    testImplementation "io.mockk:mockk:1.10.5"
 }
 
 configurations.all {

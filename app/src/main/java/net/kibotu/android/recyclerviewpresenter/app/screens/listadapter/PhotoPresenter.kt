@@ -18,9 +18,7 @@ import net.kibotu.android.recyclerviewpresenter.v2.PresenterViewModel
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-class PhotoPresenter : Presenter<String>() {
-
-    override val layout: Int = R.layout.photo_presenter_item
+class PhotoPresenter : Presenter<String>(R.layout.photo_presenter_item) {
 
     private val View.progressBar: ContentLoadingProgressBar
         get() = findViewById(R.id.progressBar)

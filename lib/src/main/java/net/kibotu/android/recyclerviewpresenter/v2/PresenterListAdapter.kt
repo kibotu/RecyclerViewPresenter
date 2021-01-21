@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.*
-import net.kibotu.android.recyclerviewpresenter.cirkle.CircularList
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 
@@ -68,6 +67,36 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
     protected var onFocusChange: ((item: PresenterViewModel<*>, view: View, hasFocus: Boolean, position: Int) -> Unit)? = null
 
     /**
+     * Called when the current List is updated.
+     * <p>
+     * If a <code>null</code> List is passed to {@link #submitList(List)}, or no List has been
+     * submitted, the current List is represented as an empty List.
+     *
+     * @param previousList List that was displayed previously.
+     * @param currentList new List being displayed, will be empty if {@code null} was passed to
+     *          {@link #submitList(List)}.
+     *
+     * @see #getCurrentList()
+     */
+    fun onCurrentListChanged(block: ((previousList: List<PresenterViewModel<*>>, currentList: List<PresenterViewModel<*>>) -> Unit)?) {
+        onCurrentListChanged = block
+    }
+
+    /**
+     * Called when the current List is updated.
+     * <p>
+     * If a <code>null</code> List is passed to {@link #submitList(List)}, or no List has been
+     * submitted, the current List is represented as an empty List.
+     *
+     * @param previousList List that was displayed previously.
+     * @param currentList new List being displayed, will be empty if {@code null} was passed to
+     *          {@link #submitList(List)}.
+     *
+     * @see #getCurrentList()
+     */
+    protected var onCurrentListChanged: ((previousList: List<PresenterViewModel<*>>, currentList: List<PresenterViewModel<*>>) -> Unit)? = null
+
+    /**
      * Callback for [RecyclerView.ViewHolder.itemView.setOnFocusChangeListener].
      *
      * @param item     Model of the adapter.
@@ -108,7 +137,7 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
     /**
      * {@inheritDoc}
      */
-    operator fun get(position: Int): PresenterViewModel<*> = if (isCircular) currentList[position % currentList.size] else currentList[position]
+    operator fun get(position: Int): PresenterViewModel<*> = if (isCircular) currentList.getCircular(position) else currentList[position]
 
     /**
      * Returns true if adapter is empty.
@@ -118,7 +147,8 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
 
     override fun submitList(list: MutableList<PresenterViewModel<*>>?) {
         val isEmpty = isEmpty
-        super.submitList(list)
+        super.submitList(list?.toList())
+
         if (isEmpty && isCircular) {
             recyclerView?.post {
                 scrollToPosition(0)
@@ -128,7 +158,8 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
 
     override fun submitList(list: MutableList<PresenterViewModel<*>>?, commitCallback: Runnable?) {
         val isEmpty = isEmpty
-        super.submitList(list, commitCallback)
+        super.submitList(list?.toList(), commitCallback)
+
         if (isEmpty && isCircular) {
             recyclerView?.post {
                 scrollToPosition(0)
@@ -281,6 +312,11 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
     /**
      * {@inheritDoc}
      */
+    override fun onCurrentListChanged(previousList: MutableList<PresenterViewModel<*>>, currentList: MutableList<PresenterViewModel<*>>) {
+        super.onCurrentListChanged(previousList, currentList)
+        onCurrentListChanged?.invoke(previousList, currentList)
+    }
+
     fun removeAllViews() {
         recyclerView?.layoutManager?.removeAllViews()
         recyclerView?.removeAllViews()

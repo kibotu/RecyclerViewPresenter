@@ -7,9 +7,7 @@ import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.v2.Presenter
 import net.kibotu.android.recyclerviewpresenter.v2.PresenterViewModel
 
-class NumberPresenter : Presenter<Int>() {
-
-    override val layout = R.layout.number_presenter_item
+class NumberPresenter : Presenter<Int>(R.layout.number_presenter_item) {
 
     private val View.label: TextView
         get() = findViewById(R.id.label)

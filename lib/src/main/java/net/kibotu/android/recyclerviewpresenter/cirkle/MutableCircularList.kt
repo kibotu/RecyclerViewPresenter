@@ -66,7 +66,7 @@ class MutableCircularList<T>(private val list: MutableList<T>) : MutableList<T> 
      *
      * @sample samples.Cirkle.MutableCircularList.get
      */
-    override fun get(index: Int): T =
+    override operator fun get(index: Int): T =
         list[index.safely()]
 
     /**

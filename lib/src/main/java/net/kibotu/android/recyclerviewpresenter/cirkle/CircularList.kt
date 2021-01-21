@@ -41,7 +41,7 @@ class CircularList<out T>(private val list: List<T>) : List<T> by list {
      *
      * @sample samples.Cirkle.CircularList.get
      */
-    override fun get(index: Int): T =
+    override operator fun get(index: Int): T =
         list[index.safely()]
 
     /**

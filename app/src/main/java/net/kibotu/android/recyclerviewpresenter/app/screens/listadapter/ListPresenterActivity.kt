@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.kibotu.android.recyclerviewpresenter.app.R
-import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.v2.PresenterListAdapter
 import net.kibotu.android.recyclerviewpresenter.v2.PresenterViewModel
 import net.kibotu.logger.Logger
@@ -43,6 +42,10 @@ class ListPresenterActivity : AppCompatActivity(R.layout.activity_main) {
             Logger.v("onFocusChange $position")
         }
 
+        adapter.onCurrentListChanged { previousList, currentList ->
+            Logger.v("onCurrentListChanged ${previousList.size} -> ${currentList.size}")
+        }
+
         adapter.isCircular = true
 
         val items = createItems()
@@ -50,7 +53,7 @@ class ListPresenterActivity : AppCompatActivity(R.layout.activity_main) {
         adapter.submitList(items)
 
         swipeRefresh.setOnRefreshListener {
-//            items.shuffle()
+            items.shuffle()
             adapter.submitList(items)
             swipeRefresh.isRefreshing = false
         }
@@ -58,7 +61,7 @@ class ListPresenterActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun createItems() = mutableListOf<PresenterViewModel<*>>().apply {
 
-        for (i in 0..99) {
+        for (i in 0..100) {
             add(PresenterViewModel(i, R.layout.number_presenter_item))
 //            add(PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_item))
 //            add(PresenterViewModel(createRandomImageUrl(), R.layout.label_presenter_item))
