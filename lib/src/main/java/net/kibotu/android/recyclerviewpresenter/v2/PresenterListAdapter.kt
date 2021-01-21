@@ -3,10 +3,8 @@ package net.kibotu.android.recyclerviewpresenter.v2
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.AsyncDifferConfig
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import net.kibotu.android.recyclerviewpresenter.PresenterModel
+import androidx.recyclerview.widget.*
+import net.kibotu.android.recyclerviewpresenter.cirkle.CircularList
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 
@@ -19,6 +17,9 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
 
     // region recyclerview
 
+    /**
+     * Internal reference to currently attached [RecyclerView].
+     */
     private var _recyclerView: WeakReference<RecyclerView>? = null
 
     /**
@@ -79,6 +80,63 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
 
     // endregion
 
+    // region circular
+
+    /**
+     * Scroll buffer size.
+     */
+    val scrollBufferSize: Int
+        get() = 10000
+
+    /**
+     * Represents if adapter should be circular.
+     *
+     * Note: use [scrollToPosition] or [smoothScrollToPosition] instead of [LinearLayoutManager.scrollToPosition] when using circular adapter.
+     */
+    var isCircular: Boolean = false
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun getItemCount(): Int = if (isCircular) scrollBufferSize else currentList.size
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun getItem(position: Int): PresenterViewModel<*> = this[position]
+
+    /**
+     * {@inheritDoc}
+     */
+    operator fun get(position: Int): PresenterViewModel<*> = if (isCircular) currentList[position % currentList.size] else currentList[position]
+
+    /**
+     * Returns true if adapter is empty.
+     */
+    val isEmpty: Boolean
+        get() = currentList.isEmpty()
+
+    override fun submitList(list: MutableList<PresenterViewModel<*>>?) {
+        val isEmpty = isEmpty
+        super.submitList(list)
+        if (isEmpty && isCircular) {
+            recyclerView?.post {
+                scrollToPosition(0)
+            }
+        }
+    }
+
+    override fun submitList(list: MutableList<PresenterViewModel<*>>?, commitCallback: Runnable?) {
+        val isEmpty = isEmpty
+        super.submitList(list, commitCallback)
+        if (isEmpty && isCircular) {
+            recyclerView?.post {
+                scrollToPosition(0)
+            }
+        }
+    }
+
+    // endregion
 
     // region presenter
 
@@ -104,8 +162,18 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
 
     // region RecyclerView.Adapter
 
+    /**
+     * {@inheritDoc}
+     *
+     * Creates [RecyclerViewHolder] by its [Presenter].
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = presenterByViewType(viewType).onCreateViewHolder(parent)
 
+    /**
+     * {@inheritDoc}
+     *
+     * Binds [RecyclerViewHolder] from its [Presenter].
+     */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val item = getItem(position)
@@ -117,6 +185,11 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
         presenterAtAdapterPosition(position).bindViewHolder(holder, item, null)
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Binds [RecyclerViewHolder] from its [Presenter] with payload.
+     */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
 
         val item = getItem(position)
@@ -216,6 +289,24 @@ open class PresenterListAdapter : ListAdapter<PresenterViewModel<*>, RecyclerVie
     fun clear() {
         removeAllViews()
         notifyDataSetChanged()
+    }
+
+    // endregion
+
+    // region scrolling
+
+    fun scrollToPosition(position: Int) {
+        if (isCircular)
+            recyclerView?.scrollToPosition(((scrollBufferSize / 2) - ((scrollBufferSize / 2) % currentList.size)))
+        else
+            recyclerView?.scrollToPosition(position)
+    }
+
+    fun smoothScrollToPosition(position: Int) {
+        if (isCircular)
+            recyclerView?.smoothScrollToPosition(((scrollBufferSize / 2) - ((scrollBufferSize / 2) % currentList.size)) + position)
+        else
+            recyclerView?.smoothScrollToPosition(position)
     }
 
     // endregion

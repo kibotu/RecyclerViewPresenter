@@ -37,7 +37,6 @@ data class PresenterViewModel<T>(
     var onItemClickListener: ((item: T, view: View, position: Int) -> Unit)? = null,
 ) {
 
-
     /**
      * Hook for diff utils
      *
@@ -47,9 +46,9 @@ data class PresenterViewModel<T>(
     internal fun changedPayload(new: Any): Bundle? = changedPayload?.invoke(new as T, model)
 
     /**
-     * Convenience method to invoke item click lister.
+     * Convenience method to invoke [onItemClickListener].
      */
-    fun click(viewHolder: RecyclerView.ViewHolder) {
+    fun onClick(viewHolder: RecyclerView.ViewHolder) {
         onItemClickListener?.invoke(model, viewHolder.itemView, viewHolder.adapterPosition)
     }
 

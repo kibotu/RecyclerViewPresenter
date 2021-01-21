@@ -3,7 +3,6 @@ package net.kibotu.android.recyclerviewpresenter.v2
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
 import java.lang.ref.WeakReference
 
 

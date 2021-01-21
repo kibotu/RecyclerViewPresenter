@@ -15,6 +15,6 @@ class NumberPresenter : Presenter<Int>() {
         get() = findViewById(R.id.label)
 
     override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<Int>, payloads: MutableList<Any>?) = with(viewHolder.itemView) {
-        label.text = "${viewHolder.adapterPosition}"
+        label.text = "${viewHolder.adapterPosition}. ${item.model}"
     }
 }

@@ -9,6 +9,7 @@ import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.createRandomImageUrl
 import net.kibotu.android.recyclerviewpresenter.v2.PresenterListAdapter
 import net.kibotu.android.recyclerviewpresenter.v2.PresenterViewModel
+import net.kibotu.logger.Logger
 import net.kibotu.logger.snack
 
 /**
@@ -35,20 +36,21 @@ class ListPresenterActivity : AppCompatActivity(R.layout.activity_main) {
 
         adapter.onItemClick { item, view, position ->
             snack("$position. ${item.model}")
+            Logger.v("onItemClick $position")
         }
 
         adapter.onFocusChange { item, view, hasFocus, position ->
-
+            Logger.v("onFocusChange $position")
         }
 
-//        adapter.isCircular = true
+        adapter.isCircular = true
 
         val items = createItems()
 
         adapter.submitList(items)
 
         swipeRefresh.setOnRefreshListener {
-            items.shuffle()
+//            items.shuffle()
             adapter.submitList(items)
             swipeRefresh.isRefreshing = false
         }
@@ -57,12 +59,12 @@ class ListPresenterActivity : AppCompatActivity(R.layout.activity_main) {
     private fun createItems() = mutableListOf<PresenterViewModel<*>>().apply {
 
         for (i in 0..99) {
-            add(PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_item))
-            add(PresenterViewModel(createRandomImageUrl(), R.layout.label_presenter_item))
-            add(PresenterViewModel(createRandomImageUrl(), R.layout.number_presenter_item))
+            add(PresenterViewModel(i, R.layout.number_presenter_item))
+//            add(PresenterViewModel(createRandomImageUrl(), R.layout.photo_presenter_item))
+//            add(PresenterViewModel(createRandomImageUrl(), R.layout.label_presenter_item))
         }
 
-        shuffle()
+//        shuffle()
     }
 
     override fun onDestroy() {

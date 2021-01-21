@@ -3,7 +3,7 @@ package net.kibotu.android.recyclerviewpresenter
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
-import net.kibotu.android.recyclerviewpresenter.cirkle.circular
+import net.kibotu.android.recyclerviewpresenter.cirkle.     circular
 import java.util.*
 
 class CircularDataSource<T>(private val data: List<PresenterModel<T>>, val generateUuid: Boolean = true) : PageKeyedDataSource<Int, PresenterModel<T>>() {
