@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-data class PresenterViewModel<T>(
+open class PresenterViewModel<T>(
     val model: T,
     @LayoutRes
     val layout: Int,
