@@ -96,8 +96,7 @@ dependencies {
     implementation libs.androidKtxCollection
     implementation libs.fragmentKtx
 
-    implementation libs.pagingRuntimeKtx
-    // implementation libs.paging3RuntimeKtx
+    implementation libs.paging3RuntimeKtx
 
     implementation libs.lifecycleLivedataKtx
 
