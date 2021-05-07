@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
 
@@ -78,7 +77,7 @@ android {
 
 dependencies {
 
-    implementation libs.kotlinJdk8
+    implementation libs.kotlin
 
     implementation libs.androidKtxCore
     implementation libs.supportAppCompat
@@ -97,8 +96,8 @@ dependencies {
     implementation libs.androidKtxCollection
     implementation libs.fragmentKtx
 
-    implementation libs.pagingCommon
     implementation libs.pagingRuntimeKtx
+    // implementation libs.paging3RuntimeKtx
 
     implementation libs.lifecycleLivedataKtx
 
@@ -129,7 +128,7 @@ dependencies {
 
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
-    resolutionStrategy.force libs.kotlinJdk8
+    resolutionStrategy.force libs.kotlin
     resolutionStrategy.force libs.supportAppCompat
     resolutionStrategy.force libs.appCompatResources
     resolutionStrategy.force libs.constraintLayout2

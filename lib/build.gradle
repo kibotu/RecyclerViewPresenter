@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
 
@@ -87,43 +86,39 @@ android {
 }
 
 dependencies {
-    implementation libs.kotlinJdk8
+    implementation libs.kotlin
     implementation libs.constraintLayout2
     implementation libs.supportRecyclerview
     implementation libs.pagingRuntimeKtx
     implementation libs.lifecycleRuntimeKtx
-    implementation libs.lifecycleExtensions
     implementation libs.lifecycleCommonJava8
     implementation libs.lifecycleLivedataKtx
 
     // core test
-    testImplementation "androidx.test:core:1.3.0"
+    testImplementation androidTestLibs.testCore
 
     // Kotlin
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    testImplementation testLibs.kotlinReflect
+    testImplementation testLibs.kotlinTest
 
     // JUnit
-    testImplementation "junit:junit:4.13.1"
-    testImplementation "net.javacrumbs.json-unit:json-unit:2.8.1"
-    testImplementation "net.javacrumbs.json-unit:json-unit-fluent:2.8.1"
-
-    // Hamcrest
-    testImplementation "org.hamcrest:hamcrest-library:2.2"
+    testImplementation testLibs.junit
+    testImplementation testLibs.jsonUnit
+    testImplementation testLibs.jsonUnitFluent
 
     // truth
-    testImplementation "com.google.truth:truth:1.0.1"
+    testImplementation androidTestLibs.truth
 
     // mock
-    testImplementation "io.mockk:mockk:1.10.5"
+    testImplementation testLibs.mockk
 }
 
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
 
-    resolutionStrategy.force libs.kotlinJdk8
+    resolutionStrategy.force libs.kotlin
     resolutionStrategy.force libs.constraintLayout2
     resolutionStrategy.force libs.supportRecyclerview
 }
 
-apply from: "${project.rootDir}/Android-Dependencies/javadoc.gradle"
+// apply from: "${project.rootDir}/Android-Dependencies/javadoc.gradle"
