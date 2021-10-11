@@ -32,8 +32,8 @@ android {
     // region java compiler flags
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     // endregion
@@ -41,7 +41,7 @@ android {
     // region compile options
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = "11"
     }
 
     // endregion
@@ -55,15 +55,6 @@ android {
         checkReleaseBuilds false
         ignoreWarnings true       // false by default
         quiet true                // false by default
-    }
-
-    // endregion
-
-    // region dex options
-
-    dexOptions {
-        javaMaxHeapSize "4g"
-        maxProcessCount 8
     }
 
     // endregion
@@ -86,7 +77,6 @@ android {
 }
 
 dependencies {
-    implementation libs.kotlin
     implementation libs.constraintLayout2
     implementation libs.supportRecyclerview
     implementation libs.pagingRuntimeKtx
@@ -116,7 +106,6 @@ dependencies {
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
 
-    resolutionStrategy.force libs.kotlin
     resolutionStrategy.force libs.constraintLayout2
     resolutionStrategy.force libs.supportRecyclerview
 }
