@@ -29,7 +29,6 @@ class App : Application() {
                 .detectCustomSlowCalls()
                 .detectNetwork()
                 .penaltyLog()
-                .penaltyDeath()
                 .build()
         )
 
@@ -44,7 +43,6 @@ class App : Application() {
                 .detectLeakedClosableObjects()
                 .detectLeakedSqlLiteObjects()
                 .penaltyLog()
-                .penaltyDeath()
                 .build()
         )
     }
