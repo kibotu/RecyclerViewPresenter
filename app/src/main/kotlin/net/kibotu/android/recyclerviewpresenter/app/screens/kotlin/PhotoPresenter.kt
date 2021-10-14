@@ -13,39 +13,44 @@ import com.bumptech.glide.request.target.Target
 import net.kibotu.android.recyclerviewpresenter.Presenter
 import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.databinding.PhotoPresenterItemBinding
 import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp
 
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-class PhotoPresenter : Presenter<String>(R.layout.photo_presenter_item) {
+class PhotoPresenter : Presenter<String, PhotoPresenterItemBinding>(
+    layout = R.layout.photo_presenter_item,
+    viewBindingAccessor = PhotoPresenterItemBinding::bind
+) {
 
-    private val View.progressBar: ContentLoadingProgressBar
-        get() = findViewById(R.id.progressBar)
+    override fun bindViewHolder(
+        viewBinding: PhotoPresenterItemBinding,
+        viewHolder: RecyclerView.ViewHolder,
+        item: PresenterViewModel<String>,
+        payloads: MutableList<Any>?
+    ) {
+        with(viewBinding) {
+            GlideApp.with(viewHolder.itemView.context.applicationContext)
+                .load(item.model)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                        progressBar.hide()
+                        return false
+                    }
 
-    private val View.photo: ImageView
-        get() = findViewById(R.id.photo)
+                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        progressBar.hide()
+                        return false
+                    }
+                })
+                .into(photo)
+                .waitForLayout()
+                .clearOnDetach()
 
-    override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<String>, payloads: MutableList<Any>?): Unit = with(viewHolder.itemView) {
-
-        GlideApp.with(context.applicationContext)
-            .load(item.model)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                    progressBar.hide()
-                    return false
-                }
-
-                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    progressBar.hide()
-                    return false
-                }
-            })
-            .into(photo)
-            .waitForLayout()
-            .clearOnDetach()
-
-        progressBar.show()
+            progressBar.show()
+        }
     }
+
 }

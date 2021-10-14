@@ -64,6 +64,14 @@ android {
     }
 
     // endregion
+
+    // region viewBinding support
+
+    viewBinding {
+        enabled = true
+    }
+
+    // endregion
 }
 
 dependencies {
@@ -91,10 +99,10 @@ dependencies {
 
     implementation project(':lib')
 
-    implementation(libs.exozetCore) {
-        exclude module: 'RecyclerViewPresenter'
-        exclude group: 'io.realm'
-    }
+//    implementation(libs.exozetCore) {
+//        exclude module: 'RecyclerViewPresenter'
+//        exclude group: 'io.realm'
+//    }
     implementation libs.logger
 
     debugImplementation libs.leakcanary2

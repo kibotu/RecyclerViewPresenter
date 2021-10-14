@@ -8,26 +8,34 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import net.kibotu.android.recyclerviewpresenter.Presenter
 import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.databinding.PhotoPresenterItemBinding
 import net.kibotu.android.recyclerviewpresenter.app.misc.GlideApp
 
-class PhotoPresenter : Presenter<String>(R.layout.photo_presenter_item) {
+class PhotoPresenter : Presenter<String, PhotoPresenterItemBinding>(
+    layout = R.layout.photo_presenter_item,
+    viewBindingAccessor = PhotoPresenterItemBinding::bind
+) {
 
-    private val View.photo: ImageView
-        get() = findViewById(R.id.photo)
+    override fun bindViewHolder(
+        viewBinding: PhotoPresenterItemBinding,
+        viewHolder: RecyclerView.ViewHolder,
+        item: PresenterViewModel<String>,
+        payloads: MutableList<Any>?
+    ) {
+        with(viewBinding) {
+            val uri = Uri.parse(item.model)
+            val width = uri.pathSegments.takeLast(2).first().toInt()
+            val height = uri.pathSegments.last().toInt()
 
-    override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<String>, payloads: MutableList<Any>?): Unit = with(viewHolder.itemView) {
+            photo.minimumWidth = width
+            photo.minimumHeight = height
 
-        val uri = Uri.parse(item.model)
-        val width = uri.pathSegments.takeLast(2).first().toInt()
-        val height = uri.pathSegments.last().toInt()
-
-        photo.minimumWidth = width
-        photo.minimumHeight = height
-
-        GlideApp.with(this.context.applicationContext)
-            .load(uri)
-            .transition(withCrossFade())
-            .into(photo)
-            .clearOnDetach()
+            GlideApp.with(root.context.applicationContext)
+                .load(uri)
+                .transition(withCrossFade())
+                .into(photo)
+                .clearOnDetach()
+        }
     }
+
 }

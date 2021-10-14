@@ -74,6 +74,14 @@ android {
     }
 
     // endregion
+
+    // region viewBinding support
+
+    viewBinding {
+        enabled = true
+    }
+
+    // endregion
 }
 
 dependencies {
