@@ -180,9 +180,9 @@ open class PresenterAdapter : ListAdapter<PresenterViewModel<*>, RecyclerView.Vi
     /**
      * Holds all registered presenter.
      */
-    protected val presenter = mutableListOf<Presenter<*>>()
+    protected val presenter = mutableListOf<Presenter<*, *>>()
 
-    fun registerPresenter(presenter: Presenter<*>) {
+    fun registerPresenter(presenter: Presenter<*, *>) {
         if (presenter.adapter != null)
             throw IllegalArgumentException("Presenter already registered to ${requireNotNull(presenter.adapter)::class.java}.")
 
@@ -193,7 +193,7 @@ open class PresenterAdapter : ListAdapter<PresenterViewModel<*>, RecyclerView.Vi
         presenter.adapter = this
     }
 
-    fun unregisterPresenter(presenter: Presenter<*>) {
+    fun unregisterPresenter(presenter: Presenter<*, *>) {
         presenter.adapter = null
         this.presenter.remove(presenter)
     }
@@ -260,7 +260,7 @@ open class PresenterAdapter : ListAdapter<PresenterViewModel<*>, RecyclerView.Vi
     /**
      * Returns presenter by [LayoutRes] .
      */
-    protected fun presenterByViewType(viewType: Int): Presenter<*> = this.presenter.firstOrNull { it.layout == viewType }
+    protected fun presenterByViewType(viewType: Int): Presenter<*, *> = this.presenter.firstOrNull { it.layout == viewType }
         ?: throw IllegalArgumentException("No presenter registered for '${resName(viewType)}'. Please register presenter using adapter#registerPresenter.")
 
     /**

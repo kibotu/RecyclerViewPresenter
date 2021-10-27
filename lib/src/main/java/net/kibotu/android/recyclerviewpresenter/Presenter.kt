@@ -1,22 +1,26 @@
 package net.kibotu.android.recyclerviewpresenter
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import java.lang.ref.WeakReference
 
 
 /**
  * Created by [Jan Rabe](https://kibotu.net).
  */
-abstract class Presenter<T>(
+abstract class Presenter<T, B: ViewBinding>(
     /**
      * Used for inflating the view holder layout.
      *
      * @return Layout Resource Id.
+     * @return ViewBinding accessor.
      */
     @get:LayoutRes
-    val layout: Int
+    val layout: Int,
+    private val viewBindingAccessor: (View) -> B
 ) {
 
     // region adapter
@@ -45,13 +49,27 @@ abstract class Presenter<T>(
     /**
      * Binds [T] to [VH]. Use [.get] to retrieve neighbour [T].
      *
+     * @param viewBinding Current [B]
      * @param viewHolder Current [VH].
      * @param item       Current [T]
      * @param payloads Changes
      */
-    abstract fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<T>, payloads: MutableList<Any>?)
+    abstract fun bindViewHolder(
+        viewBinding: B,
+        viewHolder: RecyclerView.ViewHolder,
+        item: PresenterViewModel<T>,
+        payloads: MutableList<Any>?
+    )
 
     @Suppress("UNCHECKED_CAST")
-    internal fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<*>, payloads: MutableList<Any>?) =
-        bindViewHolder(viewHolder, item as PresenterViewModel<T>, payloads)
+    internal fun bindViewHolder(
+        viewHolder: RecyclerView.ViewHolder,
+        item: PresenterViewModel<*>,
+        payloads: MutableList<Any>?
+    ) = bindViewHolder(
+        viewBindingAccessor.invoke(viewHolder.itemView),
+        viewHolder,
+        item as PresenterViewModel<T>,
+        payloads
+    )
 }

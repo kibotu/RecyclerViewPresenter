@@ -12,21 +12,27 @@ import net.kibotu.android.recyclerviewpresenter.Presenter
 import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.databinding.ItemColumnBinding
 
 data class Column(val image: String)
 
-class ColumnPresenter : Presenter<Column>(R.layout.item_column) {
+class ColumnPresenter : Presenter<Column, ItemColumnBinding>(
+    layout = R.layout.item_column,
+    viewBindingAccessor = ItemColumnBinding::bind
+) {
 
-    private val View.imageCard: ImageView
-        get() = findViewById(R.id.imageCard)
-
-    override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<Column>, payloads: MutableList<Any>?): Unit = with(viewHolder.itemView) {
-        Glide.with(this)
+    override fun bindViewHolder(
+        viewBinding: ItemColumnBinding,
+        viewHolder: RecyclerView.ViewHolder,
+        item: PresenterViewModel<Column>,
+        payloads: MutableList<Any>?
+    ) {
+        Glide.with(viewHolder.itemView)
             .asBitmap()
             .load(item.model.image)
             .transition(BitmapTransitionOptions.withCrossFade())
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(imageCard)
+            .into(viewBinding.imageCard)
             .waitForLayout()
             .clearOnDetach()
     }

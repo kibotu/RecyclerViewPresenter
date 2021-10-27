@@ -9,19 +9,23 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCross
 import net.kibotu.android.recyclerviewpresenter.Presenter
 import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.databinding.ItemIconWithLabelBinding
 
 data class Row(val image: String, val label: String, val subTitle: String? = null)
 
-class RowPresenter : Presenter<Row>(R.layout.item_icon_with_label) {
+class RowPresenter : Presenter<Row, ItemIconWithLabelBinding>(
+    layout = R.layout.item_icon_with_label,
+    viewBindingAccessor = ItemIconWithLabelBinding::bind
+) {
 
-    private val View.imageCard: ImageView
-        get() = findViewById(R.id.imageCard)
-
-    override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<Row>, payloads: MutableList<Any>?) {
-
-        with(viewHolder.itemView) {
-
-            Glide.with(this)
+    override fun bindViewHolder(
+        viewBinding: ItemIconWithLabelBinding,
+        viewHolder: RecyclerView.ViewHolder,
+        item: PresenterViewModel<Row>,
+        payloads: MutableList<Any>?
+    ) {
+        with(viewBinding) {
+            Glide.with(root)
                 .asBitmap()
                 .load(item.model.image)
                 .transition(withCrossFade())
@@ -31,4 +35,5 @@ class RowPresenter : Presenter<Row>(R.layout.item_icon_with_label) {
                 .clearOnDetach()
         }
     }
+
 }

@@ -9,20 +9,25 @@ import net.kibotu.android.recyclerviewpresenter.PresenterAdapter
 import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
 import net.kibotu.android.recyclerviewpresenter.app.R
+import net.kibotu.android.recyclerviewpresenter.app.databinding.ItemHorizontalListBinding
 import net.kibotu.logger.Logger.logv
 
 data class HorizontalListItems(val items: List<Column>)
 
-class HorizontalListPresenter : Presenter<HorizontalListItems>(R.layout.item_horizontal_list) {
+class HorizontalListPresenter : Presenter<HorizontalListItems, ItemHorizontalListBinding>(
+    layout = R.layout.item_horizontal_list,
+    viewBindingAccessor = ItemHorizontalListBinding::bind
+) {
 
-    private val View.horizontalList: RecyclerView
-        get() = findViewById(R.id.horizontalList)
-
-    override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<HorizontalListItems>, payloads: MutableList<Any>?) {
-
+    override fun bindViewHolder(
+        viewBinding: ItemHorizontalListBinding,
+        viewHolder: RecyclerView.ViewHolder,
+        item: PresenterViewModel<HorizontalListItems>,
+        payloads: MutableList<Any>?
+    ) {
         logv { "bindViewHolder position=${viewHolder.adapterPosition}" }
 
-        with(viewHolder.itemView) {
+        with(viewBinding) {
 
             if (horizontalList.adapter == null) {
                 horizontalList.setHasFixedSize(true)
@@ -56,7 +61,7 @@ class HorizontalListPresenter : Presenter<HorizontalListItems>(R.layout.item_hor
         override fun onViewDetachedFromWindow() {
             super.onViewDetachedFromWindow()
             Log.v("HorizontalListPresenter", "onViewDetachedFromWindow $adapterPosition remove adapter")
-            (itemView.horizontalList.adapter as PresenterAdapter).clear()
+            (itemView.findViewById<RecyclerView>(R.id.horizontalList).adapter as PresenterAdapter).clear()
         }
 
         override fun onViewRecycled() {

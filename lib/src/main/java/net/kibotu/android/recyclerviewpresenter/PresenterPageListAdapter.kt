@@ -13,9 +13,9 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterViewModel<T>,
     /**
      * Holds all registered presenter.
      */
-    protected val presenter = mutableListOf<Presenter<*>>()
+    protected val presenter = mutableListOf<Presenter<*, *>>()
 
-    fun registerPresenter(presenter: Presenter<*>) {
+    fun registerPresenter(presenter: Presenter<*, *>) {
         if (presenter.adapter != null)
             throw IllegalArgumentException("Presenter already registered to ${requireNotNull(presenter.adapter)::class.java}.")
 
@@ -23,7 +23,7 @@ open class PresenterPageListAdapter<T> : PagedListAdapter<PresenterViewModel<T>,
         this.presenter.add(presenter)
     }
 
-    fun unregisterPresenter(presenter: Presenter<*>) {
+    fun unregisterPresenter(presenter: Presenter<*, *>) {
         presenter.adapter = null
         this.presenter.remove(presenter)
     }
