@@ -478,7 +478,7 @@ ext.libs = [
         geolocator                        : "com.sprotte:Geolocator:1.1.1",
         parallaxScrollingView             : 'com.github.kibotu:ParallaxScrollingView:1.0.0',
         resourceExtensions                : 'com.github.kibotu:AndroidResourceExtensions:1.5.1',
-        mediaGallery                      : 'com.github.kibotu:MediaGallery:2.4.0',
+        mediaGallery                      : 'com.github.kibotu:MediaGallery:3.0.0',
         pushwoosh                         : 'com.pushwoosh:pushwoosh:5.19.0',
         bottomSheetCoordinatorLayout      : 'com.github.kibotu:BottomSheetCoordinatorLayout:v1.1.3',
         disklrucache                      : 'com.jakewharton:disklrucache:2.0.2',
