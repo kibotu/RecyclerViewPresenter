@@ -25,13 +25,18 @@ dependencies {
 1. Create a presenter, e.g. [PhotoPresenter](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/PhotoPresenter.kt#L21-L51) or [LabelPresenter](app/src/main/kotlin/net/kibotu/android/recyclerviewpresenter/app/screens/kotlin/LabelPresenter.kt#L14-L23)
 
 ```kotlin
-class LabelPresenter : Presenter<String>(R.layout.label_presenter_item) {
+class LabelPresenter : Presenter<String, LabelPresenterItemBinding>(
+    layout = R.layout.label_presenter_item,
+    viewBindingAccessor = LabelPresenterItemBinding::bind
+) {
 
-    private val View.label: TextView
-        get() = findViewById(R.id.label)
-
-    override fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, item: PresenterViewModel<String>, payloads: MutableList<Any>?) = with(viewHolder.itemView) {
-        logv { "bindViewHolder ${viewHolder.adapterPosition} $item payload=$payloads" }
+    override fun bindViewHolder(
+        viewBinding: LabelPresenterItemBinding,
+        viewHolder: RecyclerView.ViewHolder,
+        item: PresenterViewModel<String>,
+        payloads: MutableList<Any>?
+    ) = with(viewBinding) {
+        Logger.v( "bindViewHolder ${viewHolder.adapterPosition} $item payload=$payloads" )
         label.text = "${item.model}"
     }
 }
