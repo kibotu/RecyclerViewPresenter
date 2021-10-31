@@ -19,7 +19,7 @@ class CircularDataSource<T>(private val data: List<PresenterViewModel<T>>, val g
 
         setNewUuid(list, fromIndex, toIndex)
 
-        log { "[loadInitial] data=${data.size} result=${list.size} from=$fromIndex toIndex=$toIndex previousKey=$previousKey nextKey=$nextKey requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled} result=${list.map { it.model }}" }
+        log("[loadInitial] data=${data.size} result=${list.size} from=$fromIndex toIndex=$toIndex previousKey=$previousKey nextKey=$nextKey requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled} result=${list.map { it.model }}")
 
         callback.onResult(list, previousKey, nextKey)
     }
@@ -34,7 +34,7 @@ class CircularDataSource<T>(private val data: List<PresenterViewModel<T>>, val g
 
         setNewUuid(list, fromIndex, toIndex)
 
-        log { "[loadAfter] result=${list.size} from=$fromIndex toIndex=$toIndex nextKey=$nextKey requestedLoadSize=${params.requestedLoadSize} result=${list.map { it.model }}" }
+        log("[loadAfter] result=${list.size} from=$fromIndex toIndex=$toIndex nextKey=$nextKey requestedLoadSize=${params.requestedLoadSize} result=${list.map { it.model }}")
 
         callback.onResult(list, nextKey)
     }
@@ -49,7 +49,7 @@ class CircularDataSource<T>(private val data: List<PresenterViewModel<T>>, val g
 
         setNewUuid(list, fromIndex, toIndex)
 
-        log { "[loadBefore] result=${list.size} from=$fromIndex toIndex=$toIndex previousKey=$previousKey requestedLoadSize=${params.requestedLoadSize} result=${list.map { it.model }}" }
+        log("[loadBefore] result=${list.size} from=$fromIndex toIndex=$toIndex previousKey=$previousKey requestedLoadSize=${params.requestedLoadSize} result=${list.map { it.model }}")
 
         callback.onResult(list, previousKey)
     }

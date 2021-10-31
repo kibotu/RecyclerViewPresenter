@@ -13,23 +13,23 @@ class ListDataSource<T>(private val data: List<PresenterViewModel<T>>) : Positio
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<PresenterViewModel<T>>) {
         // new start position is larger than list size
         if (params.startPosition >= data.size) {
-            log { "[loadRange] " }
+            log("[loadRange] ")
             return
         }
 
         val toIndex = clamp(params.startPosition + params.loadSize, 0, data.size)
 
-        log { "[loadRange] from=${params.startPosition} to=$toIndex data=${data.size} loadSize=${params.loadSize}" }
+        log("[loadRange] from=${params.startPosition} to=$toIndex data=${data.size} loadSize=${params.loadSize}")
 
         val list = data.subList(params.startPosition, toIndex)
 
-        log { "[loadRange] list=${list.size} data=${data.size}" }
+        log("[loadRange] list=${list.size} data=${data.size}")
 
         callback.onResult(list)
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<PresenterViewModel<T>>) {
-        log { "[loadInitial] requestedStartPosition=${params.requestedStartPosition} data=${data.size} pageSize=${params.pageSize} requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}" }
+        log("[loadInitial] requestedStartPosition=${params.requestedStartPosition} data=${data.size} pageSize=${params.pageSize} requestedLoadSize=${params.requestedLoadSize} placeholdersEnabled=${params.placeholdersEnabled}")
 
         val list = data.take(params.requestedLoadSize)
 

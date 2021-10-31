@@ -10,12 +10,7 @@ import android.util.Log
 
 internal val debug = BuildConfig.DEBUG
 
-internal fun Any.log(block: () -> String?) {
+internal fun Any.log(message : String) {
     if (debug)
-        Log.d(this::class.java.simpleName, "${block()}")
-}
-
-internal fun Exception.log(block: () -> String?) {
-    if (debug)
-        Log.d(this::class.java.simpleName, "${block()}")
+        Log.d(this::class.java.simpleName, "$message")
 }

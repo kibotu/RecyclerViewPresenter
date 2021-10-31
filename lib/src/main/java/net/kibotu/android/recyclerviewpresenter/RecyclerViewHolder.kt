@@ -13,28 +13,5 @@ open class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
 
     constructor(parent: ViewGroup, @LayoutRes layout: Int) : this(LayoutInflater.from(parent.context).inflate(layout, parent, false))
 
-    var uuid = UIDGenerator.newUID().toString()
-
-    init {
-        log { "[create] $uuid" }
-    }
-
-    override fun onViewAttachedToWindow() {
-        log { "[onViewAttachedToWindow] $uuid $adapterPosition" }
-    }
-
-    override fun onViewDetachedFromWindow() {
-        log { "[onViewDetachedFromWindow] $uuid $adapterPosition" }
-    }
-
-    override fun onViewRecycled() {
-        log { "[onViewRecycled] $uuid $adapterPosition" }
-        super.onViewRecycled()
-    }
-
-    override fun onFailedToRecycleView(): Boolean {
-        val onFailedToRecycleView = super.onFailedToRecycleView()
-        log { "[onFailedToRecycleView] $uuid $onFailedToRecycleView  $adapterPosition" }
-        return onFailedToRecycleView
-    }
+    val uuid by lazy { UIDGenerator.newUID().toString().substring(0, 4) }
 }
