@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.StrictMode
 import net.kibotu.logger.LogcatLogger
 import net.kibotu.logger.Logger
-import net.kibotu.logger.Logger.logv
 
 /**
  * Created by [Jan Rabe](https://kibotu.net).
@@ -19,7 +18,7 @@ class App : Application() {
 
         Logger.addLogger(LogcatLogger())
 
-        logv { "onCreate" }
+        Logger.v("onCreate")
     }
 
     private fun initStrictMode() {

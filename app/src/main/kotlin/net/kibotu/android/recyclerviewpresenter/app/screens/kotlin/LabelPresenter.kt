@@ -5,7 +5,7 @@ import net.kibotu.android.recyclerviewpresenter.Presenter
 import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.databinding.LabelPresenterItemBinding
-import net.kibotu.logger.Logger.logv
+import net.kibotu.logger.Logger
 
 /**
  * Created by [Jan Rabe](https://kibotu.net).
@@ -21,7 +21,7 @@ class LabelPresenter : Presenter<String, LabelPresenterItemBinding>(
         item: PresenterViewModel<String>,
         payloads: MutableList<Any>?
     ) = with(viewBinding) {
-        logv { "bindViewHolder ${viewHolder.adapterPosition} $item payload=$payloads" }
+        Logger.v( "bindViewHolder ${viewHolder.adapterPosition} $item payload=$payloads" )
         label.text = "${item.model}"
     }
 

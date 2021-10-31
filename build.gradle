@@ -1,53 +1,33 @@
+apply plugin: 'jacoco'
+
 buildscript {
 
-    apply from: "${project.rootDir}/Android-Dependencies/dependencies.gradle"
+    apply from: "${project.rootDir}/dependencies.gradle"
 
     repositories {
         google()
         mavenCentral()
-        // https://storage-download.googleapis.com/maven-central/index.html
-        maven { url 'https://plugins.gradle.org/m2/' }
-        maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://jitpack.io' }
+
     }
     dependencies {
         classpath plugin.gradleBuildTools
         classpath plugin.kotlinGradle
-        classpath pluginLibrary.mavenGradle
-        classpath plugin.dexcountGradle
-        classpath plugin.gradleVersions
+        classpath plugin.kotlinSerialization
     }
 }
 
 allprojects {
 
-    apply from: "${project.rootDir}/Android-Dependencies/utils.gradle"
+    apply from: "${project.rootDir}/utils.gradle"
 
     repositories {
         google()
         mavenCentral()
-        // https://storage-download.googleapis.com/maven-central/index.html
-        maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://jitpack.io' }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-
-// dependency versions ./gradlew dependencyUpdates
-apply plugin: 'com.github.ben-manes.versions'
-
-dependencyUpdates.resolutionStrategy {
-    componentSelection { rules ->
-        rules.all { ComponentSelection selection ->
-            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm', 'preview', 'b', 'ea'].any { qualifier ->
-                selection.candidate.version ==~ /(?i).*[.-]$qualifier[.\d-+]*/
-            }
-            if (rejected) {
-                selection.reject('Release candidate')
-            }
-        }
-    }
 }

@@ -11,7 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.kibotu.android.recyclerviewpresenter.PresenterPageListAdapter
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.misc.decorateWithAlphaScaleAdapter
-import net.kibotu.logger.Logger.logv
+import net.kibotu.logger.Logger
 
 /**
  * Created by [Jan Rabe](https://kibotu.net).
@@ -53,7 +53,7 @@ class PaginationActivity : AppCompatActivity() {
 
 
         positionalDataSource.observe(this, Observer {
-            logv { "positionalDataSource data: ${it.size}" }
+            Logger.v(  "positionalDataSource data: ${it.size}" )
             adapter.submitList(it)
             swipeRefresh.isRefreshing = false
         })

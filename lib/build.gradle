@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
 
 android {
 
@@ -118,4 +119,16 @@ configurations.all {
     resolutionStrategy.force libs.supportRecyclerview
 }
 
-// apply from: "${project.rootDir}/Android-Dependencies/javadoc.gradle"
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.github.kibotu"
+                artifactId = 'RecyclerViewPresenter'
+                version = "6.0.0"
+            }
+        }
+    }
+}
+

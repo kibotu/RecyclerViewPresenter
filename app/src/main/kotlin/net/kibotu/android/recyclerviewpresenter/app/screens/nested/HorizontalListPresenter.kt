@@ -10,7 +10,8 @@ import net.kibotu.android.recyclerviewpresenter.PresenterViewModel
 import net.kibotu.android.recyclerviewpresenter.RecyclerViewHolder
 import net.kibotu.android.recyclerviewpresenter.app.R
 import net.kibotu.android.recyclerviewpresenter.app.databinding.ItemHorizontalListBinding
-import net.kibotu.logger.Logger.logv
+import net.kibotu.logger.Logger
+
 
 data class HorizontalListItems(val items: List<Column>)
 
@@ -25,7 +26,7 @@ class HorizontalListPresenter : Presenter<HorizontalListItems, ItemHorizontalLis
         item: PresenterViewModel<HorizontalListItems>,
         payloads: MutableList<Any>?
     ) {
-        logv { "bindViewHolder position=${viewHolder.adapterPosition}" }
+        Logger.v( "bindViewHolder position=${viewHolder.adapterPosition}" )
 
         with(viewBinding) {
 
@@ -33,7 +34,7 @@ class HorizontalListPresenter : Presenter<HorizontalListItems, ItemHorizontalLis
                 horizontalList.setHasFixedSize(true)
                 adapter?.recycledViewPool?.let { horizontalList.setRecycledViewPool(it) }
                 horizontalList.isNestedScrollingEnabled = false
-                logv { "bindViewHolder ${viewHolder.adapterPosition} add adapter" }
+                Logger.v( "bindViewHolder ${viewHolder.adapterPosition} add adapter" )
                 val presenterAdapter = PresenterAdapter()
                 presenterAdapter.registerPresenter(ColumnPresenter())
                 horizontalList.adapter = presenterAdapter

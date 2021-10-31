@@ -3,11 +3,11 @@ package net.kibotu.android.recyclerviewpresenter.app.misc
 import android.app.Activity
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
-import com.exozet.android.core.extensions.resInt
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import net.kibotu.resourceextension.resInt
 
-inline fun <VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.decorateWithAlphaScaleAdapter(): ScaleInAnimationAdapter {
+inline fun <reified VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.decorateWithAlphaScaleAdapter(): ScaleInAnimationAdapter {
     val alphaAdapter = AlphaInAnimationAdapter(this, 0f).apply {
         setFirstOnly(false)
         setDuration(android.R.integer.config_mediumAnimTime.resInt)
