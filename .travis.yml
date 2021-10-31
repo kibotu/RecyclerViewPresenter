@@ -1,13 +1,11 @@
 language: android
-jdk: oraclejdk11
-
-git:
-  depth: 10000
+dist: trusty
+jdk: openjdk8
 
 env:
   global:
 
-    - SLAVE_AAPT_TIMEOUT=30
+    - SLAVE_AAPT_TIMEOUT=31
     - TERM=dumb
     - GRADLE_OPTS="-XX:MaxPermSize=1024m -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError -Xmx2048m  -Dfile.encoding=UTF-8"
 
@@ -26,7 +24,7 @@ android:
 
   # https://docs.travis-ci.com/user/languages/android/
   licenses:
-    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
@@ -35,12 +33,17 @@ before_install:
   - chmod u+x gradlew
   - android list sdk --no-ui --all --extended
   - android list targets
-  - wget -r -nH -nd -np -R index.html* robots.txt* http://download.kiwix.org/dev/android/api/licenses/ -e robots=off -P $ANDROID_HOME/licenses || true
-  - yes | sdkmanager "platforms;android-29"
+  - yes | sdkmanager "platforms;android-31"
+
+
 
 install: true
 
 script:
+  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+  - chmod +x $TRAVIS_BUILD_DIR/install-jdk.sh
+  - export JAVA_HOME=$HOME/openjdk11
+  - $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
   - ./gradlew -v
   - ./gradlew clean build --stacktrace
 
