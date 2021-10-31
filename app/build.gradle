@@ -76,6 +76,20 @@ android {
 
 dependencies {
 
+    implementation project(':lib')
+
+    implementation libs.recyclerviewAnimators
+    implementation libs.logger
+    implementation libs.androidProgressView
+    implementation libs.resourceExtensions
+
+    implementation libs.glide
+    implementation libs.glideOkHttp3
+    kapt libs.glideAnnotationsProcessor
+
+    debugImplementation libs.leakcanary2
+    implementation libs.okhttp4
+
     implementation libs.androidKtxCore
     implementation libs.supportAppCompat
     implementation libs.appCompatResources
@@ -83,37 +97,19 @@ dependencies {
     implementation libs.activityKtx
     implementation libs.material
     implementation libs.swipeRefreshLayout
-    implementation libs.constraintLayout2
-    implementation libs.supportRecyclerview
-    implementation libs.supportAnnotations
-    implementation libs.supportCardView
-
-    implementation libs.recyclerviewAnimators
+    implementation libs.constraintLayout
+    implementation libs.recyclerView
+    implementation libs.annotations
+    implementation libs.cardView
 
     implementation libs.androidKtxCollection
-    implementation libs.fragmentKtx
 
     implementation libs.pagingRuntimeKtx
-
     implementation libs.lifecycleLivedataKtx
-
-    implementation project(':lib')
-    implementation libs.logger
-
-    debugImplementation libs.leakcanary2
-    implementation libs.okhttp4
 
     testImplementation testLibs.junit
     androidTestImplementation androidTestLibs.espressoRunner
     androidTestImplementation androidTestLibs.espressoRules
-
-    implementation libs.glide
-    implementation libs.glideOkHttp3
-    kapt libs.glideAnnotationsProcessor
-
-    implementation libs.androidProgressView
-    implementation libs.resourceExtensions
-
 }
 
 // region override support library version
@@ -122,10 +118,9 @@ configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
     resolutionStrategy.force libs.supportAppCompat
     resolutionStrategy.force libs.appCompatResources
-    resolutionStrategy.force libs.constraintLayout2
-    resolutionStrategy.force libs.supportRecyclerview
-    resolutionStrategy.force libs.recyclerviewAnimators
-    resolutionStrategy.force libs.supportCardView
+    resolutionStrategy.force libs.constraintLayout
+    resolutionStrategy.force libs.recyclerView
+    resolutionStrategy.force libs.cardView
     resolutionStrategy.force libs.okhttp4
 }
 

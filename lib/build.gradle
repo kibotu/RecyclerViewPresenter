@@ -86,8 +86,8 @@ android {
 }
 
 dependencies {
-    implementation libs.constraintLayout2
-    implementation libs.supportRecyclerview
+    implementation libs.constraintLayout
+    implementation libs.recyclerView
     implementation libs.pagingRuntimeKtx
     implementation libs.lifecycleRuntimeKtx
     implementation libs.lifecycleCommonJava8
@@ -115,8 +115,8 @@ dependencies {
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
 
-    resolutionStrategy.force libs.constraintLayout2
-    resolutionStrategy.force libs.supportRecyclerview
+    resolutionStrategy.force libs.constraintLayout
+    resolutionStrategy.force libs.recyclerView
 }
 
 afterEvaluate {
